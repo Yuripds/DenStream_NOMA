@@ -24,10 +24,10 @@ def allocPower(gamaL,alpha):
 
   den = 0
   for i in range(len(gamaL)):
-    den = den + ((abs(gamaL[0])/abs(gamaL[i]))**(alpha))
+    den = den + ((abs(gamaL[-1])/abs(gamaL[i]))**(alpha))
 
   for i in range(len(gamaL)):
-    p = ((abs(gamaL[0])/abs(gamaL[i]))**(alpha)) / den
+    p = ((abs(gamaL[-1])/abs(gamaL[i]))**(alpha)) / den
     p_list.append(p)
 
   return p_list
@@ -47,6 +47,7 @@ def dataRate(w,B,Pt,gamaUser,N0,p_list,index):
   return r
 
 def sumDataRate(w,B,Pt,N0,gamaL,alpha):
+  gamaL.sort()
   p_list = allocPower(gamaL,alpha)
   print("p_list: ",p_list)
  
