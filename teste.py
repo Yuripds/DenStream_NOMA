@@ -10,6 +10,7 @@ from denStream import *
 
 sns.set()
 
+
 def desvanecimentoGlobal_usuarios(qtd_usuarios):
   cg_obj = coeficiente_desvanecimento.Coeficiente_de_Desvanecimento()
   d=np.random.uniform(500,2000,qtd_usuarios)
@@ -18,6 +19,27 @@ def desvanecimentoGlobal_usuarios(qtd_usuarios):
     dGlobal[i,:] = cg_obj.desvanecimentoGlobal(d=d[i],LOS=False,NN=20,tamanho=10**3,seed=i,fc=2.0*(10**9))
 
   return d,dGlobal
+
+
+B = 180*(10**3)
+N0 = 10**(-17.3)
+
+cena_01 = np.multiply([10**40,10**39.5,10**14.5,10**14,10**13.5,10**13,10**12.5,10**12,10**11.5,10**11,10**10.5,10**10], N0*B).tolist()
+cena_02 = np.multiply([10**40,10**39.5,10**15,10**14.5,10**14,10**13.5,10**13,10**12.5,10**12,10**11.5,10**11,10**10.5], N0*B).tolist()
+cena_03 = np.multiply([10**40,10**39.5,10**39,10**15,10**14.5,10**14,10**13.5,10**13,10**12.5,10**12,10**11.5,10**11], N0*B).tolist()
+cena_04 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**15,10**14.5,10**14,10**13.5,10**13,10**12.5,10**12,10**11.5], N0*B).tolist()
+cena_05 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**15,10**14.5,10**14,10**13.5,10**13,10**12.5,10**12], N0*B).tolist()
+cena_06 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**37.5,10**15,10**14.5,10**14,10**13.5,10**13,10**12.5], N0*B).tolist()
+cena_07 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**37.5,10**37,10**15,10**14.5,10**14,10**13.5,10**13], N0*B).tolist()
+cena_08 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**37.5,10**37,10**36.5,10**15,10**14.5,10**14,10**13.5], N0*B).tolist()
+cena_09 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**37.5,10**37,10**36.5,10**36,10**15,10**14.5,10**14], N0*B).tolist()
+cena_10 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**37.5,10**37,10**36.5,10**36,10**35.5,10**15,10**14.5], N0*B).tolist()
+cena_11 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**37.5,10**37,10**36.5,10**36,10**35.5,10**35,10**15], N0*B).tolist()
+cena_12 = np.multiply([10**40,10**39.5,10**39,10**38.5,10**38,10**37.5,10**37,10**36.5,10**36,10**35.5,10**35,10**34.5], N0*B).tolist()
+cena_13 = np.multiply([10**40,10**37,10**34,10**31,10**28,10**25,10**22,10**19,10**16,10**13,10**10,10**7], N0*B).tolist()
+cena_14 = np.multiply([10**11,10**10.5,10**10,10**9.5,10**9,10**8.5,10**8,10**7.5,10**7,10**6.5,10**6,10**5.5], N0*B).tolist()
+
+
 
 def allocPower(gamaL,alpha):
   p_list = []
@@ -41,7 +63,7 @@ def dataRate(w,B,Pt,gamaUser,N0,p_list,index):
   den_list = p_array*Pt*gamaUser
 
   den = np.sum(den_list)
-  den = den+(w*N0*B)
+  den = den+(w*(N0*B))
   r = w*B*np.log2(1+(num/den))
 
   return r
@@ -77,7 +99,7 @@ def get_index_vc(vect):
 
 def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list):
 
-  saida = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True,time_param=500)
+  saida = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True,time_param=100)
   
   
   for idx in range(len(saida)):
@@ -128,28 +150,34 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list):
 
 
 ############################################################################################
-qtd_usuarios = 100
+qtd_usuarios = 12
 d,dGlobal = desvanecimentoGlobal_usuarios(qtd_usuarios)
 
 
-h=np.zeros((2,qtd_usuarios))
+#### replicar informaçoes do vetor 
+dGlobal = list(np.array(cena_10, dtype = 'complex'))
+dGlobal_prolongado = np.array([dGlobal]*1000)
+dGlobal_p_transposto = dGlobal_prolongado.T 
 
+
+h=np.zeros((2,qtd_usuarios))
 for i in range(qtd_usuarios):
-  h[0][i] = abs(dGlobal[i][0])    
-  h[1][i] = cmath.phase(dGlobal[i][0])
+  h[0][i] = abs(dGlobal_p_transposto[i][0])    
+  h[1][i] = cmath.phase(dGlobal_p_transposto[i][0])
   
 h=h.T
 
-#h = abs(StandardScaler().fit_transform(h))
+######### ver onde coletar as metricas de desempenho e colocar para rodar
+
 
 train = pd.DataFrame(data=h,columns=['0','1'])
 train = train.sample(frac = 1)
 
 
-modelo = DenStream(lambd=0.5, eps=800.0, beta=0.4, mu=3, eps_dbscan = 1200.0 , min_samples_dbscan = 1,zeta = 10.0)
+modelo = DenStream(lambd=0.5, eps=0.5, beta=0.4, mu=3, eps_dbscan = 1.0 , min_samples_dbscan = 1,zeta = 10.0)
 
 
-df_dGlobal = pd.DataFrame(dGlobal)
+df_dGlobal = pd.DataFrame(dGlobal_p_transposto)
 df_dGlobal = abs(df_dGlobal)
 
 w =100
@@ -170,7 +198,9 @@ eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 drList,R_global = simulacao(dados=dados,modelo = modelo,w=w,B=B,N0=N0,alpha=alpha_,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list)
 
 
+print("cenário 01: ",R_global)
 
+'''
 ######################## Gráfico #########################################
 tempo_gp = 0
 
@@ -542,3 +572,5 @@ plt.legend(loc='upper right',fontsize=30)
 
 plt.title("User in a cluster x Time",fontsize=30, weight='bold')
 plt.show()
+
+'''
