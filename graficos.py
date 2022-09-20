@@ -335,7 +335,7 @@ def graficos_plot(drList,R_global):
     plt.figure(figsize=(25,10))
 
 
-    vetorBase = np.zeros((10,len(qtd_clusters[0])))*np.NAN
+    vetorBase = np.zeros((10,len(qtd_clusters[5])))*np.NAN
     var =0
     for i in range(10):
         for j in range(len(qtd_clusters[var])):
