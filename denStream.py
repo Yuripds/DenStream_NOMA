@@ -73,11 +73,6 @@ class DenStream:
             sample_weight = self._validate_sample_weight(
                 sample_weight, n_samples)
 
-            # if not hasattr(self, "potential_micro_clusters"):
-
-            # if n_features != :
-            # raise ValueError("Number of features %d does not match previous "
-            # "data %d." % (n_features, self.coef_.shape[-1]))
             estimacaoGanhoCanal = estimacao_tempo
 
             indx = 0
@@ -160,8 +155,7 @@ class DenStream:
                 contador = contador+10
                 self.t += 1            
                 
-####  Problema ###########
-# a cada iteraçãp y_old e y não são atualizados, os vetores só aumentam de tamanho com os dados antigos e novos
+
             return y_tempo
 
                
@@ -195,42 +189,27 @@ class DenStream:
         return False
 
     def _merging(self, sample,estimacaoGanhoCanal, weight):
-        # Try to merge the sample with its nearest p_micro_cluster
         _, nearest_p_micro_cluster = \
             self._get_nearest_micro_cluster(sample, self.p_micro_clusters)
         success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_p_micro_cluster)
-        # if success==True:
-            # print("sample:",sample)
-            # print("centro_mc:",nearest_p_micro_cluster.center())
-            # print("radius_mc:",nearest_p_micro_cluster.radius())
 
-            # for mc in self.p_micro_clusters:
-                # print("centros_deTodos_pmc: ",mc.center())
 
         if not success:
-            # Try to merge the sample into its nearest o_micro_cluster
             index, nearest_o_micro_cluster = \
                 self._get_nearest_micro_cluster(sample, self.o_micro_clusters)
             success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_o_micro_cluster)
             
             if success:
-                # print("sample_out:",sample)
-
-                # for omc in self.o_micro_clusters:
-                    # print("centros_deTodos_omc: ",omc.center())
 
                 if nearest_o_micro_cluster.weight() > self.beta * self.mu:
-                    # print("virou pmc: ",nearest_o_micro_cluster.center())
                     del self.o_micro_clusters[index]
                     
                     self.p_micro_clusters.append(nearest_o_micro_cluster)
             else:
-                # Create new o_micro_cluster
                 micro_cluster = MicroCluster(self.lambd, self.t)
                 micro_cluster.insert_sample(sample,estimacaoGanhoCanal, weight)
                 self.o_micro_clusters.append(micro_cluster)
-                # print("sample que criou omc: ", sample)
-                # print("criou omc: ", micro_cluster.center())
+
 
     def _decay_function(self, t):
         return 2 ** ((-self.lambd) * (t))
@@ -245,7 +224,6 @@ class DenStream:
 
                 sampleList = p_micro_cluster.getSample()
                 
-                # mudar isso par aum while
                 tam_init = len(gainList)
                 idx=0
                 while(tam_init>idx):
