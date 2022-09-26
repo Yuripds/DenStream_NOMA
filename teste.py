@@ -16,7 +16,7 @@ def desvanecimentoGlobal_usuarios(qtd_usuarios):
   d=np.random.uniform(500,2000,qtd_usuarios)
   dGlobal = np.zeros((qtd_usuarios,10**3),dtype=complex)
   for i in range(qtd_usuarios):
-    dGlobal[i,:] = cg_obj.desvanecimentoGlobal(d=d[i],LOS=False,NN=20,tamanho=10**3,seed=i,fc=2.0*(10**9))
+    dGlobal[i,:] = cg_obj.desvanecimentoGlobal(d=d[i],LOS=False,NN=20,tamanho=10**6,seed=i,fc=2.0*(10**9))
 
   return d,dGlobal
 
@@ -128,7 +128,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list):
   
 
 ############################################################################################
-qtd_usuarios = 12
+qtd_usuarios = 24
 d,dGlobal = desvanecimentoGlobal_usuarios(qtd_usuarios)
 
 
@@ -156,7 +156,7 @@ N0 = 10**(-17.3)
 alpha_= 0.2
 
 dados = train[0:10]
-nU_list= train[10:12]
+nU_list= train[10:qtd_usuarios]
 
 etNU_list = df_dGlobal.iloc[nU_list.index.values.astype(int)].values.tolist()
 
@@ -170,5 +170,5 @@ drList,R_global = simulacao(dados=dados,modelo = modelo,w=w,B=B,N0=N0,alpha=alph
 
 print("cenário 01: ",R_global)
 
-gf.graficos_plot(drList,R_global)
+gf.graficos_plot(drList,R_global,str(qtd_usuarios))
 

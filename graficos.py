@@ -4,7 +4,7 @@ import seaborn as sns
 
 sns.set()
 
-def graficos_plot(drList,R_global):
+def graficos_plot(drList,R_global,qtd_usuarios):
 
     tempo_gp = 0
 
@@ -16,7 +16,10 @@ def graficos_plot(drList,R_global):
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
 
-    plt.figure(figsize=(10,8))
+    plt.rcParams["savefig.bbox"] ='tight'
+    plt.rcParams["savefig.pad_inches"] = 1.0
+
+    fig = plt.figure(figsize=(10,8))
 
 
     lab = []
@@ -60,8 +63,9 @@ def graficos_plot(drList,R_global):
 
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
+    
+    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig01.png', dpi=fig.dpi)
     plt.show()
-
    ######################################################################################################################3
 
     tempo_gp = 10
@@ -119,6 +123,8 @@ def graficos_plot(drList,R_global):
 
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
+    
+    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig02.png', dpi=fig.dpi)
     plt.show()
    ######################################################################################################################3
 
@@ -177,8 +183,9 @@ def graficos_plot(drList,R_global):
 
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
+    
+    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig03.png', dpi=fig.dpi)
     plt.show()
-
    ######################################################################################################################3
 
     tempo_gp = 30
@@ -235,8 +242,9 @@ def graficos_plot(drList,R_global):
 
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
+    
+    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig04.png', dpi=fig.dpi)
     plt.show()
-
    ######################################################################################################################3
 
 
@@ -294,8 +302,9 @@ def graficos_plot(drList,R_global):
 
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
+    
+    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig05.png', dpi=fig.dpi)
     plt.show()
-
 
 
 
@@ -369,4 +378,6 @@ def graficos_plot(drList,R_global):
     plt.legend(loc='upper right',fontsize=30)
 
     plt.title("User in a cluster x Time",fontsize=30, weight='bold')
+    
+    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig06.png', dpi=fig.dpi)
     plt.show()
