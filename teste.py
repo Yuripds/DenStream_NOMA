@@ -7,7 +7,7 @@ import pandas as pd
 sns.set()
 
 
-def allocPower(gamaL,alpha):
+def alloc_power(gamaL,alpha):
   p_list = []
 
   den = 0
@@ -20,7 +20,7 @@ def allocPower(gamaL,alpha):
 
   return p_list
 
-def dataRate(w,B,Pt,gamaUser,N0,p_list,index):
+def data_rate(w,B,Pt,gamaUser,N0,p_list,index):
  
   num = p_list[index]*Pt*gamaUser
 
@@ -34,9 +34,9 @@ def dataRate(w,B,Pt,gamaUser,N0,p_list,index):
 
   return r
 
-def sumDataRate(w,B,Pt,N0,gamaL,alpha):
+def sum_data_rate(w,B,Pt,N0,gamaL,alpha):
   gamaL.sort()
-  p_list = allocPower(gamaL,alpha)
+  p_list = alloc_power(gamaL,alpha)
   print("p_list: ",p_list)
  
   r_array = np.ones((24,1))
@@ -44,7 +44,7 @@ def sumDataRate(w,B,Pt,N0,gamaL,alpha):
   
   for ind in range(len(gamaL)):
     gamaUser = gamaL[ind]
-    r = dataRate(w,B,Pt,gamaUser,N0,p_list,ind)
+    r = data_rate(w,B,Pt,gamaUser,N0,p_list,ind)
     print("r_teste: ", r)
     r_array[ind] = r
 
@@ -102,7 +102,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
       cluster = usuarioRotulos_sort_split[i]
       for m in range(len(cluster)):
         gamaL.append(cluster[m][1])
-      r,R_global = sumDataRate(w,B,Pt,N0,gamaL,alpha)
+      r,R_global = sum_data_rate(w,B,Pt,N0,gamaL,alpha)
       dr_global.append(R_global)
 
       drList.append(r)
@@ -130,16 +130,11 @@ dados = train[0:10]
 nU_list= train[10:qtd_usuarios]
 
 etNU_list = df_dGlobal.iloc[nU_list.index.values.astype(int)].values.tolist()
-
-
 eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 
 
 
 drList,R_global = simulacao(dados=dados,modelo = modelo,w=w,B=B,N0=N0,alpha=alpha_,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,qts_u=qtd_usuarios)
-
-
-print("cenário 01: ",R_global)
 
 gf.graficos_plot(drList,R_global,str(qtd_usuarios))
 

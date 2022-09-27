@@ -72,16 +72,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     tempo_gp = 10
 
-    x_index = range(len(drList[tempo_gp]))
-    color = ['#0000CD','#0000FF','#6495ED','#4169E1','#87CEFA','#B0C4DE']
-
-
-
-    plt.rcParams['xtick.labelsize'] = 30
-    plt.rcParams['ytick.labelsize'] = 30
-
-    plt.figure(figsize=(10,8))
-
 
     lab = []
     for i in range(len(drList[tempo_gp][0])):
@@ -133,16 +123,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     tempo_gp = 20
 
-    x_index = range(len(drList[tempo_gp]))
-    color = ['#0000CD','#0000FF','#6495ED','#4169E1','#87CEFA','#B0C4DE']
-
-
-
-    plt.rcParams['xtick.labelsize'] = 30
-    plt.rcParams['ytick.labelsize'] = 30
-
-    plt.figure(figsize=(10,8))
-
 
     lab = []
     for i in range(len(drList[tempo_gp][0])):
@@ -191,16 +171,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
    ######################################################################################################################3
 
     tempo_gp = 30
-
-    x_index = range(len(drList[tempo_gp]))
-    color = ['#0000CD','#0000FF','#6495ED','#4169E1','#87CEFA','#B0C4DE']
-
-
-
-    plt.rcParams['xtick.labelsize'] = 30
-    plt.rcParams['ytick.labelsize'] = 30
-
-    plt.figure(figsize=(10,8))
 
 
     lab = []
@@ -252,16 +222,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     tempo_gp = 40
 
-    x_index = range(len(drList[tempo_gp]))
-    color = ['#0000CD','#0000FF','#6495ED','#4169E1','#87CEFA','#B0C4DE']
-
-
-
-    plt.rcParams['xtick.labelsize'] = 30
-    plt.rcParams['ytick.labelsize'] = 30
-
-    plt.figure(figsize=(10,8))
-
 
     lab = []
     for i in range(len(drList[tempo_gp][0])):
@@ -312,11 +272,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
 ######################## Gráfico 2 --  quantidade de clusters no tempo #########################################
 
-
-    # Plota as barras
-    #plt.figure(figsize=(25,10))
-    color = ['#00008B','#0000FF','#4169E1','#87CEFA','#B0C4DE']
-
     label_c = []
     for i in range(len(drList[tempo_gp][0])):
         label_c.append('Cluster '+ str(i))
@@ -339,9 +294,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         qtd_clusters.append(aux)
 
 
-
-    plt.rcParams['xtick.labelsize'] = 30
-    plt.rcParams['ytick.labelsize'] = 30
     # Plota as barras
     plt.figure(figsize=(25,10))
 
