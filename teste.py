@@ -85,13 +85,13 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
   h = pd.concat([dados, nU_list], ignore_index=True) 
   for tempo in range(len(saida)):
     usuarioRotulos[:,0] = saida[tempo]
-    usuarioRotulos[:,1] = h[0:qts_u, 0]
-    usuarioRotulos[:,2] = h[0:qts_u, 1]
+    usuarioRotulos[:,1] = np.array(h['0'])
+    usuarioRotulos[:,2] = np.array(h['1'])
 
     rotulo = saida[tempo]
     unique, counts = np.unique(rotulo, return_counts=True)
     n_clusters = len(unique)
-    Pt = (((10**(4.6))*(10**-3)))/n_clusters
+    Pt = ((10**(4.6))*(10**-3))/n_clusters
 
     usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 0])]
     index = get_index_vc(usuarioRotulos_sort[:, 0])
