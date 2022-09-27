@@ -9,7 +9,9 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     tempo_gp = 0
 
     x_index = range(len(drList[tempo_gp]))
-    color = ['#0000CD','#0000FF','#6495ED','#4169E1','#87CEFA','#B0C4DE']
+
+    
+    color = ['#191970','#000080','#6495ED','#483D8B','	#6A5ACD','#7B68EE','#8470FF','#0000CD','#4169E1','#0000FF','#1E90FF','#00BFFF','#87CEEB','#87CEFA','#B0C4DE','#ADD8E6','#B0E0E6','#AFEEEE']
 
 
 
