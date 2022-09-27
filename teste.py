@@ -75,11 +75,14 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
   for idx in range(len(saida)):
     print("rotulos:" ,saida[idx])
 
+
+
   usuarioRotulos = np.zeros((qts_u,3))
-
-
   drList_final = []
   dr_global_final = []
+
+
+  h = pd.concat([dados, nU_list], ignore_index=True) 
   for tempo in range(len(saida)):
     usuarioRotulos[:,0] = saida[tempo]
     usuarioRotulos[:,1] = h[0:qts_u, 0]
