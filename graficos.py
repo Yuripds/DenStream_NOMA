@@ -46,19 +46,21 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     x1 = np.arange(len(x_index))
 
+    barWidth = 0.10
+
     for l in range(tamanho):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
-        plt.bar([x + 0.25 for x in x1],lista, width=0.25, label = lab[l] , color = color[l])
-        x1 = [x + 0.25 for x in x1]
+        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + 0.25 for x in x1],R_global[tempo_gp], width=0.25, label = "R" , color = 'k')
-    ########### reajustar o espaçamento dos graficos
+    #plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
+    
 
 
 
-    plt.xticks([x + 0.5 for x in np.arange(len(x_index))], x_index)
+    plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
     plt.xlabel('index cluster tx',fontsize=30, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(loc='upper right',fontsize=30)
@@ -100,15 +102,15 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
-        plt.bar([x + 0.15 for x in x1],lista, width=0.15, label = lab[l] , color = color[l])
-        x1 = [x + 0.15 for x in x1]
+        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + 0.15 for x in x1],R_global[tempo_gp], width=0.15, label = "R" , color = 'k')
-
-
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
 
 
-    plt.xticks([x + 0.5 for x in np.arange(len(x_index))], x_index)
+
+
+    plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
     plt.xlabel('index cluster tx',fontsize=30, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(loc='upper right',fontsize=30)
@@ -150,15 +152,15 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
-        plt.bar([x + 0.15 for x in x1],lista, width=0.15, label = lab[l] , color = color[l])
-        x1 = [x + 0.15 for x in x1]
+        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + 0.15 for x in x1],R_global[tempo_gp], width=0.15, label = "R" , color = 'k')
-
-
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
 
 
-    plt.xticks([x + 0.5 for x in np.arange(len(x_index))], x_index)
+
+
+    plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
     plt.xlabel('index cluster tx',fontsize=30, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(loc='upper right',fontsize=30)
@@ -199,15 +201,15 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
-        plt.bar([x + 0.15 for x in x1],lista, width=0.15, label = lab[l] , color = color[l])
-        x1 = [x + 0.15 for x in x1]
+        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + 0.15 for x in x1],R_global[tempo_gp], width=0.15, label = "R" , color = 'k')
-
-
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
 
 
-    plt.xticks([x + 0.5 for x in np.arange(len(x_index))], x_index)
+
+
+    plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
     plt.xlabel('index cluster tx',fontsize=30, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(loc='upper right',fontsize=30)
@@ -249,15 +251,15 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
-        plt.bar([x + 0.15 for x in x1],lista, width=0.15, label = lab[l] , color = color[l])
-        x1 = [x + 0.15 for x in x1]
+        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + 0.15 for x in x1],R_global[tempo_gp], width=0.15, label = "R" , color = 'k')
-
-
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
 
 
-    plt.xticks([x + 0.5 for x in np.arange(len(x_index))], x_index)
+
+
+    plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
     plt.xlabel('index cluster tx',fontsize=30, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(loc='upper right',fontsize=30)
