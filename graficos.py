@@ -11,14 +11,14 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     x_index = range(len(drList[tempo_gp]))
 
     
-    color = ['#191970','#000080','#6495ED','#483D8B','	#6A5ACD','#7B68EE','#8470FF','#0000CD','#4169E1','#0000FF','#1E90FF','#00BFFF','#87CEEB','#87CEFA','#B0C4DE','#ADD8E6','#B0E0E6','#AFEEEE']
-
+    #color = ['#191970','#000080','#6495ED','#483D8B','	#6A5ACD','#7B68EE','#8470FF','#0000CD','#4169E1','#0000FF','#1E90FF','#00BFFF','#87CEEB','#87CEFA','#B0C4DE','#ADD8E6','#B0E0E6','#AFEEEE']
+    color = ['navy','darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 
 
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
 
-    plt.rcParams["savefig.bbox"] ='tight'
+    plt.rcParams["savefig.bbox"] = 'standard'
     plt.rcParams["savefig.pad_inches"] = 1.0
 
     fig = plt.figure(figsize=(10,8))
@@ -50,11 +50,11 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
-        plt.bar([x + 0.15 for x in x1],lista, width=0.15, label = lab[l] , color = color[l])
-        x1 = [x + 0.15 for x in x1]
+        plt.bar([x + 0.25 for x in x1],lista, width=0.25, label = lab[l] , color = color[l])
+        x1 = [x + 0.25 for x in x1]
 
-    plt.bar([x + 0.15 for x in x1],R_global[tempo_gp], width=0.15, label = "R" , color = 'k')
-
+    plt.bar([x + 0.25 for x in x1],R_global[tempo_gp], width=0.25, label = "R" , color = 'k')
+    ########### reajustar o espaçamento dos graficos
 
 
 
