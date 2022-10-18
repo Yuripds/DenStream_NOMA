@@ -7,7 +7,7 @@ import cmath
 
 
 def desvanecimento_global_usuarios(qtd_usuarios):
-  tamanho_v = 10**4
+  tamanho_v = 10**3
   cg_obj = coeficiente_desvanecimento.Coeficiente_de_Desvanecimento()
   d=np.random.uniform(500,2000,qtd_usuarios)
   dGlobal = np.zeros((qtd_usuarios,tamanho_v),dtype=complex)
@@ -19,7 +19,7 @@ def desvanecimento_global_usuarios(qtd_usuarios):
 
 
 
-qtd_usuarios = 24
+qtd_usuarios = 12
 d,dGlobal = desvanecimento_global_usuarios(qtd_usuarios)
 
 

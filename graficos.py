@@ -11,7 +11,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     x_index = range(len(drList[tempo_gp]))
 
     
-    #color = ['#191970','#000080','#6495ED','#483D8B','	#6A5ACD','#7B68EE','#8470FF','#0000CD','#4169E1','#0000FF','#1E90FF','#00BFFF','#87CEEB','#87CEFA','#B0C4DE','#ADD8E6','#B0E0E6','#AFEEEE']
     color = ['navy','darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 
 
@@ -44,10 +43,12 @@ def graficos_plot(drList,R_global,qtd_usuarios):
             tamanho = tamanho - 1
 
 
+    
     x1 = np.arange(len(x_index))
+    
 
     barWidth = 0.10
-
+    
     for l in range(tamanho):
         lista=[]
         for j in range(len(va_final[l])):
@@ -55,7 +56,7 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
-    #plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
     
 
 
@@ -70,8 +71,10 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     
     plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig01.png', dpi=fig.dpi)
     plt.show()
-   ######################################################################################################################3
 
+    
+   ######################################################################################################################3
+        ########### corrigir a partir daqui
     tempo_gp = 10
 
 
@@ -95,7 +98,7 @@ def graficos_plot(drList,R_global,qtd_usuarios):
             tamanho = tamanho - 1
 
 
-
+    x_index = range(len(drList[tempo_gp]))
     x1 = np.arange(len(x_index))
 
     for l in range(tamanho):
@@ -145,7 +148,7 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         if all(vetor_nanTest) :
             tamanho = tamanho - 1
 
-
+    x_index = range(len(drList[tempo_gp]))
     x1 = np.arange(len(x_index))
 
     for l in range(tamanho):
@@ -194,7 +197,7 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         if all(vetor_nanTest) :
             tamanho = tamanho - 1
 
-
+    x_index = range(len(drList[tempo_gp]))
     x1 = np.arange(len(x_index))
 
     for l in range(tamanho):
@@ -244,7 +247,7 @@ def graficos_plot(drList,R_global,qtd_usuarios):
         if all(vetor_nanTest) :
             tamanho = tamanho - 1
 
-
+    x_index = range(len(drList[tempo_gp]))
     x1 = np.arange(len(x_index))
 
     for l in range(tamanho):
