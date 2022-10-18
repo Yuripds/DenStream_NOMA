@@ -1,6 +1,7 @@
 import numpy as np
 import seaborn as sns
 import graficos as gf
+import graficoNovo as gfn
 from denStream import *
 import pandas as pd
 
@@ -139,5 +140,5 @@ eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 
 drList,R_global = simulacao(dados=dados,modelo = modelo,w=w,B=B,N0=N0,alpha=alpha_,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,qts_u=qtd_usuarios)
 
-gf.graficos_plot(drList,R_global,str(qtd_usuarios))
-
+# gf.graficos_plot(drList,R_global,str(qtd_usuarios))
+gfn.grafico_novo_plot(drList,qtd_usuarios)
