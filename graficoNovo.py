@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from statistics import mean 
 
 sns.set()
 
@@ -15,7 +16,7 @@ def zero_to_nan(list_zero):
 
     return listnan
 
-def grafico_novo_plot(drList,qtd_usuarios):
+def grafico_novo_plot(drList):
     
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
@@ -33,7 +34,7 @@ def grafico_novo_plot(drList,qtd_usuarios):
     plot_05 =[]
     plot_06 =[]
     plot_07 =[]
-   ####### somar o data rate depois do segundo loop / verificar o funcionamento desse codigo
+   ####### tirar media dos data rate
     for i in range(len(drList)):
         plot_01_aux =[]
         plot_02_aux =[]
@@ -46,28 +47,47 @@ def grafico_novo_plot(drList,qtd_usuarios):
         for j in drList[i]:
             cluster = j[~(np.isnan(j))]
             if (len(cluster) ==1):
-                plot_01_aux.append(sum(cluster))
+                plot_01_aux.append(mean(cluster))
             elif (len(cluster) ==2):
-                plot_02_aux.append(sum(cluster))
+                plot_02_aux.append(mean(cluster))
             elif(len(cluster)  ==3):
-                plot_03_aux.append(sum(cluster))
+                plot_03_aux.append(mean(cluster))
             elif(len(cluster)  ==4):
-                plot_04_aux.append(sum(cluster))   
+                plot_04_aux.append(mean(cluster))   
             elif(len(cluster)  ==5):
-                plot_05_aux.append(sum(cluster))
+                plot_05_aux.append(mean(cluster))
             elif(len(cluster)  ==6):
-                plot_06_aux.append(sum(cluster))
+                plot_06_aux.append(mean(cluster))
             elif(len(cluster)  ==7):
-                plot_07_aux.append(sum(cluster))
+                plot_07_aux.append(mean(cluster))
 
-        plot_01.append(sum(plot_01_aux))
-        plot_02.append(sum(plot_02_aux))
-        plot_03.append(sum(plot_03_aux))
-        plot_04.append(sum(plot_04_aux))
-        plot_05.append(sum(plot_05_aux))
-        plot_06.append(sum(plot_06_aux))
-        plot_07.append(sum(plot_07_aux))
+        if len(plot_01_aux) ==0:
+            plot_01.append(0)
+        else:
+            plot_01.append(mean(plot_01_aux))
+        
+        if len(plot_02_aux) ==0:
+            plot_02.append(0)
+        else:
+            plot_02.append(mean(plot_02_aux))
+        
+        if len(plot_03_aux) ==0:
+            plot_03.append(0)
+        else:
+            plot_03.append(mean(plot_03_aux))
 
+        if len(plot_04_aux) ==0:
+            plot_04.append(0)
+        else:
+            plot_04.append(mean(plot_04_aux))
+
+
+        if len(plot_05_aux) ==0:
+            plot_05.append(0)
+        else:
+            plot_05.append(mean(plot_05_aux))
+
+        
     
     
     plot_01 = zero_to_nan(plot_01)
