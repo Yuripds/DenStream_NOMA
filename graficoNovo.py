@@ -34,7 +34,7 @@ def grafico_novo_plot(drList):
     plot_05 =[]
     plot_06 =[]
     plot_07 =[]
-   ####### tirar media dos data rate
+
     for i in range(len(drList)):
         plot_01_aux =[]
         plot_02_aux =[]
