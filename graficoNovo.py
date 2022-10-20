@@ -47,19 +47,19 @@ def grafico_novo_plot(drList):
         for j in drList[i]:
             cluster = j[~(np.isnan(j))]
             if (len(cluster) ==1):
-                plot_01_aux.append(mean(cluster))
+                plot_01_aux.append(sum(cluster))
             elif (len(cluster) ==2):
-                plot_02_aux.append(mean(cluster))
+                plot_02_aux.append(sum(cluster))
             elif(len(cluster)  ==3):
-                plot_03_aux.append(mean(cluster))
+                plot_03_aux.append(sum(cluster))
             elif(len(cluster)  ==4):
-                plot_04_aux.append(mean(cluster))   
+                plot_04_aux.append(sum(cluster))   
             elif(len(cluster)  ==5):
-                plot_05_aux.append(mean(cluster))
+                plot_05_aux.append(sum(cluster))
             elif(len(cluster)  ==6):
-                plot_06_aux.append(mean(cluster))
+                plot_06_aux.append(sum(cluster))
             elif(len(cluster)  ==7):
-                plot_07_aux.append(mean(cluster))
+                plot_07_aux.append(sum(cluster))
 
         if len(plot_01_aux) ==0:
             plot_01.append(0)
