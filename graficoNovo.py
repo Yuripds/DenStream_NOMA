@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from statistics import mean 
+import main_oma as oma
+import pandas as pd
 
 sns.set()
 
@@ -102,12 +104,23 @@ def grafico_novo_plot(drList):
     for i in range(len(drList)):
         tempo.append(' '+ str(i))
     
+    ############################################################################################# OMA 
 
-    plt.plot(tempo,plot_01,'o',label="1 UE")
-    plt.plot(tempo,plot_02,'v',label="2 UE")
-    plt.plot(tempo,plot_03,'s',label="3 UE")
-    plt.plot(tempo,plot_04,'1',label="4 UE")
-    plt.plot(tempo,plot_05,'x',label="5 UE")
+    train = pd.read_csv('train.csv')
+    dados = train[0:12]
+
+    sum_dr,_ = oma.simulacao(dados=dados)
+    oma_dr =[sum_dr]*len(tempo)
+
+    ############################################################################################# OMA 
+
+
+    plt.plot(tempo,plot_01,marker='o',label="1 UE")
+    plt.plot(tempo,plot_02,marker='v',label="2 UE")
+    plt.plot(tempo,plot_03,marker='s',label="3 UE")
+    plt.plot(tempo,plot_04,marker='1',label="4 UE")
+    plt.plot(tempo,plot_05,marker='x',label="5 UE")
+    plt.plot(tempo,oma_dr,color='r',label="OMA")
  
 
     plt.xticks(tempo, fontsize=15,rotation = 45)

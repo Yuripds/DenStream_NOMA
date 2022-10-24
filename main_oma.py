@@ -1,21 +1,22 @@
 import numpy as np
 import seaborn as sns
 import pandas as pd
+import math
 
 sns.set()
 
 
 def data_rate(g_canal):
-  w =100/12
-  B = 180*(10**3)/12
+  # w =math.floor(100/12)
+  B = 20*(10**6)/12
   N0 = 10**(-17.3)
-  pot_total = ((10**(4.6))*(10**-3))/1
+  pot_total = ((10**(4.6))*(10**-3))/12
 
 
   num = pot_total*g_canal
-  den = w*(N0*B)
+  den = (N0*B)
 
-  d_rate = w*B*np.log2(1+(num/den))
+  d_rate = B*np.log2(1+(num/den))
 
   return d_rate
 
