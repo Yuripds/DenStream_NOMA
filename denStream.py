@@ -94,7 +94,7 @@ class DenStream:
             contador = 0
             while contador < time_param:
                 print("Aquuuuuuuuuuuuuuuuuuui")
-                #self.manutencao()
+                self.manutencao()
 
                 p_micro_cluster_centers = np.array([p_micro_cluster.center() for
                                                                 p_micro_cluster in

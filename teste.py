@@ -122,7 +122,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
 ############################################################################################
 qtd_usuarios = 12
 
-modelo = DenStream(lambd=0.5, eps=800, beta=0.4, mu=3, eps_dbscan =1200 , min_samples_dbscan = 1,zeta = 10.0)
+modelo = DenStream(lambd=0.5, eps=800, beta=0.4, mu=3, eps_dbscan =1200 , min_samples_dbscan = 1,zeta = 100.0)
 train = pd.read_csv('train.csv')
 df_dGlobal= pd.read_csv('df_dGlobal.csv')
 
