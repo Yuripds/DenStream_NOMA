@@ -2,8 +2,10 @@ import numpy as np
 import seaborn as sns
 import graficos as gf
 import graficoNovo as gfn
+import geradorGanhoCanal as ggc
 from denStream import *
 import pandas as pd
+import cmath
 
 sns.set()
 
@@ -129,6 +131,30 @@ w =100
 B = 180*(10**3)
 N0 = 10**(-17.3)
 alpha_= 0.2
+
+########################################### gerando amostras ######################################
+
+qtd_usuarios = 12
+d,dGlobal = ggc.desvanecimento_global_usuarios(qtd_usuarios)
+
+
+h=np.zeros((2,qtd_usuarios))
+for i in range(qtd_usuarios):
+  h[0][i] = abs(dGlobal[i][0])    
+  h[1][i] = cmath.phase(dGlobal[i][0])
+  
+h=h.T
+
+
+train = pd.DataFrame(data=h,columns=['0','1'])
+train = train.sample(frac = 1)
+
+
+df_dGlobal = pd.DataFrame(dGlobal)
+df_dGlobal = abs(df_dGlobal)
+
+###################################################################################################
+
 
 dados = train[0:10]
 nU_list= train[10:qtd_usuarios]

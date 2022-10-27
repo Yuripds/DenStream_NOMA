@@ -80,10 +80,8 @@ class DenStream:
                 self._partial_fit(sample, estimacaoGanhoCanal[indx], weight)
                 indx = indx+1
 
-            # chamar função de manutenção aqui com flag dizendo que não vai mais add usuarios e colocar tudo isso de baixo na função
-            y_tempo = []
-            contador = 0
 
+            #################################################### tratamento dos dados de novos usuários e guardando em variáveis ##########
             user_nlist = novos_users.to_numpy(dtype='float32')
 
             for i, users in enumerate(user_nlist):
@@ -91,9 +89,12 @@ class DenStream:
                 self.estimacao_tempo_newUsers.append(
                          estimacao_tempo_novosUsers[i])
             
+            ###############################################################################################################################
+            y_tempo = []
+            contador = 0
             while contador < time_param:
-                print("AQuuuuuuuuuuuuuuuuuuui")
-                self.manutencao()
+                print("Aquuuuuuuuuuuuuuuuuuui")
+                #self.manutencao()
 
                 p_micro_cluster_centers = np.array([p_micro_cluster.center() for
                                                                 p_micro_cluster in

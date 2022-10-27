@@ -120,7 +120,7 @@ def grafico_novo_plot(drList):
     plt.plot(tempo,plot_03,marker='s',label="3 UE")
     plt.plot(tempo,plot_04,marker='1',label="4 UE")
     plt.plot(tempo,plot_05,marker='x',label="5 UE")
-    plt.plot(tempo,oma_dr,color='r',label="OMA")
+    #plt.plot(tempo,oma_dr,color='r',label="OMA")
  
 
     plt.xticks(tempo, fontsize=15,rotation = 45)
