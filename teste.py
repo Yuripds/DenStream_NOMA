@@ -6,6 +6,7 @@ import geradorGanhoCanal as ggc
 from denStream import *
 import pandas as pd
 import cmath
+import grafico_noma_oma as gon
 
 sns.set()
 
@@ -94,7 +95,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
     rotulo = saida[tempo]
     unique, counts = np.unique(rotulo, return_counts=True)
     n_clusters = len(unique)
-    Pt = ((10**(4.6))*(10**-3))/n_clusters
+    Pt = ((10**(4.6))*(10**-3))
 
     usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 0])]
     index = get_index_vc(usuarioRotulos_sort[:, 0])
@@ -122,7 +123,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
 ############################################################################################
 qtd_usuarios = 12
 
-modelo = DenStream(lambd=0.5, eps=800, beta=0.4, mu=3, eps_dbscan =1200 , min_samples_dbscan = 1,zeta = 100.0)
+modelo = DenStream(lambd=0.5, eps=800, beta=0.4, mu=3, eps_dbscan =1200 , min_samples_dbscan = 1,zeta = 10.0)
 train = pd.read_csv('train.csv')
 df_dGlobal= pd.read_csv('df_dGlobal.csv')
 
@@ -167,4 +168,5 @@ eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 drList,R_global = simulacao(dados=dados,modelo = modelo,w=w,B=B,N0=N0,alpha=alpha_,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,qts_u=qtd_usuarios)
 
 # gf.graficos_plot(drList,R_global,str(qtd_usuarios))
-gfn.grafico_novo_plot(drList)
+#gfn.grafico_novo_plot(drList)
+gon.grafico_oma_noma(R_global)
