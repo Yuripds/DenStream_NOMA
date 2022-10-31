@@ -17,8 +17,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
 
-    plt.rcParams["savefig.bbox"] = 'standard'
-    plt.rcParams["savefig.pad_inches"] = 1.0
 
     fig = plt.figure(figsize=(10,8))
 
@@ -69,7 +67,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
     
-    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig01.png', dpi=fig.dpi)
     plt.show()
 
     
@@ -121,7 +118,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
     
-    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig02.png', dpi=fig.dpi)
     plt.show()
    ######################################################################################################################3
 
@@ -171,7 +167,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
     
-    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig03.png', dpi=fig.dpi)
     plt.show()
    ######################################################################################################################3
 
@@ -220,7 +215,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
     
-    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig04.png', dpi=fig.dpi)
     plt.show()
    ######################################################################################################################3
 
@@ -270,7 +264,6 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)
     
-    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig05.png', dpi=fig.dpi)
     plt.show()
 
 
@@ -338,5 +331,4 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     plt.title("User in a cluster x Time",fontsize=30, weight='bold')
     
-    plt.savefig('../graficos/'+qtd_usuarios+'usuarios/fig06.png', dpi=fig.dpi)
     plt.show()

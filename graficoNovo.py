@@ -89,6 +89,10 @@ def grafico_novo_plot(drList):
         else:
             plot_05.append(mean(plot_05_aux))
 
+        if len(plot_06_aux) ==0:
+            plot_06.append(0)
+        else:
+            plot_06.append(mean(plot_06_aux))
         
     
     
@@ -111,11 +115,13 @@ def grafico_novo_plot(drList):
     plt.plot(tempo,plot_03,marker='s',label="3 UE")
     plt.plot(tempo,plot_04,marker='1',label="4 UE")
     plt.plot(tempo,plot_05,marker='x',label="5 UE") 
+    plt.plot(tempo,plot_06,marker='x',label="6 UE") 
+
 
     plt.xticks(tempo, fontsize=15,rotation = 45)
     plt.xlabel('time',fontsize=15, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-    plt.legend(loc='upper right',fontsize=30)
+    plt.legend(loc='best',fontsize=30)
 
     plt.title('Data rate NOMA system',fontsize=30, weight='bold')
     plt.grid(True)

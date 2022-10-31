@@ -16,8 +16,25 @@ def desvanecimento_global_usuarios(qtd_usuarios):
 
   return d,dGlobal
 
+qtd_usuarios = 12
+d,dGlobal = desvanecimento_global_usuarios(qtd_usuarios)
 
 
+h=np.zeros((2,qtd_usuarios))
+for i in range(qtd_usuarios):
+  h[0][i] = abs(dGlobal[i][0])    
+  h[1][i] = cmath.phase(dGlobal[i][0])
+  
+h=h.T
 
-#train.to_csv('train.csv')
-#df_dGlobal.to_csv('df_dGlobal.csv')
+
+train = pd.DataFrame(data=h,columns=['0','1'])
+train = train.sample(frac = 1)
+
+
+df_dGlobal = pd.DataFrame(dGlobal)
+df_dGlobal = abs(df_dGlobal)
+
+
+train.to_csv('train.csv')
+df_dGlobal.to_csv('df_dGlobal.csv')

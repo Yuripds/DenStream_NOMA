@@ -6,7 +6,7 @@ from copy import copy
 from microCluster import *
 from math import ceil
 from sklearn.cluster import DBSCAN
-
+import cmath
 
 class DenStream:
 
@@ -172,7 +172,7 @@ class DenStream:
         nearest_micro_cluster = None
         nearest_micro_cluster_index = -1
         for i, micro_cluster in enumerate(micro_clusters):
-            current_distance = np.linalg.norm(micro_cluster.center() - sample )
+            current_distance = np.linalg.norm(micro_cluster.center()- sample[0])
             if current_distance < smallest_distance:
                 smallest_distance = current_distance
                 nearest_micro_cluster = micro_cluster
@@ -229,7 +229,7 @@ class DenStream:
                 idx=0
                 while(tam_init>idx):
                     if (abs(abs(gainList[idx]) - abs(ganhoTempoList[idx][self.t])))> self.zeta:
-                        self.newUsers.append(sampleList[idx])
+                        self.newUsers.append(np.array([abs(ganhoTempoList[idx][self.t]) ,cmath.phase(ganhoTempoList[idx][self.t])]))
                         self.estimacao_tempo_newUsers.append(ganhoTempoList[idx])
                         p_micro_cluster.delete_sample(idx)
                         tam_init = tam_init-1

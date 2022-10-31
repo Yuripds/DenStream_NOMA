@@ -42,5 +42,5 @@ train = pd.read_csv('train.csv')
 dados_OMA = train[0:12]
 
 sum_dr,dr_list = simulacao_OMA(dados=dados_OMA)
-print("Lista de data rate:",dr_list)
-print("Data rate global:",sum_dr)
+#print("Lista de data rate:",dr_list)
+#print("Data rate global:",sum_dr)
