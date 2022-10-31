@@ -18,10 +18,10 @@ def grafico_oma_noma(R_global):
     ############################################################################################# OMA 
 
 
-    tempo_gp = 40
+    tempo_gp = 0
    
-    x_index = ['NOMA C0','NOMA C1', 'NOMA C2','OMA']
-   # x_index = ['NOMA C0','NOMA C1', 'NOMA C2', 'NOMA C2','OMA']
+    #x_index = ['NOMA C0','NOMA C1', 'NOMA C2','OMA']
+    x_index = ['NOMA C0','NOMA C1', 'NOMA C2', 'NOMA C3','OMA']
 
         
     color = ['navy','darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
@@ -31,7 +31,8 @@ def grafico_oma_noma(R_global):
     plt.rcParams['ytick.labelsize'] = 30
  
    
-    dr_bar = R_global[tempo_gp]+sum_dr
+    dr_bar = R_global[tempo_gp]
+    dr_bar.append(sum_dr)
     
 
     plt.bar(x_index,dr_bar,color = 'k')

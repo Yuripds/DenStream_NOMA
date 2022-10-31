@@ -91,7 +91,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
     usuarioRotulos[:,0] = saida[tempo]
     usuarioRotulos[:,1] = np.array(h['0'])
     usuarioRotulos[:,2] = np.array(h['1'])
-
+    ######### esse é o problema, estou calculando o data rate sem verificar os novos valores de ganho
     rotulo = saida[tempo]
     unique, counts = np.unique(rotulo, return_counts=True)
     n_clusters = len(unique)
@@ -123,7 +123,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
 ############################################################################################
 qtd_usuarios = 12
 
-modelo = DenStream(lambd=0.2, eps=500, beta=0.6, mu=3, eps_dbscan =1000 , min_samples_dbscan = 1,zeta = 500.0)
+modelo = DenStream(lambd=0.5, eps=800, beta=0.4, mu=3, eps_dbscan =1200 , min_samples_dbscan = 1,zeta = 100.0)
 train = pd.read_csv('train.csv')
 df_dGlobal= pd.read_csv('df_dGlobal.csv')
 
@@ -153,7 +153,6 @@ train = train.sample(frac = 1)
 
 df_dGlobal = pd.DataFrame(dGlobal)
 
-
 ###################################################################################################
 
 
@@ -167,6 +166,6 @@ eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 
 drList,R_global = simulacao(dados=dados,modelo = modelo,w=w,B=B,N0=N0,alpha=alpha_,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,qts_u=qtd_usuarios)
 
-gf.graficos_plot(drList,R_global,str(qtd_usuarios))
+# gf.graficos_plot(drList,R_global,str(qtd_usuarios))
 gfn.grafico_novo_plot(drList)
 #gon.grafico_oma_noma(R_global)
