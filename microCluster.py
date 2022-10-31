@@ -56,9 +56,7 @@ class MicroCluster:
             self.sum_of_weights = weight
 
 
-    def delete_sample(self,index):
-        print("Deletooooooooou")
-  
+    def delete_sample(self,index):  
         # Update Ganho de canal
         self.gainChannel.pop(index)
 

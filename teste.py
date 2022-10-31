@@ -41,7 +41,7 @@ def data_rate(w,B,Pt,gamaUser,N0,p_list,index):
 def sum_data_rate(w,B,Pt,N0,gamaL,alpha):
   gamaL.sort()
   p_list = alloc_power(gamaL,alpha)
-  print("p_list: ",p_list)
+  #print("p_list: ",p_list)
  
   r_array = np.ones((24,1))
   r_array[:] = float(np.NaN)
@@ -49,7 +49,7 @@ def sum_data_rate(w,B,Pt,N0,gamaL,alpha):
   for ind in range(len(gamaL)):
     gamaUser = gamaL[ind]
     r = data_rate(w,B,Pt,gamaUser,N0,p_list,ind)
-    print("r_teste: ", r)
+    #print("r_teste: ", r)
     r_array[ind] = r
 
   output = r_array[np.isfinite(r_array)]
@@ -70,14 +70,14 @@ def get_index_vc(vect):
 def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
 
 
-  saida = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True)
+  saida,lista_ganho_c = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True)
   
   
-  for idx in range(len(saida)):
-    print("rotulos:" ,len(saida[idx]))
+ # for idx in range(len(saida)):
+ #   print("rotulos:" ,len(saida[idx]))
 
-  for idx in range(len(saida)):
-    print("rotulos:" ,saida[idx])
+ # for idx in range(len(saida)):
+ #   print("rotulos:" ,saida[idx])
 
 
 
@@ -91,6 +91,7 @@ def simulacao(dados,modelo,w,B,N0,alpha,etNU_list,nU_list,eT_list,qts_u):
     usuarioRotulos[:,0] = saida[tempo]
     usuarioRotulos[:,1] = np.array(h['0'])
     usuarioRotulos[:,2] = np.array(h['1'])
+
     ######### esse é o problema, estou calculando o data rate sem verificar os novos valores de ganho
     rotulo = saida[tempo]
     unique, counts = np.unique(rotulo, return_counts=True)

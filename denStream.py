@@ -7,7 +7,7 @@ from microCluster import *
 from math import ceil
 from sklearn.cluster import DBSCAN
 import cmath
-
+import pandas as pd
 
 class DenStream:
 
@@ -66,7 +66,7 @@ class DenStream:
                 Subset of training data
 
             """
-
+            ganho_c_list =[]
             X = check_array(X, dtype=np.float64, order="C")
 
             n_samples, _ = X.shape
@@ -93,8 +93,9 @@ class DenStream:
             ###############################################################################################################################
             y_tempo = []
             contador = 0
+            
             while contador < time_param:
-                print("Aquuuuuuuuuuuuuuuuuuui")
+                
                 self.manutencao()
 
                 p_micro_cluster_centers = np.array([p_micro_cluster.center() for
@@ -157,8 +158,12 @@ class DenStream:
                 contador = contador+10
                 self.t += 1            
                 
+                for p_micro_cluster in self.p_micro_clusters:
+                    ganho_c_list.append(p_micro_cluster.getGainChannel())
+                    print(ganho_c_list)
+                ganho_c_list.append([0])
 
-            return y_tempo
+            return y_tempo, ganho_c_list
 
                
 
