@@ -7,7 +7,8 @@ from microCluster import *
 from math import ceil
 from sklearn.cluster import DBSCAN
 import cmath
-import pandas as pd
+import desempenho as dsp
+
 
 class DenStream:
 
@@ -52,6 +53,7 @@ class DenStream:
         self.zeta = zeta
         self.newUsers = []
         self.estimacao_tempo_newUsers = []
+       
 
         if lambd > 0:
             self.tp = ceil((1 / lambd) * np.log((beta * mu) / (beta * mu - 1)))
@@ -94,9 +96,8 @@ class DenStream:
             y_tempo = []
             contador = 0
             
-            ganho_c_list = np.empty((50,12))
-            ganho_c_list[:] = np.nan
-            in_c =0
+            drList_final = []
+            dr_global_final=[]
             while contador < time_param:
                 
                 self.manutencao()
@@ -161,14 +162,25 @@ class DenStream:
                 contador = contador+10
                 self.t += 1            
                 
+                var_aux =[]
+                for valor_i in self.p_micro_clusters:
+                    var_aux.append(valor_i.getGainChannel())
+                print(var_aux)
+                print("#######################################")
 
-                for p_micro_cluster in self.p_micro_clusters:
-                    ganho_c_list[in_c] = (p_micro_cluster.getGainChannel())
-                    in_c=in_c+1
-                    print(ganho_c_list)
+                var_aux_outlier=[]
+                for valor_o in self.o_micro_clusters:
+                    var_aux_outlier.append(valor_o.getGainChannel())
+
+                print(var_aux_outlier)
+                print("#######################################")                
+
+                drList,dr_global = dsp.resultado(var_aux,var_aux_outlier,y_tempo)
+                drList_final.append(drList)
+                dr_global_final.append(dr_global)
                 
 
-            return y_tempo, ganho_c_list
+            return  drList_final,dr_global_final
 
                
 
