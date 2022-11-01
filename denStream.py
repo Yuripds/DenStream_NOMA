@@ -66,7 +66,7 @@ class DenStream:
                 Subset of training data
 
             """
-            ganho_c_list =[]
+            
             X = check_array(X, dtype=np.float64, order="C")
 
             n_samples, _ = X.shape
@@ -94,6 +94,9 @@ class DenStream:
             y_tempo = []
             contador = 0
             
+            ganho_c_list = np.empty((50,12))
+            ganho_c_list[:] = np.nan
+            in_c =0
             while contador < time_param:
                 
                 self.manutencao()
@@ -158,10 +161,12 @@ class DenStream:
                 contador = contador+10
                 self.t += 1            
                 
+
                 for p_micro_cluster in self.p_micro_clusters:
-                    ganho_c_list.append(p_micro_cluster.getGainChannel())
+                    ganho_c_list[in_c] = (p_micro_cluster.getGainChannel())
+                    in_c=in_c+1
                     print(ganho_c_list)
-                ganho_c_list.append([0])
+                
 
             return y_tempo, ganho_c_list
 
