@@ -308,18 +308,13 @@ def graficos_plot(drList,R_global):
             vetorBase[i][j] = qtd_clusters[var][j]
         var =var+5
         
-
-################################################################################## verificar este grafico ###############################################################
-
     cluster =[]
-    idx_aux=0
-    for m in range(len(vetorBase[idx_aux])):
+    for m in range(len(vetorBase[0])):
         aux_v = []
         for k in range(len(vetorBase)):
             aux_v.append(vetorBase[k][m])
         cluster.append(aux_v)
-        idx_aux =idx_aux+1
-
+        
 
     x1 = np.arange(len(cluster[0]))
     for k in range(len(cluster)):
