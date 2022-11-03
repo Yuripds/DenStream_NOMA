@@ -99,7 +99,7 @@ class DenStream:
             drList_final = []
             dr_global_final=[]
             while contador < time_param:
-                ############################################# duvida, o que esta abaicho deve ficar dentro do while?
+########################################################### duvida, o que esta abaicho deve ficar dentro do while?  ##########################################################
                 self.manutencao()
 
                 p_micro_cluster_centers = np.array([p_micro_cluster.center() for
