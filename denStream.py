@@ -165,13 +165,13 @@ class DenStream:
                 dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo)
                 drList_final.append(drList)
                 dr_global_final.append(dr_global)
-                
+                y_tempo =[]
 
                 self.newUsers = []
                 contador = contador+10
                 self.t += 1            
                        
-
+            #### drList não está saindo como devia
 
 
             return  drList_final,dr_global_final
