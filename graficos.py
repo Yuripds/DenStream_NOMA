@@ -44,12 +44,9 @@ def graficos_plot(drList,R_global):
     
 
     barWidth = 0.10
-    
+    #################### corrigir daqui ###################################
     for l in range(max):
-        lista=[]
-        for j in range(len(va_final[l])):
-            lista.append(va_final[l][j][0])
-        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
     plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
@@ -97,10 +94,7 @@ def graficos_plot(drList,R_global):
     x1 = np.arange(len(x_index))
 
     for l in range(max):
-        lista=[]
-        for j in range(len(va_final[l])):
-            lista.append(va_final[l][j][0])
-        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
     plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
@@ -146,10 +140,7 @@ def graficos_plot(drList,R_global):
     x1 = np.arange(len(x_index))
 
     for l in range(max):
-        lista=[]
-        for j in range(len(va_final[l])):
-            lista.append(va_final[l][j][0])
-        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
     plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
@@ -193,10 +184,7 @@ def graficos_plot(drList,R_global):
     x1 = np.arange(len(x_index))
 
     for l in range(max):
-        lista=[]
-        for j in range(len(va_final[l])):
-            lista.append(va_final[l][j][0])
-        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
     plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
@@ -241,10 +229,7 @@ def graficos_plot(drList,R_global):
     x1 = np.arange(len(x_index))
 
     for l in range(max):
-        lista=[]
-        for j in range(len(va_final[l])):
-            lista.append(va_final[l][j][0])
-        plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
+        plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
     plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
