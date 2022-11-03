@@ -263,34 +263,39 @@ def graficos_plot(drList,R_global):
     plt.show()
 
 
-################################################################################## verificar este grafico ###############################################################
 ######################## Gráfico 2 --  quantidade de clusters no tempo #########################################
 
+    max_lcluster = 0
+    for i in range(len(R_global)):
+        if len(R_global[i][0]) > max_lcluster:
+            max_lcluster = len(R_global[i][0])
+        
     label_c = []
-    for i in range(len(drList[tempo_gp][0])):
+    for i in range(max_lcluster):
         label_c.append('Cluster '+ str(i))
 
 
     ####### quantidade de clusters em cada tempo
     qtd_c_list = []
-    for i in range(len(drList)):
-        qtd_c_list.append(len(drList[i]))
+    for i in range(len(R_global)):
+        qtd_c_list.append(len(R_global[i][0]))
 
-    
 
     ####### número de usuários em cada cluster, em cada tempo
-    qtd_clusters = []
-    for i in range(len(drList)):
-        aux = []
-        for j in range(len(drList[i])):
-            vetor_nanTest =  np.isnan(drList[i][j])
-            aux.append(len(drList[i][j]) - vetor_nanTest.sum() )
-        qtd_clusters.append(aux)
+    qtd_clusters=[]
+    for j in range(len(drList)):
+        qtd_clusters_aux = []
+        for i in range(len(drList[j][0])):
+            qtd_clusters_aux.append(len(drList[j][0][i][np.isfinite(drList[j][0][i])]))
+        qtd_clusters.append(qtd_clusters_aux)
+           
+
 
 
     # Plota as barras
     plt.figure(figsize=(25,10))
 
+################################################################################## verificar este grafico ###############################################################
 
     vetorBase = np.zeros((10,len(qtd_clusters[5])))*np.NAN
     var =0
