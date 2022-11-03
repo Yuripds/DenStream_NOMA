@@ -4,11 +4,11 @@ import seaborn as sns
 
 sns.set()
 
-def graficos_plot(drList,R_global,qtd_usuarios):
+def graficos_plot(drList,R_global):
 
     tempo_gp = 0
 
-    x_index = range(len(drList[tempo_gp]))
+    x_index = range(len(drList[tempo_gp][0]))
 
     
     color = ['navy','darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
@@ -18,28 +18,26 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.rcParams['ytick.labelsize'] = 30
 
 
-    fig = plt.figure(figsize=(10,8))
+    plt.figure(figsize=(10,8))
 
 
     lab = []
+    max =0
     for i in range(len(drList[tempo_gp][0])):
+        output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
+        if len(output)>max:
+            max = len(output)
+    
+    for i in range(max):
         lab.append('r'+ str(i))
 
-
+            
     va_final = []
-    for r in range(len(drList[tempo_gp][0])):
+    for r in range(max):
         variavel_auxiliar=[]
-        for i in range(len(drList[tempo_gp])):
-            variavel_auxiliar.append(drList[tempo_gp][i][r])
+        for i in range(len(drList[tempo_gp][0])):
+            variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
         va_final.append(variavel_auxiliar)
-
-
-    tamanho = len(va_final)
-    for h in range(len(va_final)):
-        vetor_nanTest = np.isnan(va_final[h])
-        if all(vetor_nanTest) :
-            tamanho = tamanho - 1
-
 
     
     x1 = np.arange(len(x_index))
@@ -47,14 +45,14 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     barWidth = 0.10
     
-    for l in range(tamanho):
+    for l in range(max):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
         plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
     
 
 
@@ -76,36 +74,36 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
 
     lab = []
-    for i in range(len(drList[tempo_gp][0])):
+    max =0
+    for i in len(drList[tempo_gp][0]):
+        output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
+        if len(output)>max:
+            max = len(output)
+    
+    for i in range(max):
         lab.append('r'+ str(i))
 
 
     va_final = []
-    for r in range(len(drList[tempo_gp][0])):
+    for r in range(max):
         variavel_auxiliar=[]
-        for i in range(len(drList[tempo_gp])):
-            variavel_auxiliar.append(drList[tempo_gp][i][r])
+        for i in range(len(drList[tempo_gp][0])):
+            variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
         va_final.append(variavel_auxiliar)
 
 
-    tamanho = len(va_final)
-    for h in range(len(va_final)):
-        vetor_nanTest = np.isnan(va_final[h])
-        if all(vetor_nanTest) :
-            tamanho = tamanho - 1
-
-
-    x_index = range(len(drList[tempo_gp]))
+ 
+    x_index = range(len(drList[tempo_gp][0]))
     x1 = np.arange(len(x_index))
 
-    for l in range(tamanho):
+    for l in range(max):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
         plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
 
 
 
@@ -126,35 +124,35 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
 
     lab = []
-    for i in range(len(drList[tempo_gp][0])):
+    max =0
+    for i in len(drList[tempo_gp][0]):
+        output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
+        if len(output)>max:
+            max = len(output)
+    
+    for i in range(max):
         lab.append('r'+ str(i))
 
-
     va_final = []
-    for r in range(len(drList[tempo_gp][0])):
+    for r in range(max):
         variavel_auxiliar=[]
-        for i in range(len(drList[tempo_gp])):
-            variavel_auxiliar.append(drList[tempo_gp][i][r])
+        for i in range(len(drList[tempo_gp][0])):
+            variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
         va_final.append(variavel_auxiliar)
 
 
-    tamanho = len(va_final)
-    for h in range(len(va_final)):
-        vetor_nanTest = np.isnan(va_final[h])
-        if all(vetor_nanTest) :
-            tamanho = tamanho - 1
 
-    x_index = range(len(drList[tempo_gp]))
+    x_index = range(len(drList[tempo_gp][0]))
     x1 = np.arange(len(x_index))
 
-    for l in range(tamanho):
+    for l in range(max):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
         plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
 
 
 
@@ -172,37 +170,36 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     tempo_gp = 30
 
-
     lab = []
-    for i in range(len(drList[tempo_gp][0])):
+    max =0
+    for i in len(drList[tempo_gp][0]):
+        output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
+        if len(output)>max:
+            max = len(output)
+    
+    for i in range(max):
         lab.append('r'+ str(i))
 
 
     va_final = []
-    for r in range(len(drList[tempo_gp][0])):
+    for r in range(max):
         variavel_auxiliar=[]
-        for i in range(len(drList[tempo_gp])):
-            variavel_auxiliar.append(drList[tempo_gp][i][r])
+        for i in range(len(drList[tempo_gp][0])):
+            variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
         va_final.append(variavel_auxiliar)
 
 
-    tamanho = len(va_final)
-    for h in range(len(va_final)):
-        vetor_nanTest = np.isnan(va_final[h])
-        if all(vetor_nanTest) :
-            tamanho = tamanho - 1
-
-    x_index = range(len(drList[tempo_gp]))
+    x_index = range(len(drList[tempo_gp][0]))
     x1 = np.arange(len(x_index))
 
-    for l in range(tamanho):
+    for l in range(max):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
         plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
 
 
 
@@ -221,37 +218,36 @@ def graficos_plot(drList,R_global,qtd_usuarios):
 
     tempo_gp = 40
 
-
     lab = []
-    for i in range(len(drList[tempo_gp][0])):
-     lab.append('r'+ str(i))
+    max =0
+    for i in len(drList[tempo_gp][0]):
+        output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
+        if len(output)>max:
+            max = len(output)
+    
+    for i in range(max):
+        lab.append('r'+ str(i))
 
 
     va_final = []
-    for r in range(len(drList[tempo_gp][0])):
+    for r in range(max):
         variavel_auxiliar=[]
-        for i in range(len(drList[tempo_gp])):
-            variavel_auxiliar.append(drList[tempo_gp][i][r])
+        for i in range(len(drList[tempo_gp][0])):
+            variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
         va_final.append(variavel_auxiliar)
 
 
-    tamanho = len(va_final)
-    for h in range(len(va_final)):
-        vetor_nanTest = np.isnan(va_final[h])
-        if all(vetor_nanTest) :
-            tamanho = tamanho - 1
-
-    x_index = range(len(drList[tempo_gp]))
+    x_index = range(len(drList[tempo_gp][0]))
     x1 = np.arange(len(x_index))
 
-    for l in range(tamanho):
+    for l in range(max):
         lista=[]
         for j in range(len(va_final[l])):
             lista.append(va_final[l][j][0])
         plt.bar([x + barWidth for x in x1],lista, width=barWidth, label = lab[l] , color = color[l])
         x1 = [x + barWidth for x in x1]
 
-    plt.bar([x + barWidth for x in x1],R_global[tempo_gp], width=barWidth, label = "R" , color = 'k')
+    plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
 
 
 
@@ -267,7 +263,7 @@ def graficos_plot(drList,R_global,qtd_usuarios):
     plt.show()
 
 
-
+################################################################################## verificar este grafico ###############################################################
 ######################## Gráfico 2 --  quantidade de clusters no tempo #########################################
 
     label_c = []
