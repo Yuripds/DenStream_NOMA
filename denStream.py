@@ -117,13 +117,16 @@ class DenStream:
                 y_old = []
                 fixSamples = []
                 for p_micro_cluster in self.p_micro_clusters:
-                    fixSamples.append(p_micro_cluster.getSample())
+                    if len(p_micro_cluster.getSample())!= 0:
+                        samples_in_pmc = p_micro_cluster.getSample()
+                        for i in samples_in_pmc:
+                             fixSamples.append(i)
 
-                for indexAux in range(len(fixSamples)):
-                    for sample in fixSamples[indexAux]:
-                        index, _ = self._get_nearest_micro_cluster(sample,
-                                                                            self.p_micro_clusters)
-                        y_old.append(dbscan.labels_[index])
+                
+                for sample in fixSamples:
+                    index, _ = self._get_nearest_micro_cluster(sample,
+                                                                        self.p_micro_clusters)
+                    y_old.append(dbscan.labels_[index])
 
                 if ad_users == True:
                         y = []
@@ -158,27 +161,30 @@ class DenStream:
                 else:
                     y_tempo.append(y_old)
 
+                
+                drList,dr_global = dsp.resultado(fixSamples,self.newUsers,y_tempo)
+                drList_final.append(drList)
+                dr_global_final.append(dr_global)
+                
+
                 self.newUsers = []
                 contador = contador+10
                 self.t += 1            
                 
-                var_aux =[]
-                for valor_i in self.p_micro_clusters:
-                    var_aux.append(valor_i.getGainChannel())
-                print(var_aux)
-                print("#######################################")
+               # var_aux =[]
+               # for valor_i in self.p_micro_clusters:
+               #     var_aux.append(valor_i.getGainChannel())
+               # print(var_aux)
+               # print("#######################################")
 
-                var_aux_outlier=[]
-                for valor_o in self.o_micro_clusters:
-                    var_aux_outlier.append(valor_o.getGainChannel())
+               # var_aux_outlier=[]
+               # for valor_o in self.o_micro_clusters:
+               #     var_aux_outlier.append(valor_o.getGainChannel())
 
-                print(var_aux_outlier)
-                print("#######################################")                
+               # print(var_aux_outlier)
+               # print("#######################################")                
 
-                drList,dr_global = dsp.resultado(var_aux,var_aux_outlier,y_tempo)
-                drList_final.append(drList)
-                dr_global_final.append(dr_global)
-                
+
 
             return  drList_final,dr_global_final
 
