@@ -1,9 +1,10 @@
 import numpy as np
 
 def get_index_vc(vect):
+  roturlos = vect[:,1]
   index =[]
-  for i in range(len(vect)-1):
-    if vect[i]-vect[i+1] != 0:
+  for i in range(len(roturlos)-1):
+    if roturlos[i]-roturlos[i+1] != 0:
       index.append(i+1)
 
   return index
@@ -43,12 +44,11 @@ def sum_data_rate(gamaL):
     N0 = 10**(-17.3)
     alpha= 0.2
     Pt = ((10**(4.6))*(10**-3))
-
     gamaL.sort()
     p_list = alloc_power(gamaL,alpha)
     #print("p_list: ",p_list)
     
-    r_array = np.ones((24,1))
+    r_array = np.ones((12,1))
     r_array[:] = float(np.NaN)
     
     for ind in range(len(gamaL)):
@@ -74,17 +74,6 @@ def resultado(fixed_samples,new_users_samples,y_tempo):
     
     for i in new_users_samples:
       lista_refatorada.append(i)
-
-  #  for i in var_aux:
-  #      if len(i) != 0:
-  #          for j in i:
-  #              lista_refatorada.append(j)
-
-  #  if len(var_aux_outlier)!= 0:
-  #    for i in var_aux_outlier:
-  #        if len(i) != 0:
-  #            for j in i:
-  #                lista_refatorada.append(j)
     
     idx =0 
     for valor in lista_refatorada:
@@ -94,9 +83,11 @@ def resultado(fixed_samples,new_users_samples,y_tempo):
     
     usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 0])]
    
-    index = get_index_vc(usuarioRotulos_sort[:, 0])
 
-    usuarioRotulos_sort_split = np.split(usuarioRotulos_sort,index)
+    index = get_index_vc(usuarioRotulos_sort)
+
+    gama_aux = usuarioRotulos_sort[:,0]
+    usuarioRotulos_sort_split = np.split(gama_aux,index)
     print("usuarioRotulos_sort_split: ",usuarioRotulos_sort_split)
 
     drList_final = []
@@ -107,11 +98,11 @@ def resultado(fixed_samples,new_users_samples,y_tempo):
       gamaL = []
       cluster = usuarioRotulos_sort_split[i]
       for m in range(len(cluster)):
-          gamaL.append(cluster[m][0])
+          gamaL.append(cluster[m])
       r,R_global = sum_data_rate(gamaL)
       dr_global.append(R_global)
 
-    drList.append(r)
+      drList.append(r)
 
     dr_global_final.append(dr_global)
     drList_final.append(drList)

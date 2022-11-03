@@ -99,7 +99,7 @@ class DenStream:
             drList_final = []
             dr_global_final=[]
             while contador < time_param:
-                
+                ############################################# duvida, o que esta abaicho deve ficar dentro do while?
                 self.manutencao()
 
                 p_micro_cluster_centers = np.array([p_micro_cluster.center() for
@@ -170,19 +170,7 @@ class DenStream:
                 self.newUsers = []
                 contador = contador+10
                 self.t += 1            
-                
-               # var_aux =[]
-               # for valor_i in self.p_micro_clusters:
-               #     var_aux.append(valor_i.getGainChannel())
-               # print(var_aux)
-               # print("#######################################")
-
-               # var_aux_outlier=[]
-               # for valor_o in self.o_micro_clusters:
-               #     var_aux_outlier.append(valor_o.getGainChannel())
-
-               # print(var_aux_outlier)
-               # print("#######################################")                
+                       
 
 
 
