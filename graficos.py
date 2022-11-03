@@ -295,9 +295,13 @@ def graficos_plot(drList,R_global):
     # Plota as barras
     plt.figure(figsize=(25,10))
 
-################################################################################## verificar este grafico ###############################################################
+    max_qtd_clusters =0
+    for i in qtd_clusters:
+        if len(i)>max_qtd_clusters:
+            max_qtd_clusters=len(i)
 
-    vetorBase = np.zeros((10,len(qtd_clusters[5])))*np.NAN
+    
+    vetorBase = np.zeros((10,max_qtd_clusters))*np.NAN
     var =0
     for i in range(10):
         for j in range(len(qtd_clusters[var])):
@@ -305,6 +309,7 @@ def graficos_plot(drList,R_global):
         var =var+5
         
 
+################################################################################## verificar este grafico ###############################################################
 
     cluster =[]
     idx_aux=0
