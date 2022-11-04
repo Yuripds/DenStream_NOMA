@@ -19,9 +19,9 @@ def grafico_oma_noma(R_global):
     ############################################################################################# OMA 
 
 
-    tempo_gp = 0
+    #tempo_gp = 0
    
-    x_index = ['NOMA','OMA']
+    x_index = ['NOMA t0','NOMA t1','NOMA t2','NOMA t3','NOMA t4','OMA']
     #n_lusters= len(R_global[tempo_gp][0])
     #x_index = []
     #for i in range(n_lusters):
@@ -35,8 +35,10 @@ def grafico_oma_noma(R_global):
     plt.rcParams['ytick.labelsize'] = 30
  
     dr_bar=[]
-    aux_ = sum(R_global[tempo_gp][0])
-    dr_bar.append(aux_)
+    for i in range(len(R_global)):
+        if i%10==0:
+            aux_ = sum(R_global[i][0])
+            dr_bar.append(aux_)
     dr_bar.append(sum_dr_oma)
     
 
