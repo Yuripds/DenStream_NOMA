@@ -61,7 +61,7 @@ eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list)
 
 
-gf.graficos_plot(drList,R_global)
-########################################################## corrigir gráficos ######################################
+#gf.graficos_plot(drList,R_global)
 #gfn.grafico_novo_plot(drList)
-#gon.grafico_oma_noma(R_global)
+########################################################## corrigir gráficos ######################################
+gon.grafico_oma_noma(R_global)

@@ -36,7 +36,7 @@ def grafico_novo_plot(drList):
     plot_05 =[]
     plot_06 =[]
     plot_07 =[]
-
+    plot_08 =[]
     for i in range(len(drList)):
         plot_01_aux =[]
         plot_02_aux =[]
@@ -45,8 +45,9 @@ def grafico_novo_plot(drList):
         plot_05_aux =[]
         plot_06_aux =[]
         plot_07_aux =[]
+        plot_08_aux =[]
 
-        for j in drList[i]:
+        for j in drList[i][0]:
             cluster = j[~(np.isnan(j))]
             if (len(cluster) ==1):
                 plot_01_aux.append(sum(cluster))
@@ -62,6 +63,9 @@ def grafico_novo_plot(drList):
                 plot_06_aux.append(sum(cluster))
             elif(len(cluster)  ==7):
                 plot_07_aux.append(sum(cluster))
+            elif(len(cluster)  ==8):
+                plot_08_aux.append(sum(cluster))
+
 
         if len(plot_01_aux) ==0:
             plot_01.append(0)
@@ -94,6 +98,16 @@ def grafico_novo_plot(drList):
         else:
             plot_06.append(mean(plot_06_aux))
         
+        if len(plot_07_aux) ==0:
+            plot_07.append(0)
+        else:
+            plot_07.append(mean(plot_07_aux))
+        
+        if len(plot_08_aux) ==0:
+            plot_08.append(0)
+        else:
+            plot_08.append(mean(plot_08_aux))
+        
     
     
     plot_01 = zero_to_nan(plot_01)
@@ -103,6 +117,7 @@ def grafico_novo_plot(drList):
     plot_05 = zero_to_nan(plot_05)
     plot_06 = zero_to_nan(plot_06)
     plot_07 = zero_to_nan(plot_07)
+    plot_08 = zero_to_nan(plot_08)
 
     tempo = []
     for i in range(len(drList)):
@@ -115,8 +130,9 @@ def grafico_novo_plot(drList):
     plt.plot(tempo,plot_03,marker='s',label="3 UE")
     plt.plot(tempo,plot_04,marker='1',label="4 UE")
     plt.plot(tempo,plot_05,marker='x',label="5 UE") 
-    plt.plot(tempo,plot_06,marker='x',label="6 UE") 
-
+    plt.plot(tempo,plot_06,marker="P",label="6 UE") 
+    plt.plot(tempo,plot_07,marker="d",label="7 UE") 
+    plt.plot(tempo,plot_08,marker="*",label="8 UE") 
 
     plt.xticks(tempo, fontsize=15,rotation = 45)
     plt.xlabel('time',fontsize=15, weight='bold')
