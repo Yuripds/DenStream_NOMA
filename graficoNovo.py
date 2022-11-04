@@ -23,9 +23,6 @@ def grafico_novo_plot(drList):
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
 
-    plt.rcParams["savefig.bbox"] = 'standard'
-    plt.rcParams["savefig.pad_inches"] = 1.0
-
     fig = plt.figure(figsize=(10,8))
 
 
@@ -119,9 +116,9 @@ def grafico_novo_plot(drList):
     plot_07 = zero_to_nan(plot_07)
     plot_08 = zero_to_nan(plot_08)
 
-    tempo = []
-    for i in range(len(drList)):
-        tempo.append(' '+ str(i+12))
+    tempo = [18,27,37,48,59,69,80,91,103,115,125,136,147,159,171,183,195,208,220,230,241,251,262,274,286,298,309,321,333,345,354,364,376,386,396,404,412,420,427,434,439,444,448,453,458,463,468,476,484,493]
+    #for i in range(len(drList)):
+    #    tempo.append(' '+ str(i+12))
     
 
 
@@ -134,7 +131,7 @@ def grafico_novo_plot(drList):
     plt.plot(tempo,plot_07,marker="d",label="7 UE") 
     plt.plot(tempo,plot_08,marker="*",label="8 UE") 
 
-    plt.xticks(tempo, fontsize=15,rotation = 45)
+    plt.xticks(tempo, fontsize=10,rotation = 45)
     plt.xlabel('time',fontsize=15, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(loc='best',fontsize=30)
