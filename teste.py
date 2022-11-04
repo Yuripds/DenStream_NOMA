@@ -62,5 +62,5 @@ drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_l
 
 
 #gf.graficos_plot(drList,R_global)
-gfn.grafico_novo_plot(drList)
-#gon.grafico_oma_noma(R_global)
+#gfn.grafico_novo_plot(drList)
+gon.grafico_oma_noma(R_global)

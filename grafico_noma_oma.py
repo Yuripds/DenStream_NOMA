@@ -21,12 +21,12 @@ def grafico_oma_noma(R_global):
 
     tempo_gp = 0
    
-   
-    n_lusters= len(R_global[tempo_gp][0])
-    x_index = []
-    for i in range(n_lusters):
-        x_index.append('NOMA C'+str(i)) 
-    x_index.append('OMA')
+    x_index = ['NOMA','OMA']
+    #n_lusters= len(R_global[tempo_gp][0])
+    #x_index = []
+    #for i in range(n_lusters):
+    #    x_index.append('NOMA C'+str(i)) 
+    #x_index.append('OMA')
         
     color_ = ['darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 
@@ -34,8 +34,9 @@ def grafico_oma_noma(R_global):
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
  
-   
-    dr_bar = R_global[tempo_gp][0]
+    dr_bar=[]
+    aux_ = sum(R_global[tempo_gp][0])
+    dr_bar.append(aux_)
     dr_bar.append(sum_dr_oma)
     
 
