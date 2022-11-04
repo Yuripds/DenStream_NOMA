@@ -161,7 +161,7 @@ class DenStream:
                     y_tempo.append(y_old)
 
                 
-                dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo)
+                dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo,self.t)
                 drList_final.append(drList)
                 dr_global_final.append(dr_global)
                 y_tempo =[]

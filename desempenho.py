@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def get_index_vc(vect):
   roturlos = vect[:,1]
@@ -63,7 +64,7 @@ def sum_data_rate(gamaL):
     return r_array,R_global
 
 
-def resultado(fixed_samples,new_users_samples,y_tempo):
+def resultado(fixed_samples,new_users_samples,y_tempo,tempo_):
 
     usuarioRotulos = np.zeros((12,2))
 
@@ -84,11 +85,16 @@ def resultado(fixed_samples,new_users_samples,y_tempo):
     usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 0])]
    
 
+    usuarioRotulos_sort_df = pd.DataFrame(data=usuarioRotulos_sort,columns=['Ganho','Rotulo'])
+
+    usuarioRotulos_sort_df.to_csv('usuarioRotulos_sort_df_'+ str(tempo_) +'_.csv')
+
+
     index = get_index_vc(usuarioRotulos_sort)
 
     gama_aux = usuarioRotulos_sort[:,0]
     usuarioRotulos_sort_split = np.split(gama_aux,index)
-    print("usuarioRotulos_sort_split: ",usuarioRotulos_sort_split)
+    #print("usuarioRotulos_sort_split: ",usuarioRotulos_sort_split)
 
     drList_final = []
     dr_global_final = []
