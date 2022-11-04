@@ -84,10 +84,11 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_):
     
     usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 0])]
    
+    gerar_arquivo =False
+    if gerar_arquivo==True:
+      usuarioRotulos_sort_df = pd.DataFrame(data=usuarioRotulos_sort,columns=['Ganho','Rotulo'])
 
-    usuarioRotulos_sort_df = pd.DataFrame(data=usuarioRotulos_sort,columns=['Ganho','Rotulo'])
-
-    usuarioRotulos_sort_df.to_csv('usuarioRotulos_sort_df_'+ str(tempo_) +'_.csv')
+      usuarioRotulos_sort_df.to_csv('usuarioRotulos_sort_df_'+ str(tempo_) +'_.csv')
 
 
     index = get_index_vc(usuarioRotulos_sort)
