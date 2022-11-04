@@ -9,11 +9,24 @@ sns.set()
 def grafico_oma_noma(R_global):
     ############################################################################################# OMA 
 
-    train = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_18_.csv')
+    train_t0 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_18_.csv')
+    train_t1 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_125_.csv')
+    train_t2 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_247_.csv')
+    train_t3 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_353_.csv')
+    train_t4 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_450_.csv')
 
-    dados = np.array(train["Ganho"])
+    dados_t0 = np.array(train_t0["Ganho"])
+    dados_t1 = np.array(train_t1["Ganho"])
+    dados_t2 = np.array(train_t2["Ganho"])
+    dados_t3 = np.array(train_t3["Ganho"])
+    dados_t4 = np.array(train_t4["Ganho"])
 
-    sum_dr_oma,_ = oma.simulacao_OMA(dados=dados)
+
+    sum_dr_oma_t0,_t0 = oma.simulacao_OMA(dados=dados_t0)
+    sum_dr_oma_t1,_t1 = oma.simulacao_OMA(dados=dados_t1)
+    sum_dr_oma_t2,_t2 = oma.simulacao_OMA(dados=dados_t2)
+    sum_dr_oma_t3,_t3 = oma.simulacao_OMA(dados=dados_t3)
+    sum_dr_oma_t4,_t4 = oma.simulacao_OMA(dados=dados_t4)
 
 
     ############################################################################################# OMA 
@@ -21,7 +34,8 @@ def grafico_oma_noma(R_global):
 
     #tempo_gp = 0
    
-    x_index = ['NOMA t0','NOMA t1','NOMA t2','NOMA t3','NOMA t4','OMA']
+    x_index = ['NOMA t0','NOMA t1','NOMA t2','NOMA t3','NOMA t4']
+    x_index2 = ['OMA t0','OMA t1','OMA t2','OMA t3','OMA t4']
     #n_lusters= len(R_global[tempo_gp][0])
     #x_index = []
     #for i in range(n_lusters):
@@ -39,11 +53,13 @@ def grafico_oma_noma(R_global):
         if i%10==0:
             aux_ = sum(R_global[i][0])
             dr_bar.append(aux_)
-    dr_bar.append(sum_dr_oma)
+    
+    dr_bar_OMA=[sum_dr_oma_t0,sum_dr_oma_t1,sum_dr_oma_t2,sum_dr_oma_t3,sum_dr_oma_t4]
     
 
     plt.bar(x_index,dr_bar,color = color_[0])
-    
+    plt.bar(x_index2,dr_bar_OMA,color = 'r')
+
 
 
     plt.xticks(x_index, fontsize=15,rotation = 45)
