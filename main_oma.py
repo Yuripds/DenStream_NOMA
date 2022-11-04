@@ -31,16 +31,9 @@ def sum_data_rate(g_canal_list):
 
 
 def simulacao_OMA(dados):
-   array_dados =np.array(dados['0'])
 
-   sum_dr,dr_list = sum_data_rate(array_dados)
+   sum_dr,dr_list = sum_data_rate(dados)
 
    return sum_dr,dr_list
 
 
-train = pd.read_csv('train.csv')
-dados_OMA = train[0:12]
-
-sum_dr,dr_list = simulacao_OMA(dados=dados_OMA)
-print("Lista de data rate:",dr_list)
-print("Data rate global:",sum_dr)
