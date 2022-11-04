@@ -11,7 +11,7 @@ def graficos_plot(drList,R_global):
     x_index = range(len(drList[tempo_gp][0]))
 
     
-    color = ['navy','darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
+    color = ['darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 
 
     plt.rcParams['xtick.labelsize'] = 30
@@ -72,7 +72,7 @@ def graficos_plot(drList,R_global):
 
     lab = []
     max =0
-    for i in len(drList[tempo_gp][0]):
+    for i in range(len(drList[tempo_gp][0])):
         output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
         if len(output)>max:
             max = len(output)
@@ -119,7 +119,7 @@ def graficos_plot(drList,R_global):
 
     lab = []
     max =0
-    for i in len(drList[tempo_gp][0]):
+    for i in range(len(drList[tempo_gp][0])):
         output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
         if len(output)>max:
             max = len(output)
@@ -163,7 +163,7 @@ def graficos_plot(drList,R_global):
 
     lab = []
     max =0
-    for i in len(drList[tempo_gp][0]):
+    for i in range(len(drList[tempo_gp][0])):
         output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
         if len(output)>max:
             max = len(output)
@@ -208,7 +208,7 @@ def graficos_plot(drList,R_global):
 
     lab = []
     max =0
-    for i in len(drList[tempo_gp][0]):
+    for i in range(len(drList[tempo_gp][0])):
         output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
         if len(output)>max:
             max = len(output)
