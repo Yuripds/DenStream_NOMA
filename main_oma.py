@@ -7,16 +7,16 @@ sns.set()
 
 
 def data_rate(g_canal):
-  #w =math.floor(100/12)
-  B = 20*(10**6)
+  w=100
+  B = 180*(10**3)
   N0 = 10**(-17.3)
   pot_total = ((10**(4.6))*(10**-3))
 
 
   num = pot_total*g_canal
-  den = (N0)
+  den = N0*B*w/12
 
-  d_rate = (1/12)*B*np.log2(1+(num/den))
+  d_rate = (1/12)*B*w*np.log2(1+(num/den))
 
   return d_rate
 
