@@ -33,9 +33,9 @@ def grafico_oma_noma(R_global):
 
 
     #tempo_gp = 0
-   
-    x_index = ['NOMA t0','NOMA t1','NOMA t2','NOMA t3','NOMA t4']
-    x_index2 = ['OMA t0','OMA t1','OMA t2','OMA t3','OMA t4']
+    ma_tec = ['NOMA','OMA']
+    tempo = ['t0','t1','t2','t3','t4']
+    
     #n_lusters= len(R_global[tempo_gp][0])
     #x_index = []
     #for i in range(n_lusters):
@@ -57,15 +57,15 @@ def grafico_oma_noma(R_global):
     dr_bar_OMA=[sum_dr_oma_t0,sum_dr_oma_t1,sum_dr_oma_t2,sum_dr_oma_t3,sum_dr_oma_t4]
     
 
-    plt.bar(x_index,dr_bar,color = color_[0])
-    plt.bar(x_index2,dr_bar_OMA,color = 'r')
+    plt.bar(tempo,dr_bar,color = color_[0])
+    plt.bar(tempo,dr_bar_OMA,color = 'r')
 
 
 
-    plt.xticks(x_index, fontsize=15,rotation = 45)
+    plt.xticks(tempo, fontsize=15,rotation = 45)
     plt.xlabel('Multiple Access Techniques',fontsize=30, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-    
+    plt.legend(("NOMA","OMA"))
 
     plt.title('Data rate NOMA x OMA system',fontsize=30, weight='bold')
     plt.grid(True)
