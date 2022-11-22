@@ -1,50 +1,20 @@
 import sys
 import numpy as np
 from sklearn.utils import check_array
-from copy import copy
+from copy import copy ,deepcopy
 # from DenStreamLib import microCluster
 from microCluster import *
 from math import ceil
 from sklearn.cluster import DBSCAN
 import cmath
 import desempenho as dsp
-
+from statistics import pstdev
 
 class DenStream:
 
-    def __init__(self, lambd=1, eps=1, beta=2, mu=2, eps_dbscan=0.3, min_samples_dbscan=3, zeta=1.0):
-        """
-        DenStream - Density-Based Clustering over an Evolving Data Stream with
-        Noise.
-
-        Parameters
-        ----------
-        lambd: float, optional
-            The forgetting factor. The higher the value of lambda, the lower
-            importance of the historical data compared to more recent data.
-        eps : float, optional
-            The maximum distance between two samples for them to be considered
-            as in the same neighborhood.
-
-        Attributes
-        ----------
-        labels_ : array, shape = [n_samples]
-            Cluster labels for each point in the dataset given to fit().
-            Noisy samples are given the label -1.
-
-        Notes
-        -----
-
-
-        References
-        ----------
-        Feng Cao, Martin Estert, Weining Qian, and Aoying Zhou. Density-Based
-        Clustering over an Evolving Data Stream with Noise.
-        """
+    def __init__(self, lambd=1, beta=2, mu=2, zeta=1.0,p_tol=10,alpha=0.2,N0=10**-10,B=20*(10**6), Pt = ((10**(4.6))*(10**-3))):
+   
         self.lambd = lambd
-        self.eps = eps
-        self.eps_dbscan = eps_dbscan
-        self.min_samples_dbscan = min_samples_dbscan
         self.beta = beta
         self.mu = mu
         self.t = 0
@@ -53,6 +23,13 @@ class DenStream:
         self.zeta = zeta
         self.newUsers = []
         self.estimacao_tempo_newUsers = []
+        self.p_tol =p_tol
+        self.alpha = alpha
+        self.N0 = N0
+        self.B = B
+        ######################## esse Pt deve ser distribuidos entre os clusters
+        self.Pt = Pt
+        
        
 
         if lambd > 0:
@@ -60,14 +37,7 @@ class DenStream:
         else:
             self.tp = sys.maxsize
 
-    def _addUsers(self, X, y=None, y_old=None, estimacao_tempo=[], novos_users=[], estimacao_tempo_novosUsers=[], sample_weight=None, ad_users=False, time_param=500):
-            """
-            Parameter
-            ----------
-            X : {array-like, sparse matrix}, shape (n_samples, n_features)
-                Subset of training data
-
-            """
+    def _addUsers(self, X, y=None, y_old=None, estimacao_tempo=[], novos_users=[], estimacao_tempo_novosUsers=[], sample_weight=None, ad_users=False, time_param=500,sd_param=500):
             
             X = check_array(X, dtype=np.float64, order="C")
 
@@ -80,7 +50,7 @@ class DenStream:
 
             indx = 0
             for sample, weight in zip(X, sample_weight):
-                self._partial_fit(sample, estimacaoGanhoCanal[indx], weight)
+                self._partial_fit(sample, estimacaoGanhoCanal[indx], weight,sd_param)
                 indx = indx+1
 
 
@@ -101,18 +71,6 @@ class DenStream:
             while contador < time_param:
                 self.manutencao()
 
-                p_micro_cluster_centers = np.array([p_micro_cluster.center() for
-                                                                p_micro_cluster in
-                                                                self.p_micro_clusters])
-
-                p_micro_cluster_weights = [p_micro_cluster.weight() for p_micro_cluster in
-                                                    self.p_micro_clusters]
-
-                dbscan = DBSCAN(
-                            eps=self.eps_dbscan, min_samples=self.min_samples_dbscan, algorithm='brute')
-                dbscan.fit(p_micro_cluster_centers,
-                                    sample_weight=p_micro_cluster_weights)
-
                 y_old = []
                 fixSamples = []
                 for p_micro_cluster in self.p_micro_clusters:
@@ -123,9 +81,8 @@ class DenStream:
 
                 
                 for sample in fixSamples:
-                    index, _ = self._get_nearest_micro_cluster(sample,
-                                                                        self.p_micro_clusters)
-                    y_old.append(dbscan.labels_[index])
+                    index, _ = self._get_nearest_micro_cluster(sample,self.p_micro_clusters,sd_param)
+                    y_old.append(index)
 
                 if ad_users == True:
                         y = []
@@ -136,32 +93,18 @@ class DenStream:
                             new_sample_weight = np.ones(
                                 1, dtype=np.float32, order='C')[0]
 
-                            self._partial_fit(
-                                nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight)
+                            self._partial_fit(nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight,sd_param)
 
-                            p_micro_cluster_centers = np.array([p_micro_cluster.center() for
-                                                                p_micro_cluster in
-                                                                self.p_micro_clusters])
+                            index, _ = self._get_nearest_micro_cluster( nova_amostra,self.p_micro_clusters,sd_param)
 
-                            p_micro_cluster_weights = [p_micro_cluster.weight() for p_micro_cluster in
-                                                        self.p_micro_clusters]
-
-                            dbscan = DBSCAN(
-                                eps=self.eps_dbscan, min_samples=self.min_samples_dbscan, algorithm='brute')
-                            dbscan.fit(p_micro_cluster_centers,
-                                        sample_weight=p_micro_cluster_weights)
-
-                            index, _ = self._get_nearest_micro_cluster(
-                                nova_amostra, self.p_micro_clusters)
-
-                            y.append(dbscan.labels_[index])
+                            y.append(index)
                                
                         y_tempo.append(y_old+y)
                 else:
                     y_tempo.append(y_old)
 
                 
-                dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo,self.t)
+                dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo,self.t,self.alpha,self.B,self.N0,self.Pt)
                 drList_final.append(drList)
                 dr_global_final.append(dr_global)
                 y_tempo =[]
@@ -170,7 +113,6 @@ class DenStream:
                 contador = contador+10
                 self.t += 1            
                        
-            #### drList não está saindo como devia
 
 
             return  drList_final,dr_global_final
@@ -178,42 +120,60 @@ class DenStream:
                
 
 
-
-
             
     
 
-    def _get_nearest_micro_cluster(self, sample, micro_clusters):
-        smallest_distance = sys.float_info.max
-        nearest_micro_cluster = None
-        nearest_micro_cluster_index = -1
+    def _get_nearest_micro_cluster(self,sample, micro_clusters,sd_param):
+        smaller_size = 100
+        best_micro_cluster = None
+        best_micro_cluster_index = -1
+        
         for i, micro_cluster in enumerate(micro_clusters):
-            current_distance = np.linalg.norm(micro_cluster.center() - sample )
-            if current_distance < smallest_distance:
-                smallest_distance = current_distance
-                nearest_micro_cluster = micro_cluster
-                nearest_micro_cluster_index = i
+            size_mc = len(micro_cluster.getGainChannel())
+            if size_mc < smaller_size:
+                smaller_size = size_mc
 
-        return nearest_micro_cluster_index, nearest_micro_cluster
+        candidatos =[]
+        for i, micro_cluster in enumerate(micro_clusters):
+            lista_aux =deepcopy(micro_cluster.getGainChannel())
+            if self.sandard_d_(lista_aux,sample[0])>= sd_param:
+                candidatos.append(micro_cluster)
+
+        
+        for i, micro_cluster in enumerate(candidatos):
+            if len(micro_cluster.getGainChannel()) ==smaller_size:
+                best_micro_cluster_index = i
+                best_micro_cluster = micro_cluster
+                break
+
+        return best_micro_cluster_index, best_micro_cluster
+
+
+
 
     def _try_merge(self, sample,estimacaoGanhoCanal, weight, micro_cluster):
+        ####### adicionar aqui um limite maximo para o desvio padrão, assim saberemos se o sample é um outilier
         if micro_cluster is not None:
-            micro_cluster_copy = copy(micro_cluster)
+            micro_cluster_copy = deepcopy(micro_cluster)
             micro_cluster_copy.insert_sample(sample,estimacaoGanhoCanal, weight)
-            if micro_cluster_copy.radius() <= self.eps:
+            if self._restricao_sic(micro_cluster_copy):
                 micro_cluster.insert_sample(sample, estimacaoGanhoCanal,weight)
                 return True
         return False
 
-    def _merging(self, sample,estimacaoGanhoCanal, weight):
+
+
+
+    def _merging(self, sample,estimacaoGanhoCanal, weight,sd_param):
         _, nearest_p_micro_cluster = \
-            self._get_nearest_micro_cluster(sample, self.p_micro_clusters)
+            self._get_nearest_micro_cluster(sample,self.p_micro_clusters,sd_param)
+
         success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_p_micro_cluster)
 
 
         if not success:
             index, nearest_o_micro_cluster = \
-                self._get_nearest_micro_cluster(sample, self.o_micro_clusters)
+                self._get_nearest_micro_cluster(sample,self.o_micro_clusters,sd_param)
             success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_o_micro_cluster)
             
             if success:
@@ -268,9 +228,9 @@ class DenStream:
 
 
 
-    def _partial_fit(self, sample,estimacaoGanhoCanal, weight):
+    def _partial_fit(self, sample,estimacaoGanhoCanal, weight,sd_param):
 
-        self._merging(sample, estimacaoGanhoCanal, weight)
+        self._merging(sample, estimacaoGanhoCanal, weight,sd_param)
         
         if self.t % self.tp == 0 & self.t !=0:  
             self.manutencao()
@@ -289,3 +249,38 @@ class DenStream:
         if sample_weight.shape[0] != n_samples:
             raise ValueError("Shapes of X and sample_weight do not match.")
         return sample_weight 
+
+    def _restricao_sic(self,micro_cluster):
+        gamaL = micro_cluster.getGainChannel()
+        #### ordem crescente
+        gamaL.sort()
+        p_list = dsp.alloc_power(gamaL,self.alpha)
+        ### p_list esta do menor ganho para o maior
+        sucesso =[]
+        for receptor in range(len(gamaL)-1):
+            diff = p_list[receptor]*(gamaL[receptor+1]/(self.B*self.N0))
+            aux =0
+            for i in range(len(gamaL)-1):
+                aux = aux+p_list[i+1]*(gamaL[receptor+1]/(self.B*self.N0))
+            
+            diff = diff+aux
+            if diff >=self.p_tol:
+                sucesso.append(True)
+            else:
+                sucesso.append(False)
+
+        if sum(sucesso) == len(sucesso):
+            return True
+
+        
+        return False
+
+
+    def sandard_d_(self,list_gc,sample):
+        sample_=sample
+        nova_lista=list_gc
+        nova_lista.append(sample_)
+        sd_novo = np.std(nova_lista)
+        
+        
+        return sd_novo

@@ -39,12 +39,8 @@ def data_rate(w,B,Pt,gamaUser,N0,p_list,index):
   return r
 
 
-def sum_data_rate(gamaL):
+def sum_data_rate(gamaL,alpha,B,N0,Pt):
     w =100
-    B = 180*(10**3)
-    N0 = 10**(-17.3)
-    alpha= 0.2
-    Pt = ((10**(4.6))*(10**-3))
     gamaL.sort()
     p_list = alloc_power(gamaL,alpha)
     #print("p_list: ",p_list)
@@ -64,7 +60,7 @@ def sum_data_rate(gamaL):
     return r_array,R_global
 
 
-def resultado(fixed_samples,new_users_samples,y_tempo,tempo_):
+def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
 
     usuarioRotulos = np.zeros((12,2))
 
@@ -106,7 +102,7 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_):
       cluster = usuarioRotulos_sort_split[i]
       for m in range(len(cluster)):
           gamaL.append(cluster[m])
-      r,R_global = sum_data_rate(gamaL)
+      r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
       dr_global.append(R_global)
 
       drList.append(r)

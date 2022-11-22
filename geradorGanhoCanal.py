@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import cmath
 
+# !pip install -U git+https://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@github.com/Yuripds/Coeficiente-de-desvanecimento-global.git@main
+
 
 
 

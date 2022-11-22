@@ -12,9 +12,9 @@ import desempenho as dsp
 sns.set()
 
 
-def simulacao(dados,modelo,etNU_list,nU_list,eT_list):
+def simulacao(dados,modelo,etNU_list,nU_list,eT_list,sd_param):
 
-  drList_final,dr_global_final = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True)
+  drList_final,dr_global_final = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True,sd_param=sd_param)
   
   return drList_final,dr_global_final
   
@@ -22,10 +22,9 @@ def simulacao(dados,modelo,etNU_list,nU_list,eT_list):
 ############################################################################################
 qtd_usuarios = 12
 
-modelo = DenStream(lambd=0.5, eps=500, beta=0.4, mu=3, eps_dbscan =1200 , min_samples_dbscan = 1,zeta = 200.0)
+modelo = DenStream(lambd=0.5, beta=0.4, mu=3,zeta = 200.0,p_tol=((10**(10*0.1))*(10**-3)),alpha=0.2, N0 =10**(-17.3),B=180*(10**3), Pt = ((10**(4.6))*(10**-3)))
 train = pd.read_csv('train.csv')
 df_dGlobal= pd.read_csv('df_dGlobal.csv')
-
 
 ########################################### gerando amostras ######################################
 
@@ -57,10 +56,11 @@ etNU_list = df_dGlobal.iloc[nU_list.index.values.astype(int)].values.tolist()
 eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 
 
+sd_param =3*10**(-24)
 
-drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list)
+drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,sd_param=sd_param)
 
 
-#gf.graficos_plot(drList,R_global)
+gf.graficos_plot(drList,R_global)
 #gfn.grafico_novo_plot(drList)
-gon.grafico_oma_noma(R_global)
+#gon.grafico_oma_noma(R_global)
