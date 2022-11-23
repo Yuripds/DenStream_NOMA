@@ -23,8 +23,7 @@ def simulacao(dados,modelo,etNU_list,nU_list,eT_list,sd_param):
 qtd_usuarios = 12
 
 modelo = DenStream(lambd=0.5, beta=0.4, mu=3,zeta = 200.0,p_tol=((10**(10*0.1))*(10**-3)),alpha=0.2, N0 =10**(-17.3),B=180*(10**3), Pt = ((10**(4.6))*(10**-3)))
-train = pd.read_csv('train.csv')
-df_dGlobal= pd.read_csv('df_dGlobal.csv')
+
 
 ########################################### gerando amostras ######################################
 
