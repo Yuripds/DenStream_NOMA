@@ -79,11 +79,10 @@ class DenStream:
                         for i in samples_in_pmc:
                              fixSamples.append(i)
 
-                
                 for sample in fixSamples:
-                    index, _ = self._get_nearest_micro_cluster(sample,self.p_micro_clusters,sd_param)
+                    index = self._get_group_index(sample,self.p_micro_clusters)
                     y_old.append(index)
-
+###################################  verificar código a partir daqui #####################################################
                 if ad_users == True:
                         y = []
 
@@ -95,7 +94,7 @@ class DenStream:
 
                             self._partial_fit(nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight,sd_param)
 
-                            index, _ = self._get_nearest_micro_cluster( nova_amostra,self.p_micro_clusters,sd_param)
+                            index = self._get_group_index(nova_amostra,self.p_micro_clusters)
 
                             y.append(index)
                                
@@ -119,8 +118,24 @@ class DenStream:
 
                
 
+    def _get_group_index(self,sample,micro_clusters):
+        indice = -1
+        flag=0
+        for idx,mc in enumerate(micro_clusters):
+            list_cg = mc.getGainChannel()
+            for i in list_cg:
+                if sample[0] == i:
+                    indice=idx
+                    flag=1
+                    break
+            if flag==1:
+                break
+        
+        return indice
+                
+        
 
-            
+                      
     
 
     def _get_nearest_micro_cluster(self,sample, micro_clusters,sd_param):
