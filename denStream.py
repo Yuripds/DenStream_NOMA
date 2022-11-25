@@ -135,8 +135,14 @@ class DenStream:
 
         candidatos =[]
         for i, micro_cluster in enumerate(micro_clusters):
-            lista_aux =deepcopy(micro_cluster.getGainChannel())
-            if self.sandard_d_(lista_aux,sample[0])>= sd_param:
+            lista_aux =deepcopy(micro_cluster.getGainChannel()) 
+            if len(micro_cluster.getGainChannel())==1:
+                antigo_std = micro_cluster.getGainChannel()[0]
+            else:
+                antigo_std = np.std(micro_cluster.getGainChannel())
+
+            crescimento_pct = ((self.sandard_d_(lista_aux,sample[0]) - antigo_std)/ antigo_std)*100
+            if abs(crescimento_pct)>= sd_param:
                 candidatos.append(micro_cluster)
 
         
@@ -258,12 +264,12 @@ class DenStream:
         ### p_list esta do menor ganho para o maior
         sucesso =[]
         for receptor in range(len(gamaL)-1):
-            diff = p_list[receptor]*(gamaL[receptor+1]/(self.B*self.N0))
+            diff = p_list[receptor]*self.Pt*(gamaL[receptor+1])
             aux =0
             for i in range(len(gamaL)-1):
-                aux = aux+p_list[i+1]*(gamaL[receptor+1]/(self.B*self.N0))
+                aux = aux+p_list[i+1]*self.Pt*(gamaL[receptor+1])
             
-            diff = diff+aux
+            diff = diff-aux
             if diff >=self.p_tol:
                 sucesso.append(True)
             else:

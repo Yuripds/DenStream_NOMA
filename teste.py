@@ -54,8 +54,8 @@ nU_list= train[10:qtd_usuarios]
 etNU_list = df_dGlobal.iloc[nU_list.index.values.astype(int)].values.tolist()
 eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 
-
-sd_param =3*10**(-24)
+### medida dada em porcento
+sd_param = 30
 
 drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,sd_param=sd_param)
 
