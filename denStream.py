@@ -12,7 +12,7 @@ from statistics import pstdev
 
 class DenStream:
 
-    def __init__(self, lambd=1, beta=2, mu=2, zeta=1.0,p_tol=10,alpha=0.2,N0=10**-10,B=20*(10**6), Pt = ((10**(4.6))*(10**-3))):
+    def __init__(self, lambd=1, beta=2, mu=2, zeta=5,p_tol=10,alpha=0.2,N0=10**-10,B=20*(10**6), Pt = ((10**(4.6))*(10**-3))):
    
         self.lambd = lambd
         self.beta = beta
@@ -82,7 +82,7 @@ class DenStream:
                 for sample in fixSamples:
                     index = self._get_group_index(sample,self.p_micro_clusters)
                     y_old.append(index)
-###################################  verificar código a partir daqui #####################################################
+
                 if ad_users == True:
                         y = []
 
@@ -153,11 +153,14 @@ class DenStream:
             lista_aux =deepcopy(micro_cluster.getGainChannel()) 
             if len(micro_cluster.getGainChannel())==1:
                 antigo_std = micro_cluster.getGainChannel()[0]
+                sd_param_n =sd_param
             else:
                 antigo_std = np.std(micro_cluster.getGainChannel())
+                ### lembrando que isso é em porcentagem
+                sd_param_n=5
 
             crescimento_pct = ((self.sandard_d_(lista_aux,sample[0]) - antigo_std)/ antigo_std)*100
-            if abs(crescimento_pct)>= sd_param:
+            if abs(crescimento_pct)>= sd_param_n:
                 candidatos.append(micro_cluster)
 
         
@@ -219,13 +222,13 @@ class DenStream:
                 gainList = p_micro_cluster.getGainChannel()
                 
                 ganhoTempoList = p_micro_cluster.getGanhoTempo()
-
-                sampleList = p_micro_cluster.getSample()
                 
                 tam_init = len(gainList)
                 idx=0
                 while(tam_init>idx):
-                    if (abs(abs(gainList[idx]) - abs(ganhoTempoList[idx][self.t])))> self.zeta:
+                    diff_pct = ((abs(ganhoTempoList[idx][self.t])  - abs(gainList[idx]))/abs(gainList[idx]))*100
+                    ######### zeta é dado em porcentagem #############
+                    if abs(diff_pct) >= self.zeta:
                         self.newUsers.append(np.array([abs(ganhoTempoList[idx][self.t]),cmath.phase(ganhoTempoList[idx][self.t])]))
                         self.estimacao_tempo_newUsers.append(ganhoTempoList[idx])
                         p_micro_cluster.delete_sample(idx)

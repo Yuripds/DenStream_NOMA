@@ -7,7 +7,7 @@ import cmath
 
 
 
-
+################## testaar com distancia máxima de 20 KM
 def desvanecimento_global_usuarios(qtd_usuarios):
   tamanho_v = 10**4
   cg_obj = coeficiente_desvanecimento.Coeficiente_de_Desvanecimento()
