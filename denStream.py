@@ -94,7 +94,8 @@ class DenStream:
 
                             self._partial_fit(nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight,sd_param)
 
-                            index = self._get_group_index(nova_amostra,self.p_micro_clusters)
+                        for user in  enumerate(self.newUsers):
+                            index = self._get_group_index(user[1],self.p_micro_clusters)
 
                             y.append(index)
                                
@@ -102,7 +103,7 @@ class DenStream:
                 else:
                     y_tempo.append(y_old)
 
-                
+                ###########################3 verificar essa função em seguida ##############################################
                 dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo,self.t,self.alpha,self.B,self.N0,self.Pt)
                 drList_final.append(drList)
                 dr_global_final.append(dr_global)
