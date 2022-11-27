@@ -103,7 +103,7 @@ class DenStream:
                 else:
                     y_tempo.append(y_old)
 
-                ###########################3 verificar essa função em seguida ##############################################
+               
                 dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo,self.t,self.alpha,self.B,self.N0,self.Pt)
                 drList_final.append(drList)
                 dr_global_final.append(dr_global)

@@ -78,7 +78,7 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
         usuarioRotulos[idx,1] = y_tempo[0][idx]
         idx= idx+1
     
-    usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 0])]
+    usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 1])]
    
     gerar_arquivo =False
     if gerar_arquivo==True:
