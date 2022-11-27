@@ -68,6 +68,7 @@ class DenStream:
             
             drList_final = []
             dr_global_final=[]
+            ############################ existe cluster com um único usuário quando o tempo passa ##########################################
             while contador < time_param:
                 self.manutencao()
 
@@ -219,7 +220,7 @@ class DenStream:
 
 
     def manutencao(self):
-            for p_micro_cluster in self.p_micro_clusters:
+            for i,p_micro_cluster in enumerate(self.p_micro_clusters):
                 gainList = p_micro_cluster.getGainChannel()
                 
                 ganhoTempoList = p_micro_cluster.getGanhoTempo()
@@ -236,6 +237,9 @@ class DenStream:
                         tam_init = tam_init-1
                     else:
                         idx = idx +1
+                    
+                if len(gainList)==0:
+                    self.p_micro_clusters.pop(i)
 
 
             for o_micro_cluster in self.o_micro_clusters:

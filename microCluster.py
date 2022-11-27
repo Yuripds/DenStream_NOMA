@@ -71,14 +71,13 @@ class MicroCluster:
         return self.sampleList
 
 
+    
 
-'''
-    def __deepcopy__(self):
-        new_micro_cluster = MicroCluster(self.lambd, self.creation_time)
-        new_micro_cluster.sum_of_weights = self.sum_of_weights
-        new_micro_cluster.sampleList = self.sampleList
-        new_micro_cluster.gainChannel =self.gainChannel
-        new_micro_cluster.ganhoTempo=self.ganhoTempo
-        return new_micro_cluster
+#    def __deepcopy__(self):
+#        new_micro_cluster = MicroCluster(self.lambd, self.creation_time)
+#        new_micro_cluster.sum_of_weights = self.sum_of_weights
+#        new_micro_cluster.sampleList = self.sampleList
+#        new_micro_cluster.gainChannel =self.gainChannel
+#        new_micro_cluster.ganhoTempo=self.ganhoTempo
+#        return new_micro_cluster
 
-'''
