@@ -12,7 +12,7 @@ from statistics import pstdev
 
 class DenStream:
 
-    def __init__(self, lambd=1, beta=2, mu=2, zeta=5,p_tol=10,alpha=0.2,N0=10**-10,B=20*(10**6), Pt = ((10**(4.6))*(10**-3))):
+    def __init__(self, lambd=1, beta=2, mu=2, zeta=5,p_tol=10,alpha=0.2,N0=10**-10,B=20*(10**6), Pt = ((10**(4.6))*(10**-3)),sd_out=10**4):
    
         self.lambd = lambd
         self.beta = beta
@@ -27,6 +27,7 @@ class DenStream:
         self.alpha = alpha
         self.N0 = N0
         self.B = B
+        self.sd_out= sd_out
         ######################## esse Pt deve ser distribuidos entre os clusters
         self.Pt = Pt
         
@@ -68,7 +69,6 @@ class DenStream:
             
             drList_final = []
             dr_global_final=[]
-            ############################ existe cluster com um único usuário quando o tempo passa ##########################################
             while contador < time_param:
                 self.manutencao()
 
@@ -178,13 +178,33 @@ class DenStream:
 
 
     def _try_merge(self, sample,estimacaoGanhoCanal, weight, micro_cluster):
-        ####### adicionar aqui um limite maximo para o desvio padrão, assim saberemos se o sample é um outilier
+       
+        
         if micro_cluster is not None:
             micro_cluster_copy = deepcopy(micro_cluster)
             micro_cluster_copy.insert_sample(sample,estimacaoGanhoCanal, weight)
-            if self._restricao_sic(micro_cluster_copy):
+            lista_aux = micro_cluster_copy.getGainChannel()
+
+            if len(micro_cluster.getGainChannel())==1:
+                antigo_std = micro_cluster.getGainChannel()[0]
+
+            else:
+                antigo_std = np.std(micro_cluster.getGainChannel())
+    
+
+            sd_param_outlier =self.sd_out
+            crescimento_pct = ((np.std(lista_aux)- antigo_std)/ antigo_std)*100
+
+            is_not_outlier = True
+            if abs(crescimento_pct)>= sd_param_outlier:
+                is_not_outlier = False
+
+
+
+            if self._restricao_sic(micro_cluster_copy) &  is_not_outlier :
                 micro_cluster.insert_sample(sample, estimacaoGanhoCanal,weight)
                 return True
+                
         return False
 
 
