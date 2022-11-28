@@ -104,6 +104,7 @@ class DenStream:
                 else:
                     y_tempo.append(y_old)
 
+                ####### divisão de Pt por cluster , lembrar de fazer isso na função de restrição também #######
                
                 dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo,self.t,self.alpha,self.B,self.N0,self.Pt)
                 drList_final.append(drList)

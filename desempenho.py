@@ -62,6 +62,7 @@ def sum_data_rate(gamaL,alpha,B,N0,Pt):
 
 def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
 
+
     usuarioRotulos = np.zeros((12,2))
 
     lista_refatorada= []
@@ -72,6 +73,17 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
     for i in new_users_samples:
       lista_refatorada.append(i)
     
+    ############################3# pt deve ser dividido para cada cluster#######################
+    unique_value = []
+
+    for item in y_tempo: 
+       if item not in unique_value: 
+          unique_value.append(item) 
+
+    pt_list=[]
+    for i in range(len(unique_value)):
+      pt_list.append(Pt/len(unique_value))
+    ###########################################################################################
     idx =0 
     for valor in lista_refatorada:
         usuarioRotulos[idx,0] = valor[0]
@@ -102,7 +114,7 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
       cluster = usuarioRotulos_sort_split[i]
       for m in range(len(cluster)):
           gamaL.append(cluster[m])
-      r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
+      r,R_global = sum_data_rate(gamaL,alpha,B,N0,pt_list[i])
       dr_global.append(R_global)
 
       drList.append(r)
