@@ -60,6 +60,6 @@ sd_param = 30
 drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,sd_param=sd_param)
 
 
-gf.graficos_plot(drList,R_global)
-#gfn.grafico_novo_plot(drList)
+#gf.graficos_plot(drList,R_global)
+gfn.grafico_novo_plot(drList)
 #gon.grafico_oma_noma(R_global)

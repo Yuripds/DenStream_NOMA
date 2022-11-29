@@ -120,24 +120,34 @@ def grafico_novo_plot(drList):
     #for i in range(len(drList)):
     #    tempo.append(' '+ str(i+12))
     
+    h=np.zeros((5,len(tempo)))
+    for i in range(len(tempo)):
+        h[0][i] = tempo[i]
+        h[1][i] = plot_01[i] 
+        h[2][i] = plot_02[i]
+        h[3][i] = plot_03[i]
+        h[4][i] = plot_04[i]
+    h=h.T
 
+    tabela_dr_tempo = pd.DataFrame(data=h,columns=['tempo','C-UE-01','C-UE-02','C-UE-03','C-UE-04'])
+    tabela_dr_tempo.to_csv('tabela_dr_tempo.csv')
 
-    plt.plot(tempo,plot_01,marker='o',label="1 UE")
-    plt.plot(tempo,plot_02,marker='v',label="2 UE")
-    plt.plot(tempo,plot_03,marker='s',label="3 UE")
-    plt.plot(tempo,plot_04,marker='1',label="4 UE")
-    plt.plot(tempo,plot_05,marker='x',label="5 UE") 
-    plt.plot(tempo,plot_06,marker="P",label="6 UE") 
-    plt.plot(tempo,plot_07,marker="d",label="7 UE") 
-    plt.plot(tempo,plot_08,marker="*",label="8 UE") 
+  #  plt.plot(tempo,plot_01,marker='o',label="1 UE")
+  #  plt.plot(tempo,plot_02,marker='v',label="2 UE")
+  #  plt.plot(tempo,plot_03,marker='s',label="3 UE")
+  #  plt.plot(tempo,plot_04,marker='1',label="4 UE")
+   # plt.plot(tempo,plot_05,marker='x',label="5 UE") 
+   # plt.plot(tempo,plot_06,marker="P",label="6 UE") 
+   # plt.plot(tempo,plot_07,marker="d",label="7 UE") 
+   # plt.plot(tempo,plot_08,marker="*",label="8 UE") 
 
-    plt.xticks(tempo, fontsize=10,rotation = 45)
-    plt.xlabel('time',fontsize=15, weight='bold')
-    plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-    plt.legend(loc='best',fontsize=30)
+   # plt.xticks(tempo, fontsize=10,rotation = 45)
+   # plt.xlabel('time',fontsize=15, weight='bold')
+   # plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
+   # plt.legend(loc='best',fontsize=30)
 
-    plt.title('Data rate NOMA system',fontsize=30, weight='bold')
-    plt.grid(True)
+   # plt.title('Data rate NOMA system',fontsize=30, weight='bold')
+   # plt.grid(True)
     
     
-    plt.show()
+   # plt.show()
