@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from collections import Counter
 
 def get_index_vc(vect):
   roturlos = vect[:,1]
@@ -73,16 +74,18 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
     for i in new_users_samples:
       lista_refatorada.append(i)
     
-    ############################3# pt deve ser dividido para cada cluster#######################
+    ############################# pt deve ser dividido para cada cluster#######################
     unique_value = []
 
-    for item in y_tempo: 
+    for item in y_tempo[0]: 
        if item not in unique_value: 
           unique_value.append(item) 
 
     pt_list=[]
+    qtd_user_cluster = Counter(y_tempo[0])
     for i in range(len(unique_value)):
-      pt_list.append(Pt/len(unique_value))
+      cp_ = (1/len(lista_refatorada))*qtd_user_cluster[y_tempo[0][i]]
+      pt_list.append(Pt*cp_)
     ###########################################################################################
     idx =0 
     for valor in lista_refatorada:
