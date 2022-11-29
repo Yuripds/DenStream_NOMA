@@ -69,7 +69,11 @@ class DenStream:
             drList_final = []
             dr_global_final=[]
             while contador < time_param:
+                ################################ verificar o porque esta sendo criado grupos com apenas 1 usuário #####################
                 self.manutencao()
+                
+                if contador==20:
+                    print("parar")
 
                 y_old = []
                 fixSamples = []
@@ -93,13 +97,16 @@ class DenStream:
                                 1, dtype=np.float32, order='C')[0]
 
                             self._partial_fit(nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight,sd_param)
+                        
+                        ################## corrigir o get index #############
+                        for i,mc in enumerate(self.p_micro_clusters):
+                            for m in range(len(mc.getGainChannel())):
+                                y.append(i)
+                           # index = self._get_group_index(user[1],self.p_micro_clusters)
 
-                        for user in  enumerate(self.newUsers):
-                            index = self._get_group_index(user[1],self.p_micro_clusters)
-
-                            y.append(index)
+                           
                                
-                        y_tempo.append(y_old+y)
+                        y_tempo.append(y)
                 else:
                     y_tempo.append(y_old)
 
@@ -168,9 +175,12 @@ class DenStream:
         
         for i, micro_cluster in enumerate(candidatos):
             if len(micro_cluster.getGainChannel()) ==smaller_size:
-                best_micro_cluster_index = i
                 best_micro_cluster = micro_cluster
                 break
+        
+        for i, micro_cluster in enumerate(micro_clusters):
+            if micro_cluster == best_micro_cluster:
+                best_micro_cluster_index = i
 
         return best_micro_cluster_index, best_micro_cluster
 
