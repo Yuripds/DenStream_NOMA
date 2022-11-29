@@ -74,19 +74,7 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
     for i in new_users_samples:
       lista_refatorada.append(i)
     
-    ############################# pt deve ser dividido para cada cluster#######################
-    unique_value = []
 
-    for item in y_tempo[0]: 
-       if item not in unique_value: 
-          unique_value.append(item) 
-
-    pt_list=[]
-    qtd_user_cluster = Counter(y_tempo[0])
-    for i in range(len(unique_value)):
-      cp_ = (1/len(lista_refatorada))*qtd_user_cluster[y_tempo[0][i]]
-      pt_list.append(Pt*cp_)
-    ###########################################################################################
     idx =0 
     for valor in lista_refatorada:
         usuarioRotulos[idx,0] = valor[0]
@@ -117,7 +105,7 @@ def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
       cluster = usuarioRotulos_sort_split[i]
       for m in range(len(cluster)):
           gamaL.append(cluster[m])
-      r,R_global = sum_data_rate(gamaL,alpha,B,N0,pt_list[i])
+      r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
       dr_global.append(R_global)
 
       drList.append(r)

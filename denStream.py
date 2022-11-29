@@ -28,7 +28,6 @@ class DenStream:
         self.N0 = N0
         self.B = B
         self.sd_out= sd_out
-        ######################## esse Pt deve ser distribuidos entre os clusters
         self.Pt = Pt
         
        
@@ -178,7 +177,7 @@ class DenStream:
 
 
 
-    def _try_merge(self, sample,estimacaoGanhoCanal, weight, micro_cluster,pt_ref):
+    def _try_merge(self, sample,estimacaoGanhoCanal, weight, micro_cluster):
        
         
         if micro_cluster is not None:
@@ -202,7 +201,7 @@ class DenStream:
 
 
 
-            if self._restricao_sic(micro_cluster_copy,pt_ref) &  is_not_outlier :
+            if self._restricao_sic(micro_cluster_copy) &  is_not_outlier :
                 micro_cluster.insert_sample(sample, estimacaoGanhoCanal,weight)
                 return True
                 
@@ -214,24 +213,14 @@ class DenStream:
     def _merging(self, sample,estimacaoGanhoCanal, weight,sd_param):
         _, nearest_p_micro_cluster = \
             self._get_nearest_micro_cluster(sample,self.p_micro_clusters,sd_param)
-        ############################# pt deve ser dividido para cada cluster#######################
-        qtd_UE_net = 0
-        pt_ref = self.Pt
-        if nearest_p_micro_cluster is not None:
-            for x in self.p_micro_clusters:
-                qtd_UE_net = qtd_UE_net + len(x.getGainChannel())
 
-            cp_ = (1/qtd_UE_net)*len(nearest_p_micro_cluster.getGainChannel())
-            pt_ref = self.Pt*cp_
-        ###########################################################################################
-
-        success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_p_micro_cluster,pt_ref)
+        success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_p_micro_cluster)
 
 
         if not success:
             index, nearest_o_micro_cluster = \
                 self._get_nearest_micro_cluster(sample,self.o_micro_clusters,sd_param)
-            success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_o_micro_cluster,pt_ref)
+            success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_o_micro_cluster)
             
             if success:
 
@@ -312,7 +301,7 @@ class DenStream:
 
 
 
-    def _restricao_sic(self,micro_cluster,pt_ref):
+    def _restricao_sic(self,micro_cluster):
                 
         gamaL = micro_cluster.getGainChannel()
 
@@ -322,10 +311,10 @@ class DenStream:
         ### p_list esta do menor ganho para o maior
         sucesso =[]
         for receptor in range(len(gamaL)-1):
-            diff = p_list[receptor]*pt_ref*(gamaL[receptor+1])
+            diff = p_list[receptor]*self.Pt*(gamaL[receptor+1])
             aux =0
             for i in range(len(gamaL)-1):
-                aux = aux+p_list[i+1]*pt_ref*(gamaL[receptor+1])
+                aux = aux+p_list[i+1]*self.Pt*(gamaL[receptor+1])
             
             diff = diff-aux
             if diff >=self.p_tol:
