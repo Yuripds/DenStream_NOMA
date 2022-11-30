@@ -320,19 +320,24 @@ class DenStream:
         #### ordem crescente
         gamaL.sort()
         p_list = dsp.alloc_power(gamaL,self.alpha)
+
         ### p_list esta do menor ganho para o maior
         sucesso =[]
+        
+        param=1
         for receptor in range(len(gamaL)-1):
             diff = p_list[receptor]*self.Pt*(gamaL[receptor+1])
-            aux =0
-            for i in range(len(gamaL)-1):
-                aux = aux+p_list[i+1]*self.Pt*(gamaL[receptor+1])
-            
-            diff = diff-aux
+
+            aux = sum(p_list[param:])
+
+            diff = diff-(aux*self.Pt*(gamaL[receptor+1]))
             if diff >=self.p_tol:
                 sucesso.append(True)
             else:
                 sucesso.append(False)
+            param=param+1
+
+           
 
         if sum(sucesso) == len(sucesso):
             return True
