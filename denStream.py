@@ -70,10 +70,8 @@ class DenStream:
             dr_global_final=[]
             while contador < time_param:
                 ################################ verificar o porque esta sendo criado grupos com apenas 1 usuário #####################
-                self.manutencao()
                 
-                if contador==20:
-                    print("parar")
+                self.manutencao()
 
                 y_old = []
                 fixSamples = []
@@ -98,15 +96,17 @@ class DenStream:
 
                             self._partial_fit(nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight,sd_param)
                         
-                        ################## corrigir o get index #############
+                        
                         for i,mc in enumerate(self.p_micro_clusters):
                             for m in range(len(mc.getGainChannel())):
                                 y.append(i)
                            # index = self._get_group_index(user[1],self.p_micro_clusters)
 
                            
-                               
+                        
                         y_tempo.append(y)
+
+
                 else:
                     y_tempo.append(y_old)
 
@@ -122,7 +122,7 @@ class DenStream:
                 self.t += 1            
                        
 
-
+            
             return  drList_final,dr_global_final
 
                
@@ -272,7 +272,7 @@ class DenStream:
                     self.p_micro_clusters.pop(i)
 
 
-            for o_micro_cluster in self.o_micro_clusters:
+            for op,o_micro_cluster in enumerate(self.o_micro_clusters):
                 gainList_outL = o_micro_cluster.getGainChannel()
                 ganhoTempoList_out = o_micro_cluster.getGanhoTempo()
                 sampleList = o_micro_cluster.getSample()
@@ -283,6 +283,8 @@ class DenStream:
                     self.estimacao_tempo_newUsers.append(ganhoTempoList_out[idx])
                     o_micro_cluster.delete_sample(idx)
                     tam_init =tam_init-1
+                if len(gainList_outL)==0:
+                    self.o_micro_clusters.pop(op)
 
 
 

@@ -11,7 +11,7 @@ import cmath
 def desvanecimento_global_usuarios(qtd_usuarios):
   tamanho_v = 10**4
   cg_obj = coeficiente_desvanecimento.Coeficiente_de_Desvanecimento()
-  d=np.random.uniform(1000,5000,qtd_usuarios)
+  d=np.random.uniform(1000,20000,qtd_usuarios)
   dGlobal = np.zeros((qtd_usuarios,tamanho_v),dtype=complex)
   for i in range(qtd_usuarios):
     dGlobal[i,:] = cg_obj.desvanecimento_modelo4(d=d[i],NN=20,tamanho=tamanho_v,seed=i,fc=2000,dmin=1000)
