@@ -120,16 +120,16 @@ def grafico_novo_plot(drList):
     #for i in range(len(drList)):
     #    tempo.append(' '+ str(i+12))
     
-    h=np.zeros((5,len(tempo)))
+    h=np.zeros((4,len(tempo)))
     for i in range(len(tempo)):
         h[0][i] = tempo[i]
         h[1][i] = plot_01[i] 
         h[2][i] = plot_02[i]
         h[3][i] = plot_03[i]
-        h[4][i] = plot_04[i]
+        #h[4][i] = plot_04[i]
     h=h.T
 
-    tabela_dr_tempo = pd.DataFrame(data=h,columns=['tempo','C-UE-01','C-UE-02','C-UE-03','C-UE-04'])
+    tabela_dr_tempo = pd.DataFrame(data=h,columns=['tempo','C-UE-01','C-UE-02','C-UE-03'])
     tabela_dr_tempo.to_csv('tabela_dr_tempo.csv')
 
   #  plt.plot(tempo,plot_01,marker='o',label="1 UE")

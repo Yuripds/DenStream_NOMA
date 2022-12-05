@@ -11,7 +11,7 @@ def graficos_plot(drList,R_global):
     x_index = range(len(drList[tempo_gp][0]))
 
     
-    color = ['darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
+    color = ['darkblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 
 
     plt.rcParams['xtick.labelsize'] = 30
