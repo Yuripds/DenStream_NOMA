@@ -61,23 +61,13 @@ def sum_data_rate(gamaL,alpha,B,N0,Pt):
     return r_array,R_global
 
 
-def resultado(fixed_samples,new_users_samples,y_tempo,tempo_,alpha,B, N0,Pt):
-
-
-    usuarioRotulos = np.zeros((12,2))
-
-    lista_refatorada= []
-
-    for i in fixed_samples:
-      lista_refatorada.append(i)
+def resultado(usuarios_f,y_tempo,tempo_,alpha,B, N0,Pt):
     
-    for i in new_users_samples:
-      lista_refatorada.append(i)
+    usuarioRotulos = np.zeros((len(usuarios_f),2))
     
-
     idx =0 
-    for valor in lista_refatorada:
-        usuarioRotulos[idx,0] = valor[0]
+    for valor in usuarios_f:
+        usuarioRotulos[idx,0] = valor
         usuarioRotulos[idx,1] = y_tempo[0][idx]
         idx= idx+1
     

@@ -70,7 +70,7 @@ class DenStream:
             dr_global_final=[]
             while contador < time_param:
                 ################################ verificar o porque esta sendo criado grupos com apenas 1 usuário #####################
-                
+
                 self.manutencao()
 
                 y_old = []
@@ -87,6 +87,7 @@ class DenStream:
 
                 if ad_users == True:
                         y = []
+                        usuarios_f = []
 
                         for i, users in enumerate(self.newUsers):
                             # add estimacao_tempo_novosUsers junto a fila de novos usuários
@@ -98,21 +99,21 @@ class DenStream:
                         
                         
                         for i,mc in enumerate(self.p_micro_clusters):
-                            for m in range(len(mc.getGainChannel())):
+                            for valor in mc.getGainChannel():
                                 y.append(i)
-                           # index = self._get_group_index(user[1],self.p_micro_clusters)
+                                usuarios_f.append(valor)
 
-                           
                         
                         y_tempo.append(y)
 
 
                 else:
                     y_tempo.append(y_old)
-
+                    usuarios_f = fixSamples
                 
-               
-                dr_global,drList = dsp.resultado(fixSamples,self.newUsers,y_tempo,self.t,self.alpha,self.B,self.N0,self.Pt)
+        
+
+                dr_global,drList = dsp.resultado(usuarios_f,y_tempo,self.t,self.alpha,self.B,self.N0,self.Pt)
                 drList_final.append(drList)
                 dr_global_final.append(dr_global)
                 y_tempo =[]
@@ -231,6 +232,8 @@ class DenStream:
             index, nearest_o_micro_cluster = \
                 self._get_nearest_micro_cluster(sample,self.o_micro_clusters,sd_param)
             success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_o_micro_cluster)
+
+
             
             if success:
 
