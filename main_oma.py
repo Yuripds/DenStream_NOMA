@@ -24,7 +24,7 @@ def data_rate(g_canal,n_usuarios):
 def sum_data_rate(g_canal_list):
     sum_dr_list = []
     for i in g_canal_list:
-        sum_dr_list.append(data_rate(i),len(g_canal_list))
+        sum_dr_list.append(data_rate(i,len(g_canal_list)))
     sum_dr =sum(sum_dr_list)
 
     return sum_dr,sum_dr_list
