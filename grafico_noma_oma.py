@@ -10,10 +10,10 @@ def grafico_oma_noma(R_global):
     ############################################################################################# OMA 
 
     train_t0 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_15_.csv')
-    train_t1 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_85_.csv')
-    train_t2 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_154_.csv')
-    train_t3 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_228_.csv')
-    train_t4 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_293_.csv')
+    train_t1 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_87_.csv')
+    train_t2 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_150_.csv')
+    train_t3 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_208_.csv')
+    train_t4 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_227_.csv')
 
     dados_t0 = np.array(train_t0["Ganho"])
     dados_t1 = np.array(train_t1["Ganho"])
@@ -34,7 +34,7 @@ def grafico_oma_noma(R_global):
 
     #tempo_gp = 0
     ma_tec = ['NOMA','OMA']
-    tempo = ['15','85','154','228','293']
+    tempo = ['15','87','150','208','227']
     
     #n_lusters= len(R_global[tempo_gp][0])
     #x_index = []
@@ -51,7 +51,7 @@ def grafico_oma_noma(R_global):
     dr_bar=[]
     for i in range(len(R_global)):
         if i%10==0:
-            aux_ = sum(R_global[i][0])
+            aux_ = mean(R_global[i][0])
             dr_bar.append(aux_)
     
     dr_bar_OMA=[sum_dr_oma_t0,sum_dr_oma_t1,sum_dr_oma_t2,sum_dr_oma_t3,sum_dr_oma_t4]
