@@ -6,7 +6,7 @@ import math
 sns.set()
 
 
-def data_rate(g_canal):
+def data_rate(g_canal,n_usuarios):
   w=100
   B = 20*(10**6)
   N0 = 10**(-17.3)
@@ -16,7 +16,7 @@ def data_rate(g_canal):
   num = pot_total*(g_canal**2)
   den = N0*B
 
-  d_rate = (1/12)*B*np.log2(1+(num/den))
+  d_rate = (1/n_usuarios)*B*np.log2(1+(num/den))
 
   return d_rate
 
@@ -24,7 +24,7 @@ def data_rate(g_canal):
 def sum_data_rate(g_canal_list):
     sum_dr_list = []
     for i in g_canal_list:
-        sum_dr_list.append(data_rate(i))
+        sum_dr_list.append(data_rate(i),len(g_canal_list))
     sum_dr =sum(sum_dr_list)
 
     return sum_dr,sum_dr_list
