@@ -15,11 +15,11 @@ def grafico_oma_noma(R_global):
     train_t3 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_208_.csv')
     train_t4 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_227_.csv')
 
-    dados_t0 = np.array(train_t0["Ganho"])
-    dados_t1 = np.array(train_t1["Ganho"])
-    dados_t2 = np.array(train_t2["Ganho"])
-    dados_t3 = np.array(train_t3["Ganho"])
-    dados_t4 = np.array(train_t4["Ganho"])
+    dados_t0 = np.array(train_t0[["Ganho","Rotulo"]])
+    dados_t1 = np.array(train_t1[["Ganho","Rotulo"]])
+    dados_t2 = np.array(train_t2[["Ganho","Rotulo"]])
+    dados_t3 = np.array(train_t3[["Ganho","Rotulo"]])
+    dados_t4 = np.array(train_t4[["Ganho","Rotulo"]])
 
 
     sum_dr_oma_t0,_t0 = oma.simulacao_OMA(dados=dados_t0)
