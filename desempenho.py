@@ -77,7 +77,7 @@ def resultado(usuarios_f,y_tempo,tempo_,alpha,B, N0,Pt):
     if gerar_arquivo==True:
       usuarioRotulos_sort_df = pd.DataFrame(data=usuarioRotulos_sort,columns=['Ganho','Rotulo'])
 
-      usuarioRotulos_sort_df.to_csv('usuarioRotulos_sort_df_'+ str(tempo_) +'_.csv')
+      usuarioRotulos_sort_df.to_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_'+ str(tempo_) +'_.csv')
 
 
     index = get_index_vc(usuarioRotulos_sort)
