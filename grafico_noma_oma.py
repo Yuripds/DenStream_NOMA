@@ -9,11 +9,11 @@ sns.set()
 def grafico_oma_noma(R_global):
     ############################################################################################# OMA 
 
-    train_t0 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_18_.csv')
-    train_t1 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_89_.csv')
-    train_t2 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_162_.csv')
-    train_t3 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_234_.csv')
-    train_t4 = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_304_.csv')
+    train_t0 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_18_.csv')
+    train_t1 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_89_.csv')
+    train_t2 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_164_.csv')
+    train_t3 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_236_.csv')
+    train_t4 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/csv_ganhos_de_canal/usuarioRotulos_sort_df_308_.csv')
 
     dados_t0 = np.array(train_t0[["Ganho","Rotulo"]])
     dados_t1 = np.array(train_t1[["Ganho","Rotulo"]])
@@ -34,7 +34,7 @@ def grafico_oma_noma(R_global):
 
     #tempo_gp = 0
     ma_tec = ['NOMA','OMA']
-    tempo = ['18','89','162','234','304']
+    tempo = ['18','89','164','236','308']
     
     #n_lusters= len(R_global[tempo_gp][0])
     #x_index = []
@@ -65,7 +65,7 @@ def grafico_oma_noma(R_global):
     plt.xticks(tempo, fontsize=15,rotation = 45)
     plt.xlabel('time',fontsize=30, weight='bold')
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-    plt.legend(("NOMA","OMA"))
+    plt.legend(("NOMA","OMA") ,loc=4,prop={'size': 40})
 
     plt.title('Data rate NOMA x OMA system',fontsize=30, weight='bold')
     plt.grid(True)

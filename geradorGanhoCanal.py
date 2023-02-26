@@ -8,18 +8,24 @@ import cmath
 
 
 ################## testaar com distancia máxima de 20 KM
-def desvanecimento_global_usuarios(qtd_usuarios):
+def desvanecimento_global_usuarios(qtd_usuarios,flag,seed_):
   tamanho_v = 10**4
   cg_obj = coeficiente_desvanecimento.Coeficiente_de_Desvanecimento()
   d=np.random.uniform(1000,20000,qtd_usuarios)
   dGlobal = np.zeros((qtd_usuarios,tamanho_v),dtype=complex)
-  for i in range(qtd_usuarios):
-    dGlobal[i,:] = cg_obj.desvanecimento_modelo4(d=d[i],NN=20,tamanho=tamanho_v,seed=i,fc=2000,dmin=1000)
+  if flag == "metodo_padrao":
+    for i in range(qtd_usuarios):
+      dGlobal[i,:] = cg_obj.desvanecimento_modelo4(d=d[i],NN=20,tamanho=tamanho_v,seed=i+seed_,fc=2000,dmin=1000)
+  else:
+    for i in range(qtd_usuarios):
+      dGlobal[i,:] = cg_obj.desvanecimento_modelo4(d=d[i],NN=20,tamanho=tamanho_v,seed=i,fc=2000,dmin=1000)
 
   return d,dGlobal
 
 qtd_usuarios = 12
-d,dGlobal = desvanecimento_global_usuarios(qtd_usuarios)
+flag="metodo_proposto"
+seed_=0
+d,dGlobal = desvanecimento_global_usuarios(qtd_usuarios,flag,seed_)
 
 
 h=np.zeros((2,qtd_usuarios))
