@@ -185,7 +185,7 @@ def grafico_mp_barras():
 
   
     dr_sim,ordem_padrao = sim_mc()
-    print("Aqui")
+   
 
     print(ordem_padrao)
     dados_reshap=np.zeros((30,4))
@@ -200,7 +200,7 @@ def grafico_mp_barras():
         aux=aux+6
         instancia =instancia+1
 
-    print("Aqui")          
+           
     resultado = pd.DataFrame(data=dados_reshap,columns=['tempo','UE_01','UE_02','c_index']) 
     resultado.to_csv('resultado_metodo_padrao.csv')
 

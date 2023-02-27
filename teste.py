@@ -42,7 +42,7 @@ h=h.T
 
 
 train = pd.DataFrame(data=h,columns=['0','1'])
-train = train.sample(frac = 1)
+#train = train.sample(frac = 1)
 
 
 df_dGlobal = pd.DataFrame(dGlobal)
@@ -64,6 +64,6 @@ drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_l
 
 
 #########################################  Finaliazar com correção dos gráficos ################################################
-#gf.graficos_plot(drList,R_global)
+gf.graficos_plot(drList,R_global)
 #gfn.grafico_novo_plot(drList)
-gon.grafico_oma_noma(R_global)
+#gon.grafico_oma_noma(R_global)
