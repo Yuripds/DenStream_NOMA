@@ -78,7 +78,7 @@ def metodo_padrao(qtd_usuarios,seed_):
     ########################################### gerando amostras ######################################
 
     #### tenho que mudar o seed
-    flag = "metodo_padrao"
+    flag = "metodo_proposto"
     _d,dGlobal = ggc.desvanecimento_global_usuarios(qtd_usuarios,flag,seed_)
 
 
@@ -109,20 +109,24 @@ def metodo_padrao(qtd_usuarios,seed_):
 
     ####### rodar isto 100 vezes e tirar uma média, para  cada simulação eu devo gerar novos canais mudando o seed
     dr_global_final = []
-    for t in range(1000):
+    drList_final = []
+    for t in [18,89,164,236,308]:
         dr_global = []
+        drList = []
         for i in range(len(ordem_padrao)):
             gamaL = []
             cluster = [abs(dGlobal[int(ordem_padrao[i][0])][t]),abs(dGlobal[int(ordem_padrao[i][1])][t])]
             for m in range(len(cluster)):
                 gamaL.append(cluster[m])
-            _r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
+            r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
             dr_global.append(R_global)
+            drList.append(r)
 
         dr_global_final.append(np.mean(dr_global))
+        drList_final.append(drList)
     
 
-    return dr_global_final
+    return dr_global_final,drList_final,ordem_padrao
 
 
 
@@ -134,12 +138,13 @@ def sim_mc():
     dr_sim =[]
     sim=0
     seed_ =0
-    while(sim<100):
-        dr_sim.append(metodo_padrao(qtd_usuarios,seed_))
+    while(sim<1):
+        dr_global_final,drList_final,ordem_padrao = metodo_padrao(qtd_usuarios,seed_)
+        dr_sim.append(drList_final)
         sim=sim+1
         seed_ = seed_+qtd_usuarios
 
-    return dr_sim
+    return dr_sim,ordem_padrao
 
 
 ############## gerar grafico #######################
@@ -159,7 +164,7 @@ def media(listas):
 def grafico_mp():
 
     ########### ainda tenho que tirar a média ######################
-    dr_sim = sim_mc()
+    dr_sim,ordem_padrao = sim_mc()
 
     dr_sim_media =  media(dr_sim)
 
@@ -176,6 +181,31 @@ def grafico_mp():
     plt.show()
 
 
+def grafico_mp_barras():
 
-grafico_mp()
+  
+    dr_sim,ordem_padrao = sim_mc()
+    print("Aqui")
 
+    print(ordem_padrao)
+    dados_reshap=np.zeros((30,4))
+    aux = 0
+    instancia = 0
+    for t in [18,89,164,236,308]:
+        for linha in range(6):
+            dados_reshap[linha+aux][0] = t
+            dados_reshap[linha+aux][1] = dr_sim[0][instancia][linha][0][0]
+            dados_reshap[linha+aux][2] = dr_sim[0][instancia][linha][1][0]
+            dados_reshap[linha+aux][3] = linha
+        aux=aux+6
+        instancia =instancia+1
+
+    print("Aqui")          
+    resultado = pd.DataFrame(data=dados_reshap,columns=['tempo','UE_01','UE_02','c_index']) 
+    resultado.to_csv('resultado_metodo_padrao.csv')
+
+
+
+
+
+grafico_mp_barras()
