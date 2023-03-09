@@ -4,6 +4,8 @@ import seaborn as sns
 from statistics import mean 
 import main_oma as oma
 import pandas as pd
+from matplotlib import ticker
+
 
 sns.set()
 def grafico_oma_noma(R_global):
@@ -44,6 +46,7 @@ def grafico_oma_noma(R_global):
         
     color_ = ['darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 
+    fig, ax = plt.subplots(1, 1)
 
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
@@ -55,15 +58,24 @@ def grafico_oma_noma(R_global):
             dr_bar.append(aux_)
     
     dr_bar_OMA=[sum_dr_oma_t0,sum_dr_oma_t1,sum_dr_oma_t2,sum_dr_oma_t3,sum_dr_oma_t4]
+
+    #pot = np.log10(dr_bar)
+    #label = f"x10$^{pot}$"
     
 
     plt.bar(tempo,dr_bar,color = color_[0])
     plt.bar(tempo,dr_bar_OMA,color = 'r')
 
 
+   
 
     plt.xticks(tempo, fontsize=15,rotation = 45)
     plt.xlabel('time',fontsize=30, weight='bold')
+    formatter = ticker.ScalarFormatter(useMathText=True)
+    formatter.set_scientific(True) 
+    formatter.set_powerlimits((-1,1)) 
+    ax.yaxis.set_major_formatter(formatter) 
+
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(("NOMA","OMA") ,loc=4,prop={'size': 40})
 
