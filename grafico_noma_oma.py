@@ -46,8 +46,8 @@ def grafico_oma_noma(R_global):
         
     color_ = ['darkblue','mediumblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 
-    fig, ax = plt.subplots(1, 1)
-
+    fig, ax = plt.subplots()
+    
     plt.rcParams['xtick.labelsize'] = 30
     plt.rcParams['ytick.labelsize'] = 30
  
@@ -69,12 +69,14 @@ def grafico_oma_noma(R_global):
 
    
 
-    plt.xticks(tempo, fontsize=15,rotation = 45)
+    plt.xticks(tempo, fontsize=30,rotation = 45)
     plt.xlabel('time',fontsize=30, weight='bold')
     formatter = ticker.ScalarFormatter(useMathText=True)
     formatter.set_scientific(True) 
     formatter.set_powerlimits((-1,1)) 
+    
     ax.yaxis.set_major_formatter(formatter) 
+    plt.yticks(fontsize=30)
 
     plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
     plt.legend(("NOMA","OMA") ,loc=4,prop={'size': 40})
