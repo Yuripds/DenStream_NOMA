@@ -473,7 +473,7 @@ desempenho_OMA = desempenho_df_geral.R_OMA
 
 
 ############################################################################# grafico ###########################################################
-
+B = 180*(10**3)*100
  
 
 count, bins_count = np.histogram(desempenho_DS, bins=100) 
@@ -493,8 +493,8 @@ plt.plot(bins_count[1:], cdf, label="CDF_DS")
 plt.plot(bins_count2[1:], cdf2, label="CDF_tradicional") 
 plt.plot(bins_count3[1:], cdf3, label="CDF_OMA")
 
-plt.ylabel('Frequência',fontsize=30, weight='bold')
-plt.xlabel('Data Rate',fontsize=30, weight='bold')
+plt.ylabel('F(x)',fontsize=30, weight='bold')
+plt.xlabel('Eficiência s',fontsize=30, weight='bold')
 
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
