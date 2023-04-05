@@ -2,13 +2,15 @@ import sys
 import numpy as np
 from sklearn.utils import check_array
 from copy import copy ,deepcopy
-# from DenStreamLib import microCluster
 from microCluster import *
 from math import ceil
 from sklearn.cluster import DBSCAN
 import cmath
 import desempenho as dsp
 from statistics import pstdev
+import main_oma as oma
+import metodo_padrao as mpad
+import pandas as pd
 
 class DenStream:
 
@@ -21,7 +23,7 @@ class DenStream:
         self.p_micro_clusters = []
         self.o_micro_clusters = []
         self.zeta = zeta
-        self.newUsers = []
+        self.newUsers = {}
         self.estimacao_tempo_newUsers = []
         self.p_tol =p_tol
         self.alpha = alpha
@@ -29,6 +31,9 @@ class DenStream:
         self.B = B
         self.sd_out= sd_out
         self.Pt = Pt
+        ###### configuração pre-definida
+        self.cluster_id_mt={'0':[],'1':[],'2':[],'3':[],'4':[],'5':[]}
+        self.flag_end = True
         
        
 
@@ -39,6 +44,9 @@ class DenStream:
 
     def _addUsers(self, X, y=None, y_old=None, estimacao_tempo=[], novos_users=[], estimacao_tempo_novosUsers=[], sample_weight=None, ad_users=False, time_param=500,sd_param=500):
             
+            x_id = X.index
+            novos_users_id = novos_users.index
+
             X = check_array(X, dtype=np.float64, order="C")
 
             n_samples, _ = X.shape
@@ -48,28 +56,38 @@ class DenStream:
 
             estimacaoGanhoCanal = estimacao_tempo
 
-            indx = 0
-            for sample, weight in zip(X, sample_weight):
-                self._partial_fit(sample, estimacaoGanhoCanal[indx], weight,sd_param)
-                indx = indx+1
-
+            ##### transformar o X e o x_id em dicionário
+            x_dic = {}
+            for i,value in enumerate(X):
+                x_dic[str(x_id[i])] = value
+                
 
             #################################################### tratamento dos dados de novos usuários e guardando em variáveis ##########
             user_nlist = novos_users.to_numpy(dtype='float32')
 
             for i, users in enumerate(user_nlist):
-                self.newUsers.append(users)
+                self.newUsers[str(novos_users_id[i])] = users
                 self.estimacao_tempo_newUsers.append(
                          estimacao_tempo_novosUsers[i])
-            
+                
+            ############################################################### metodo parão ##################################################
+
+            self.formar_grupopadrao(x_dic)
+
+
             ###############################################################################################################################
+
+            indx = 0
+            ############ entrada das primeiras amostras
+            for sample_id, weight in zip(x_dic, sample_weight):
+                self._partial_fit(x_dic[sample_id], estimacaoGanhoCanal[indx], weight,sd_param,sample_id)
+                indx = indx+1
+
+
             y_tempo = []
             contador = 0
             
-            drList_final = []
-            dr_global_final=[]
             while contador < time_param:
-                ################################ verificar o porque esta sendo criado grupos com apenas 1 usuário #####################
 
                 self.manutencao()
 
@@ -88,14 +106,16 @@ class DenStream:
                 if ad_users == True:
                         y = []
                         usuarios_f = []
-
-                        for i, users in enumerate(self.newUsers):
+                        for i, users_id in enumerate(self.newUsers):
                             # add estimacao_tempo_novosUsers junto a fila de novos usuários
-                            nova_amostra = users
+                            nova_amostra = self.newUsers[users_id]
+                            nova_amostra_id = users_id
                             new_sample_weight = np.ones(
                                 1, dtype=np.float32, order='C')[0]
-
-                            self._partial_fit(nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight,sd_param)
+                            ############# Entrada das novas amostras e de amostras que o canal variou 
+                            if i==3:
+                                self.flag_end=False
+                            self._partial_fit(nova_amostra, self.estimacao_tempo_newUsers[i], new_sample_weight,sd_param,nova_amostra_id)
                         
                         
                         for i,mc in enumerate(self.p_micro_clusters):
@@ -111,20 +131,46 @@ class DenStream:
                     y_tempo.append(y_old)
                     usuarios_f = fixSamples
                 
-        
-
-                dr_global,drList = dsp.resultado(usuarios_f,y_tempo,self.t,self.alpha,self.B,self.N0,self.Pt)
-                drList_final.append(drList)
-                dr_global_final.append(dr_global)
                 y_tempo =[]
-
-                self.newUsers = []
+                self.newUsers = {}
                 contador = contador+10
                 self.t += 1            
                        
 
             
-            return  drList_final,dr_global_final
+
+
+    def formar_grupopadrao(self,x_dic):
+
+        copia_x_dic = x_dic
+        copia_newusers = self.newUsers
+        copia_x_dic.update(copia_newusers)
+
+        self.cluster_id_mt = {}
+        #############################  reafatorando e ordenando o dicionário #####################################################
+        x_dic_ref =[]
+        for i in x_dic:
+            x_dic_ref.append([i,copia_x_dic[i][0]])
+        
+        x_dic_ref_ord = sorted(x_dic_ref, key = lambda x: x[1],reverse=True)
+        #############################################################################################################
+    
+        pares = []
+        aux = 1
+        for i in range(int(len(x_dic_ref_ord)/2)):
+            pares.append([x_dic_ref_ord[i], x_dic_ref_ord[len(x_dic_ref_ord)-aux]])
+            aux =aux+1
+
+    
+        for i,par in enumerate(pares):
+            self.cluster_id_mt[str(i)]=[int(par[0][0]),int(par[1][0])]
+
+
+        #############################################################################################################
+
+   
+
+
 
                
 
@@ -188,12 +234,12 @@ class DenStream:
 
 
 
-    def _try_merge(self, sample,estimacaoGanhoCanal, weight, micro_cluster):
+    def _try_merge(self, sample,eu_id,estimacaoGanhoCanal, weight, micro_cluster):
        
         
         if micro_cluster is not None:
             micro_cluster_copy = deepcopy(micro_cluster)
-            micro_cluster_copy.insert_sample(sample,estimacaoGanhoCanal, weight)
+            micro_cluster_copy.insert_sample(sample,estimacaoGanhoCanal, eu_id ,weight)
             lista_aux = micro_cluster_copy.getGainChannel()
 
             if len(micro_cluster.getGainChannel())==1:
@@ -213,7 +259,7 @@ class DenStream:
 
 
             if self._restricao_sic(micro_cluster_copy) &  is_not_outlier :
-                micro_cluster.insert_sample(sample, estimacaoGanhoCanal,weight)
+                micro_cluster.insert_sample(sample, estimacaoGanhoCanal, eu_id ,weight)
                 return True
                 
         return False
@@ -221,17 +267,17 @@ class DenStream:
 
 
 
-    def _merging(self, sample,estimacaoGanhoCanal, weight,sd_param):
+    def _merging(self, sample,estimacaoGanhoCanal, weight,sd_param,eu_id):
         _, nearest_p_micro_cluster = \
             self._get_nearest_micro_cluster(sample,self.p_micro_clusters,sd_param)
 
-        success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_p_micro_cluster)
+        success = self._try_merge(sample,eu_id,estimacaoGanhoCanal, weight, nearest_p_micro_cluster)
 
 
         if not success:
             index, nearest_o_micro_cluster = \
                 self._get_nearest_micro_cluster(sample,self.o_micro_clusters,sd_param)
-            success = self._try_merge(sample,estimacaoGanhoCanal, weight, nearest_o_micro_cluster)
+            success = self._try_merge(sample,eu_id,estimacaoGanhoCanal, weight, nearest_o_micro_cluster)
 
 
             
@@ -242,8 +288,9 @@ class DenStream:
                     
                     self.p_micro_clusters.append(nearest_o_micro_cluster)
             else:
-                micro_cluster = MicroCluster(self.lambd, self.t)
-                micro_cluster.insert_sample(sample,estimacaoGanhoCanal, weight)
+                qtd_clusters = len(self.p_micro_clusters) + len(self.o_micro_clusters)
+                micro_cluster = MicroCluster(self.lambd, self.t,c_id =qtd_clusters)
+                micro_cluster.insert_sample(sample,estimacaoGanhoCanal, eu_id ,weight)
                 self.o_micro_clusters.append(micro_cluster)
 
 
@@ -257,6 +304,8 @@ class DenStream:
                 gainList = p_micro_cluster.getGainChannel()
                 
                 ganhoTempoList = p_micro_cluster.getGanhoTempo()
+
+                users_id = p_micro_cluster.getusers_ids()
                 
                 tam_init = len(gainList)
                 idx=0
@@ -264,8 +313,9 @@ class DenStream:
                     diff_pct = ((abs(ganhoTempoList[idx][self.t])  - abs(gainList[idx]))/abs(gainList[idx]))*100
                     ######### zeta é dado em porcentagem #############
                     if abs(diff_pct) >= self.zeta:
-                        self.newUsers.append(np.array([abs(ganhoTempoList[idx][self.t]),cmath.phase(ganhoTempoList[idx][self.t])]))
+                        self.newUsers[str(users_id[idx])] = np.array([abs(ganhoTempoList[idx][self.t]),cmath.phase(ganhoTempoList[idx][self.t])])
                         self.estimacao_tempo_newUsers.append(ganhoTempoList[idx])
+                        #### aqui passar o id do usuário que foi removido
                         p_micro_cluster.delete_sample(idx)
                         tam_init = tam_init-1
                     else:
@@ -279,10 +329,11 @@ class DenStream:
                 gainList_outL = o_micro_cluster.getGainChannel()
                 ganhoTempoList_out = o_micro_cluster.getGanhoTempo()
                 sampleList = o_micro_cluster.getSample()
+                users_id_out = o_micro_cluster.getusers_ids()
                 tam_init = len(gainList_outL)
                 idx=0
                 while(tam_init>idx):
-                    self.newUsers.append(sampleList[idx])
+                    self.newUsers[str(users_id_out[idx])] = sampleList[idx]
                     self.estimacao_tempo_newUsers.append(ganhoTempoList_out[idx])
                     o_micro_cluster.delete_sample(idx)
                     tam_init =tam_init-1
@@ -292,14 +343,101 @@ class DenStream:
 
 
 
-    def _partial_fit(self, sample,estimacaoGanhoCanal, weight,sd_param):
+    def _partial_fit(self, sample,estimacaoGanhoCanal, weight,sd_param,eu_id):
 
-        self._merging(sample, estimacaoGanhoCanal, weight,sd_param)
+        self._merging(sample, estimacaoGanhoCanal, weight,sd_param,eu_id)
+
+        if len(self.p_micro_clusters)!=0:
+            cluster_id = []
+            usuarios_gc = []
+            usuario_id = []
+            for idx,mc in enumerate(self.p_micro_clusters):
+                cluster_id.append(mc.getcluster_id())
+                usuarios_gc.append(mc.getGainChannel())
+                usuario_id.append(mc.getusers_ids())
+
+            for idx,omc in enumerate(self.o_micro_clusters):
+                cluster_id.append(-1)
+                usuarios_gc.append(omc.getGainChannel())
+                usuario_id.append(omc.getusers_ids())
+            
         
+            ##### calculando desempenho do meu método
+                # aqui o calculo de desempenho inclui usuários de o-mc para serem transmitidos por OMA   
+            drglobal_mp,drusuarios_mp = dsp.resultado(usuarios_gc,cluster_id,self.t,self.alpha,self.B,self.N0,self.Pt)
+
+            ##### calculando desempenho do método tradicional
+                # aqui o calculo de desempenho inclui usuários de o-mc para serem transmitidos por OMA  
+            drglobal_t,drusuarios_t = mpad.mp_resultado(usuarios_gc,usuario_id,self.cluster_id_mt,self.alpha,self.B,self.N0,self.Pt)
+
+            ##### calculando desempenho do meu método OMA
+            drglobal_oma,drusuarios_oma = oma.simulacao_OMA(usuarios_gc,cluster_id,self.B,self.N0,self.Pt) 
+
+            ########### salvar dados em csv
+                # concatenar os 3 resultados 
+            desempenhos_dos_metodos = [drglobal_mp[0],drglobal_t[0],drglobal_oma[0]]
+            tam_ref = 0
+            for metodo in desempenhos_dos_metodos:
+                if len(metodo)>tam_ref:
+                    tam_ref = len(metodo)
+
+            desempenhos_dos_metodos_ref = np.zeros((tam_ref,3))*np.NAN
+            for i_metodo, metodo in enumerate(desempenhos_dos_metodos):
+                for idx_ele in range(len(metodo)):
+                    if type(metodo[idx_ele]) == type(desempenhos_dos_metodos) :
+                        desempenhos_dos_metodos_ref[idx_ele,i_metodo] = metodo[idx_ele][0]
+                    else:
+                        desempenhos_dos_metodos_ref[idx_ele,i_metodo] = metodo[idx_ele]
+
+            desempenhos_dos_metodos_ref_list = desempenhos_dos_metodos_ref.tolist()
+            desempenho_df = pd.DataFrame(data=desempenhos_dos_metodos_ref_list,columns=['R_DS','R_tradicional','R_OMA'])
+
+            desempenho_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df'+ str(self.t) +'_.csv')
+           
+
         if self.t % self.tp == 0 & self.t !=0:  
             self.manutencao()
 
         self.t += 1
+
+    def update_cluster_id_mt(self,usuario_id,cluster_id):
+        
+        if len(self.cluster_id_mt)>0:
+            for i,eu_id in enumerate(usuario_id):
+                ### if para testar se o cluster existe
+                if str(cluster_id[i]) in self.cluster_id_mt:
+                    ### loop dentro do bloco eu_id
+                    for eu_do_bloco in eu_id:
+                        add1 = True
+                        # comparar com cada elemento do bloco
+                        for key in self.cluster_id_mt:
+                            if int(eu_do_bloco) in self.cluster_id_mt[key]:
+                                add1 = False
+                        if add1:
+                             # add novo elemento usando append
+                            self.cluster_id_mt[str(cluster_id[i])].append(int(eu_do_bloco))
+                                
+                               
+                                
+                else:
+                    self.cluster_id_mt[str(cluster_id[i])]=[]
+                    ### loop dentro do bloco eu_id
+                    for eu_do_bloco in eu_id:
+                        add2 = True
+                        # comparar com cada elemento do bloco
+                        for key in self.cluster_id_mt:
+                            if int(eu_do_bloco) in self.cluster_id_mt[key]:
+                                add2=False
+                        if add2:
+                            # add novo elemento usando append
+                            self.cluster_id_mt[str(cluster_id[i])].append(int(eu_do_bloco))
+        else:
+            self.cluster_id_mt[str(cluster_id[0])]=[]
+            for i,eu_id in enumerate(usuario_id):
+                for eu_do_bloco in eu_id:
+                    self.cluster_id_mt[str(cluster_id[i])].append(int(eu_do_bloco))
+
+
 
     def _validate_sample_weight(self, sample_weight, n_samples):
         """Set the sample weight array."""
@@ -357,3 +495,5 @@ class DenStream:
         
         
         return sd_novo
+    
+  

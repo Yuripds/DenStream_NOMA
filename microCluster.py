@@ -2,7 +2,7 @@
 
 
 class MicroCluster:
-    def __init__(self, lambd, creation_time):
+    def __init__(self, lambd, creation_time,c_id):
         self.lambd = lambd
         self.decay_factor = 2 ** (-lambd)
         self.sum_of_weights = 0
@@ -10,9 +10,10 @@ class MicroCluster:
         self.gainChannel = []
         self.ganhoTempo = []
         self.sampleList = []
-       
+        self.cluster_id = c_id
+        self.users_ids = []
 
-    def insert_sample(self, sample,estimacaoGanhoCanal, weight):
+    def insert_sample(self, sample,estimacaoGanhoCanal, eu_id ,weight):
         # Update Ganho de canal
         gc_aux = self.gainChannel
         gc_aux.append(sample[0])
@@ -29,6 +30,10 @@ class MicroCluster:
         sample_aux.append(sample)
         self.sampleList = sample_aux
 
+        #Update user id
+        id_aux = self.users_ids
+        id_aux.append(eu_id)
+        self.users_ids = id_aux
     
 
         if self.sum_of_weights != 0:
@@ -56,6 +61,12 @@ class MicroCluster:
         # Update sample list
         self.sampleList.pop(index)
 
+        #Update user id
+        self.users_ids.pop(index)
+
+
+
+        
 
     def weight(self):
         return self.sum_of_weights
@@ -69,6 +80,12 @@ class MicroCluster:
     
     def getSample(self):
         return self.sampleList
+    
+    def getcluster_id(self):
+        return self.cluster_id
+    
+    def getusers_ids(self):
+        return self.users_ids
 
 
     

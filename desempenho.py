@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from collections import Counter
+
 
 def get_index_vc(vect):
   roturlos = vect[:,1]
@@ -27,11 +27,11 @@ def alloc_power(gamaL,alpha):
 
 def data_rate(w,B,Pt,gamaUser,N0,p_list,index):
  
-  num = p_list[index]*Pt*gamaUser
+  num = p_list[index]*Pt*(gamaUser**2)
 
   p_list = p_list[index+1:]
   p_array = np.array(p_list)
-  den_list = p_array*Pt*gamaUser
+  den_list = p_array*Pt*(gamaUser**2)
 
   den = np.sum(den_list)
   den = den+(w*(N0*B))
@@ -61,14 +61,55 @@ def sum_data_rate(gamaL,alpha,B,N0,Pt):
     return r_array,R_global
 
 
-def resultado(usuarios_f,y_tempo,tempo_,alpha,B, N0,Pt):
-    
+
+def oma_data_rate(g_canal,n_usuarios,B,N0,Pt):
+  w =100
+  num = Pt*(g_canal**2)
+  den = N0*B*w
+
+  d_rate = (1/n_usuarios)*B*w*np.log2(1+(num/den))
+
+  return d_rate
+
+
+def oma_sum_data_rate(g_canal,B,N0,Pt):
+    g_canal_list = []
+    for i in g_canal:
+      g_canal_list.append(i)
+
+    sum_dr_list = []
+    for i in g_canal_list:
+        sum_dr_list.append(oma_data_rate(i,len(g_canal_list),B,N0,Pt))
+    sum_dr =sum(sum_dr_list)
+
+    return sum_dr,sum_dr_list
+
+
+
+
+
+def resultado(usuarios_gc,y_t,tempo_,alpha,B, N0,Pt):
+
+    usuarios_f=[]
+    y_tempo=[]
+    idx_=0
+    for bloco_ue in usuarios_gc:
+      for ue in range(len(bloco_ue)):
+        usuarios_f.append(bloco_ue[ue])
+        y_tempo.append(y_t[idx_])
+      idx_ = idx_+1
+
+    if -1 in y_tempo:
+      flag_oma = True
+    else:
+      flag_oma = False
+
     usuarioRotulos = np.zeros((len(usuarios_f),2))
-    
+
     idx =0 
     for valor in usuarios_f:
         usuarioRotulos[idx,0] = valor
-        usuarioRotulos[idx,1] = y_tempo[0][idx]
+        usuarioRotulos[idx,1] = y_tempo[idx]
         idx= idx+1
     
     usuarioRotulos_sort = usuarioRotulos[np.argsort(usuarioRotulos[:, 1])]
@@ -93,12 +134,23 @@ def resultado(usuarios_f,y_tempo,tempo_,alpha,B, N0,Pt):
     for i in range(len(usuarioRotulos_sort_split)):
       gamaL = []
       cluster = usuarioRotulos_sort_split[i]
-      for m in range(len(cluster)):
-          gamaL.append(cluster[m])
-      r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
-      dr_global.append(R_global)
+      ### apenas o primeiro grupo faz OMA
+        ################# quem também faz OMA é o cluster com apenas 1 usuário
+      if (i==0) & flag_oma | len(cluster)==1:
+        for m in range(len(cluster)):
+            gamaL.append(cluster[m])
+        r,R_global = oma_sum_data_rate(gamaL,B,N0,Pt)
+        dr_global.append(R_global)
 
-      drList.append(r)
+        drList.append(r)
+         
+      else:
+        for m in range(len(cluster)):
+            gamaL.append(cluster[m])
+        r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
+        dr_global.append(R_global)
+
+        drList.append(r)
 
     dr_global_final.append(dr_global)
     drList_final.append(drList)

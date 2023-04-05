@@ -1,13 +1,10 @@
 import numpy as np
 import seaborn as sns
-import graficos as gf
-import graficoNovo as gfn
 import geradorGanhoCanal as ggc
 from denStream import *
 import pandas as pd
 import cmath
-import grafico_noma_oma as gon
-import desempenho as dsp
+
 
 sns.set()
 
@@ -22,7 +19,7 @@ def simulacao(dados,modelo,etNU_list,nU_list,eT_list,sd_param):
 ############################################################################################
 qtd_usuarios = 12
 
-modelo = DenStream(lambd=0.5, beta=0.4, mu=3,zeta = 5,p_tol=((10**(10*0.1))*(10**-3)),alpha=0.2, N0 =10**(-17.3),B=180*(10**3), Pt = ((10**(4.6))*(10**-3)),sd_out=10**3)
+modelo = DenStream(lambd=0.5, beta=0.4, mu=3,zeta = 5,p_tol=((10**(10*0.1))*(10**-3)),alpha=0.2, N0 =10**(-21),B=180*(10**3), Pt = ((10**(4.6))*(10**-3)),sd_out=10**3)
 
 
 ########################################### gerando amostras ######################################
@@ -41,7 +38,7 @@ for i in range(qtd_usuarios):
 h=h.T
 
 
-train = pd.DataFrame(data=h,columns=['0','1'])
+train = pd.DataFrame(data=h,columns=['modulo','fase'])
 train = train.sample(frac = 1)
 
 
@@ -61,9 +58,3 @@ sd_param = 30
 
 drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,sd_param=sd_param)
 
-
-
-#########################################  Finaliazar com correção dos gráficos ################################################
-#gf.graficos_plot(drList,R_global)
-#gfn.grafico_novo_plot(drList)
-gon.grafico_oma_noma(R_global)
