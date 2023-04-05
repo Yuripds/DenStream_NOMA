@@ -11,9 +11,9 @@ sns.set()
 
 def simulacao(dados,modelo,etNU_list,nU_list,eT_list,sd_param):
 
-  drList_final,dr_global_final = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True,sd_param=sd_param)
+  y_tempo = modelo._addUsers(X=dados,estimacao_tempo=eT_list,novos_users =nU_list,estimacao_tempo_novosUsers = etNU_list, ad_users=True,sd_param=sd_param)
   
-  return drList_final,dr_global_final
+  return y_tempo
   
 
 ############################################################################################
@@ -56,5 +56,5 @@ eT_list =  df_dGlobal.iloc[dados.index.values.astype(int)].values.tolist()
 ### medida dada em porcento
 sd_param = 30
 
-drList,R_global = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,sd_param=sd_param)
+y_tempo = simulacao(dados=dados,modelo = modelo,etNU_list=etNU_list,nU_list = nU_list,eT_list=eT_list,sd_param=sd_param)
 

@@ -142,7 +142,7 @@ def resultado(usuarios_gc,y_t,tempo_,alpha,B, N0,Pt):
         r,R_global = oma_sum_data_rate(gamaL,B,N0,Pt)
         dr_global.append(R_global)
 
-        drList.append(r)
+        drList.append([r])
          
       else:
         for m in range(len(cluster)):

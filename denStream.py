@@ -134,7 +134,9 @@ class DenStream:
                 y_tempo =[]
                 self.newUsers = {}
                 contador = contador+10
-                self.t += 1            
+                self.t += 1  
+
+            return y_tempo          
                        
 
             
@@ -384,7 +386,7 @@ class DenStream:
             desempenhos_dos_metodos_ref = np.zeros((tam_ref,3))*np.NAN
             for i_metodo, metodo in enumerate(desempenhos_dos_metodos):
                 for idx_ele in range(len(metodo)):
-                    if type(metodo[idx_ele]) == type(desempenhos_dos_metodos) :
+                    if type(metodo[idx_ele]) == type(desempenhos_dos_metodos):
                         desempenhos_dos_metodos_ref[idx_ele,i_metodo] = metodo[idx_ele][0]
                     else:
                         desempenhos_dos_metodos_ref[idx_ele,i_metodo] = metodo[idx_ele]
@@ -392,7 +394,20 @@ class DenStream:
             desempenhos_dos_metodos_ref_list = desempenhos_dos_metodos_ref.tolist()
             desempenho_df = pd.DataFrame(data=desempenhos_dos_metodos_ref_list,columns=['R_DS','R_tradicional','R_OMA'])
 
-            desempenho_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df'+ str(self.t) +'_.csv')
+            #desempenho_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df'+ str(self.t) +'_.csv')
+
+            #### gerar csv para plotar o desempenho individual de cada usuário do método proposto
+            desempenhos_dos_usuarios_ref_2 = np.zeros((12,len(drusuarios_mp[0])))*np.NAN
+            for i_grupo, grupo in enumerate(drusuarios_mp[0]):
+                for idx_ele_grupo in range(len(grupo)):
+                        desempenhos_dos_usuarios_ref_2[idx_ele_grupo,i_grupo] = grupo[idx_ele_grupo]
+
+            desempenhos_dos_usuarios_ref_list_2 = desempenhos_dos_usuarios_ref_2.tolist()
+            desempenho_usuarios_df = pd.DataFrame(data=desempenhos_dos_usuarios_ref_list_2)
+
+
+            #desempenho_usuarios_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df'+ str(self.t) +'_.csv')
+            
            
 
         if self.t % self.tp == 0 & self.t !=0:  
