@@ -8,46 +8,57 @@ from matplotlib import ticker
 sns.set()
 
 ########################################################################## leitura de csv ########################################################
-desempenho_df1 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df1_.csv').drop(['Unnamed: 0'], axis=1).dropna()
-desempenho_df1_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df1_.csv').drop(['Unnamed: 0'], axis=1).dropna()
+desempenho_df1 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df1_.csv').drop(['Unnamed: 0'], axis=1)
+desempenho_df1_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df1_.csv').drop(['Unnamed: 0'], axis=1)
 
-desempenho_df74 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df74_.csv').drop(['Unnamed: 0'], axis=1).dropna()
-desempenho_df74_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df74_.csv').drop(['Unnamed: 0'], axis=1).dropna()
+desempenho_df74 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df74_.csv').drop(['Unnamed: 0'], axis=1)
+desempenho_df74_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df74_.csv').drop(['Unnamed: 0'], axis=1)
 
-desempenho_df148 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df148_.csv').drop(['Unnamed: 0'], axis=1).dropna()
-desempenho_df148_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df148_.csv').drop(['Unnamed: 0'], axis=1).dropna()
+desempenho_df148 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df148_.csv').drop(['Unnamed: 0'], axis=1)
+desempenho_df148_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df148_.csv').drop(['Unnamed: 0'], axis=1)
 
-desempenho_df223 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df223_.csv').drop(['Unnamed: 0'], axis=1).dropna()
-desempenho_df223_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df223_.csv').drop(['Unnamed: 0'], axis=1).dropna()
+desempenho_df223 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df223_.csv').drop(['Unnamed: 0'], axis=1)
+desempenho_df223_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df223_.csv').drop(['Unnamed: 0'], axis=1)
 
-desempenho_df296 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df296_.csv').drop(['Unnamed: 0'], axis=1).dropna()
-desempenho_df296_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df296_.csv').drop(['Unnamed: 0'], axis=1).dropna()
+desempenho_df296 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df296_.csv').drop(['Unnamed: 0'], axis=1)
+desempenho_df296_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df296_.csv').drop(['Unnamed: 0'], axis=1)
 
-desempenho_df370 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df370_.csv').drop(['Unnamed: 0'], axis=1).dropna()
-desempenho_df370_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df370_.csv').drop(['Unnamed: 0'], axis=1).dropna()
+desempenho_df370 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df370_.csv').drop(['Unnamed: 0'], axis=1)
+desempenho_df370_users = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df370_.csv').drop(['Unnamed: 0'], axis=1)
+
+########################################################################## refatorando dataframe ################################################
+desempenho_df1_r = desempenho_df1.R_DS.dropna()
+cluster0_df1 = desempenho_df1_users["0"].dropna()
+
+
+desempenho_df74_r = desempenho_df74.R_DS.dropna()
+cluster0_df74 = desempenho_df74_users["0"].dropna()
+cluster1_df74 = desempenho_df74_users["1"].dropna()
+cluster2_df74 = desempenho_df74_users["2"].dropna()
+
+desempenho_df148_r = desempenho_df148.R_DS.dropna()
+cluster0_df148 = desempenho_df148_users["0"].dropna()
+cluster1_df148 = desempenho_df148_users["1"].dropna()
+cluster2_df148 = desempenho_df148_users["2"].dropna()
+
+desempenho_df223_r = desempenho_df223.R_DS.dropna()
+cluster0_df223 = desempenho_df223_users["0"].dropna()
+cluster1_df223 = desempenho_df223_users["1"].dropna()
+cluster2_df223 = desempenho_df223_users["2"].dropna()
+
+
+desempenho_df296_r = desempenho_df296.R_DS.dropna()
+cluster0_df296 = desempenho_df296_users["0"].dropna()
+cluster1_df296 = desempenho_df296_users["1"].dropna()
+cluster2_df296 = desempenho_df296_users["2"].dropna()
+
+
+desempenho_df370_r = desempenho_df370.R_DS.dropna()
+cluster0_df370 = desempenho_df370_users["0"].dropna()
+cluster1_df370 = desempenho_df370_users["1"].dropna()
+cluster2_df370 = desempenho_df370_users["2"].dropna()
 
 #####################################################################################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
