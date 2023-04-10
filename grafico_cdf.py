@@ -466,25 +466,26 @@ desempenho_df_geral = pd.concat([desempenho_df1, desempenho_df2,desempenho_df3,d
                                  desempenho_df366, desempenho_df368,desempenho_df369,desempenho_df370,
                                  desempenho_df371, desempenho_df372,desempenho_df373,desempenho_df374])
 
-desempenho_DS = desempenho_df_geral.R_DS
-desempenho_tradicional = desempenho_df_geral.R_tradicional
-desempenho_OMA = desempenho_df_geral.R_OMA
+B = 180*(10**3)*100
+desempenho_DS = desempenho_df_geral.R_DS/B
+desempenho_tradicional = desempenho_df_geral.R_tradicional/B
+desempenho_OMA = desempenho_df_geral.R_OMA/B
 
 
 
 ############################################################################# grafico ###########################################################
-B = 180*(10**3)*100
+
  
 
-count, bins_count = np.histogram(desempenho_DS, bins=100) 
+count, bins_count = np.histogram(desempenho_DS, bins=25) 
 pdf = count / sum(count) 
 cdf = np.cumsum(pdf)
 
-count2, bins_count2 = np.histogram(desempenho_tradicional, bins=100) 
+count2, bins_count2 = np.histogram(desempenho_tradicional, bins=25) 
 pdf2 = count2 / sum(count2) 
 cdf2 = np.cumsum(pdf2) 
 
-count3, bins_count3 = np.histogram(desempenho_OMA, bins=100) 
+count3, bins_count3 = np.histogram(desempenho_OMA, bins=25) 
 pdf3 = count3 / sum(count3) 
 cdf3 = np.cumsum(pdf3) 
 
@@ -494,7 +495,7 @@ plt.plot(bins_count2[1:], cdf2, label="CDF_tradicional")
 plt.plot(bins_count3[1:], cdf3, label="CDF_OMA")
 
 plt.ylabel('F(x)',fontsize=30, weight='bold')
-plt.xlabel('Eficiência s',fontsize=30, weight='bold')
+plt.xlabel('Spectral efficiency [bps/Hz]',fontsize=30, weight='bold')
 
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
