@@ -60,67 +60,50 @@ cluster2_df370 = desempenho_df370_users["2"].dropna()
 
 #####################################################################################################################################################
 
+barWidth =0.05
+
+x_indx = [0.1,0.1+barWidth,0.1+barWidth*2]
 
 
+tempo01_df =  pd.concat([cluster0_df1,desempenho_df1_r])
 
+plt.bar(x_indx,tempo01_df, width=barWidth, label = ['r0','r1','R'] , color = ['#03353E','#0294A5','k'])
 
+plt.xticks([0.1+barWidth],['0'])
+plt.xlabel('index cluster tx',fontsize=30, weight='bold')
+plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
+plt.legend(loc='best',fontsize=30)
 
-'''
+plt.title('Data rate NOMA system',fontsize=30, weight='bold')
+plt.grid(True)
 
+plt.show()
 
+#####################################################################################################################################################
 
-tempo_gp = 0
+tempo02_df = pd.concat([cluster0_df74.sort_values(),cluster1_df74.sort_values(),cluster2_df74.sort_values(),desempenho_df74_r],axis=1)
 
-x_index = range(len(drList[tempo_gp][0]))
-
-
-#color = ['darkblue','b','royalblue','midnightblue','cornflowerblue','dodgerblue','deepskyblue','skyblue','lightskyblue']
 color = ['#03353E','#0294A5','#A79C93','#C1403D','#04060F','#F22F08']
 
-plt.rcParams['xtick.labelsize'] = 30
-plt.rcParams['ytick.labelsize'] = 30
-
-
-plt.figure(figsize=(10,8))
-
-
 lab = []
-max =0
-for i in range(len(drList[tempo_gp][0])):
-    output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
-    if len(output)>max:
-        max = len(output)
-
+max =len(cluster0_df74)
 for i in range(max):
     lab.append('r'+ str(i))
-
-        
-va_final = []
-for r in range(max):
-    variavel_auxiliar=[]
-    for i in range(len(drList[tempo_gp][0])):
-        variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
-    va_final.append(variavel_auxiliar)
-
-
-x1 = np.arange(len(x_index))
-
 
 barWidth = 0.10
-#################### corrigir daqui ###################################
-for l in range(max):
-    plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
+x_index = range(len(desempenho_df74_r))
+x1 = np.arange(len(x_index))
+
+for l in range(max):   
+    plt.bar([x + barWidth for x in x1],tempo02_df.drop(['R_DS'],axis=1).iloc[l], width=barWidth, label = lab[l] , color = color[l])
     x1 = [x + barWidth for x in x1]
+plt.bar([x + barWidth for x in x1],tempo02_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
 
-plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df74_r))],['0','1','2'])
 
-
-
-
-plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
 plt.xlabel('index cluster tx',fontsize=30, weight='bold')
 plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-plt.legend(loc='upper right',fontsize=30)
+plt.legend(loc='best',fontsize=30)
 
 plt.title('Data rate NOMA system',fontsize=30, weight='bold')
 plt.grid(True)
@@ -128,182 +111,126 @@ plt.grid(True)
 plt.show()
 
 
-######################################################################################################################3
-    
-tempo_gp = 10
+
+
+#####################################################################################################################################################
+tempo03_df = pd.concat([cluster0_df148.sort_values(),cluster1_df148.sort_values(),cluster2_df148.sort_values(),desempenho_df148_r],axis=1)
 
 
 lab = []
-max =0
-for i in range(len(drList[tempo_gp][0])):
-    output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
-    if len(output)>max:
-        max = len(output)
-
+max =len(cluster1_df148)
 for i in range(max):
     lab.append('r'+ str(i))
 
-
-va_final = []
-for r in range(max):
-    variavel_auxiliar=[]
-    for i in range(len(drList[tempo_gp][0])):
-        variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
-    va_final.append(variavel_auxiliar)
-
-
-
-x_index = range(len(drList[tempo_gp][0]))
+barWidth = 0.10
+x_index = range(len(desempenho_df148_r))
 x1 = np.arange(len(x_index))
 
-for l in range(max):
-    plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
+for l in range(max):   
+    plt.bar([x + barWidth for x in x1],tempo03_df.drop(['R_DS'],axis=1).iloc[l], width=barWidth, label = lab[l] , color = color[l])
     x1 = [x + barWidth for x in x1]
+plt.bar([x + barWidth for x in x1],tempo03_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
 
-plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df148_r))],['0','1','2'])
 
-
-
-
-plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
 plt.xlabel('index cluster tx',fontsize=30, weight='bold')
 plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-plt.legend(loc='upper right',fontsize=30)
+plt.legend(loc='best',fontsize=30)
 
 plt.title('Data rate NOMA system',fontsize=30, weight='bold')
 plt.grid(True)
 
 plt.show()
-######################################################################################################################3
 
 
-tempo_gp = 20
+
+
+#####################################################################################################################################################
+tempo04_df = pd.concat([cluster0_df223.sort_values(),cluster1_df223.sort_values(),cluster2_df223.sort_values(),desempenho_df223_r],axis=1)
+
+lab = []
+max =len(cluster1_df223)
+for i in range(max):
+    lab.append('r'+ str(i))
+
+barWidth = 0.10
+x_index = range(len(desempenho_df223_r))
+x1 = np.arange(len(x_index))
+
+for l in range(max):   
+    plt.bar([x + barWidth for x in x1],tempo04_df.drop(['R_DS'],axis=1).iloc[l], width=barWidth, label = lab[l] , color = color[l])
+    x1 = [x + barWidth for x in x1]
+plt.bar([x + barWidth for x in x1],tempo04_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
+
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df223_r))],['0','1','2'])
+
+plt.xlabel('index cluster tx',fontsize=30, weight='bold')
+plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
+plt.legend(loc='best',fontsize=30)
+
+plt.title('Data rate NOMA system',fontsize=30, weight='bold')
+plt.grid(True)
+
+plt.show()
+
+
+
+
+#####################################################################################################################################################
+
+tempo05_df = pd.concat([cluster0_df296.sort_values(),cluster1_df296.sort_values(),cluster2_df296.sort_values(),desempenho_df296_r],axis=1)
+
+lab = []
+max =len(cluster0_df296)
+for i in range(max):
+    lab.append('r'+ str(i))
+
+barWidth = 0.10
+x_index = range(len(desempenho_df296_r))
+x1 = np.arange(len(x_index))
+
+for l in range(max):   
+    plt.bar([x + barWidth for x in x1],tempo05_df.drop(['R_DS'],axis=1).iloc[l], width=barWidth, label = lab[l] , color = color[l])
+    x1 = [x + barWidth for x in x1]
+plt.bar([x + barWidth for x in x1],tempo05_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
+
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df296_r))],['0','1','2'])
+
+plt.xlabel('index cluster tx',fontsize=30, weight='bold')
+plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
+plt.legend(loc='best',fontsize=30)
+
+plt.title('Data rate NOMA system',fontsize=30, weight='bold')
+plt.grid(True)
+
+plt.show()
+
+
+
+#####################################################################################################################################################
+
+tempo06_df = pd.concat([cluster0_df370.sort_values(),cluster1_df370.sort_values(),cluster2_df370.sort_values(),desempenho_df370_r],axis=1)
 
 
 lab = []
-max =0
-for i in range(len(drList[tempo_gp][0])):
-    output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
-    if len(output)>max:
-        max = len(output)
-
+max =len(cluster0_df370)
 for i in range(max):
     lab.append('r'+ str(i))
 
-va_final = []
-for r in range(max):
-    variavel_auxiliar=[]
-    for i in range(len(drList[tempo_gp][0])):
-        variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
-    va_final.append(variavel_auxiliar)
-
-
-
-x_index = range(len(drList[tempo_gp][0]))
+barWidth = 0.10
+x_index = range(len(desempenho_df370_r))
 x1 = np.arange(len(x_index))
 
-for l in range(max):
-    plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
+for l in range(max):   
+    plt.bar([x + barWidth for x in x1],tempo06_df.drop(['R_DS'],axis=1).iloc[l], width=barWidth, label = lab[l] , color = color[l])
     x1 = [x + barWidth for x in x1]
+plt.bar([x + barWidth for x in x1],tempo06_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
 
-plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df370_r))],['0','1','2'])
 
-
-
-
-plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
 plt.xlabel('index cluster tx',fontsize=30, weight='bold')
 plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-plt.legend(loc='upper right',fontsize=30)
-
-plt.title('Data rate NOMA system',fontsize=30, weight='bold')
-plt.grid(True)
-
-plt.show()
-######################################################################################################################3
-
-tempo_gp = 30
-
-lab = []
-max =0
-for i in range(len(drList[tempo_gp][0])):
-    output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
-    if len(output)>max:
-        max = len(output)
-
-for i in range(max):
-    lab.append('r'+ str(i))
-
-
-va_final = []
-for r in range(max):
-    variavel_auxiliar=[]
-    for i in range(len(drList[tempo_gp][0])):
-        variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
-    va_final.append(variavel_auxiliar)
-
-
-x_index = range(len(drList[tempo_gp][0]))
-x1 = np.arange(len(x_index))
-
-for l in range(max):
-    plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
-    x1 = [x + barWidth for x in x1]
-
-plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
-
-
-
-
-plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
-plt.xlabel('index cluster tx',fontsize=30, weight='bold')
-plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-plt.legend(loc='upper right',fontsize=30)
-
-plt.title('Data rate NOMA system',fontsize=30, weight='bold')
-plt.grid(True)
-
-plt.show()
-######################################################################################################################3
-
-
-tempo_gp = 40
-
-lab = []
-max =0
-for i in range(len(drList[tempo_gp][0])):
-    output = drList[tempo_gp][0][i][np.isfinite(drList[tempo_gp][0][i])]
-    if len(output)>max:
-        max = len(output)
-
-for i in range(max):
-    lab.append('r'+ str(i))
-
-
-va_final = []
-for r in range(max):
-    variavel_auxiliar=[]
-    for i in range(len(drList[tempo_gp][0])):
-        variavel_auxiliar.append(drList[tempo_gp][0][i][r][0])
-    va_final.append(variavel_auxiliar)
-
-
-x_index = range(len(drList[tempo_gp][0]))
-x1 = np.arange(len(x_index))
-
-for l in range(max):
-    plt.bar([x + barWidth for x in x1],va_final[l], width=barWidth, label = lab[l] , color = color[l])
-    x1 = [x + barWidth for x in x1]
-
-plt.bar([x + barWidth for x in x1],R_global[tempo_gp][0], width=barWidth, label = "R" , color = 'k')
-
-
-
-
-plt.xticks([x + barWidth for x in np.arange(len(x_index))], x_index)
-plt.xlabel('index cluster tx',fontsize=30, weight='bold')
-plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
-plt.legend(loc='upper right',fontsize=30)
+plt.legend(loc='best',fontsize=30)
 
 plt.title('Data rate NOMA system',fontsize=30, weight='bold')
 plt.grid(True)
@@ -311,75 +238,5 @@ plt.grid(True)
 plt.show()
 
 
-######################## Gráfico 2 --  quantidade de clusters no tempo #########################################
 
-max_lcluster = 0
-for i in range(len(R_global)):
-    if len(R_global[i][0]) > max_lcluster:
-        max_lcluster = len(R_global[i][0])
-    
-label_c = []
-for i in range(max_lcluster):
-    label_c.append('Cluster '+ str(i))
-
-
-####### quantidade de clusters em cada tempo
-qtd_c_list = []
-for i in range(len(R_global)):
-    qtd_c_list.append(len(R_global[i][0]))
-
-
-####### número de usuários em cada cluster, em cada tempo
-qtd_clusters=[]
-for j in range(len(drList)):
-    qtd_clusters_aux = []
-    for i in range(len(drList[j][0])):
-        qtd_clusters_aux.append(len(drList[j][0][i][np.isfinite(drList[j][0][i])]))
-    qtd_clusters.append(qtd_clusters_aux)
-        
-
-
-
-# Plota as barras
-plt.figure(figsize=(25,10))
-
-max_qtd_clusters =0
-for i in qtd_clusters:
-    if len(i)>max_qtd_clusters:
-        max_qtd_clusters=len(i)
-
-
-vetorBase = np.zeros((10,max_qtd_clusters))*np.NAN
-var =0
-for i in range(10):
-    for j in range(len(qtd_clusters[var])):
-        vetorBase[i][j] = qtd_clusters[var][j]
-    var =var+5
-    
-cluster =[]
-for m in range(len(vetorBase[0])):
-    aux_v = []
-    for k in range(len(vetorBase)):
-        aux_v.append(vetorBase[k][m])
-    cluster.append(aux_v)
-    
-
-x1 = np.arange(len(cluster[0]))
-for k in range(len(cluster)):
-    plt.bar([x + 0.15 for x in x1], cluster[k], width=0.15, label = label_c[k] , color = color[k])
-    x1 = [x + 0.15 for x in x1]
-
-# coloca o nome no label do eixo x
-tempo = range(0,500,50)
-plt.xticks([x + 0.25 for x in np.arange(len(cluster[0]))], tempo)
-plt.xlabel('Time',fontsize=30, weight='bold')
-plt.ylabel('User quantity in a cluster',fontsize=30, weight='bold')
-
-# inseri uma legenda no gráfico
-plt.legend(loc='upper right',fontsize=30)
-
-plt.title("User in a cluster x Time",fontsize=30, weight='bold')
-
-plt.show()
-
-'''
+#####################################################################################################################################################
