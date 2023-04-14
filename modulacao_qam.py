@@ -1,7 +1,5 @@
 import numpy as np
 
-import numpy as np
-
 def generate_qam_symbols(M):
     if M % 4 != 0:
         raise ValueError("O valor de M deve ser um múltiplo de 4.")
@@ -14,6 +12,6 @@ def generate_qam_symbols(M):
     return symbols.reshape(-1)
 
 # Exemplo de uso
-M = 256 # Modulação 16-QAM
-constellation = generate_qam_symbols(M)
-print(constellation)
+#M = 256 # Modulação 16-QAM
+#constellation = generate_qam_symbols(M)
+#print(constellation)
