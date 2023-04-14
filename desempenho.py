@@ -40,11 +40,17 @@ def data_rate(w,B,Pt,gamaUser,N0,p_list,index):
   return r
 
 
-def sum_data_rate(gamaL,alpha,B,N0,Pt):
+def sum_data_rate(gamaL,alpha,B,N0,Pt,tempo,primeirocluster):
     w =100
     gamaL.sort()
     p_list = alloc_power(gamaL,alpha)
-    #print("p_list: ",p_list)
+    
+    ########################################   gerar aqrquivo ganho x potencia DS   ######################################################
+    if primeirocluster:
+       obs_cluster0 = np.array([p_list,gamaL])
+       obs_cluster0_df = pd.DataFrame(data=obs_cluster0.T,columns=['potencia','ganho'])
+       obs_cluster0_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/observacao_cluster_grafico3/obs_cluster0_df'+ str(tempo) +'_.csv')
+
     
     r_array = np.ones((12,1))
     r_array[:] = float(np.NaN)
@@ -88,7 +94,7 @@ def oma_sum_data_rate(g_canal,B,N0,Pt):
 
 
 
-def resultado(usuarios_gc,y_t,tempo_,alpha,B, N0,Pt):
+def resultado(usuarios_gc,y_t,tempo_,alpha,B, N0,Pt,tempo):
 
     usuarios_f=[]
     y_tempo=[]
@@ -132,6 +138,7 @@ def resultado(usuarios_gc,y_t,tempo_,alpha,B, N0,Pt):
     drList = []
     dr_global = []
     for i in range(len(usuarioRotulos_sort_split)):
+      primeirocluster=False
       gamaL = []
       cluster = usuarioRotulos_sort_split[i]
       ### apenas o primeiro grupo faz OMA
@@ -145,9 +152,12 @@ def resultado(usuarios_gc,y_t,tempo_,alpha,B, N0,Pt):
         drList.append([r])
          
       else:
+        
         for m in range(len(cluster)):
             gamaL.append(cluster[m])
-        r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt)
+        if ((i==0) and not flag_oma) | ((i==1) and flag_oma):
+          primeirocluster = True
+        r,R_global = sum_data_rate(gamaL,alpha,B,N0,Pt,tempo,primeirocluster)
         dr_global.append(R_global)
 
         drList.append(r)

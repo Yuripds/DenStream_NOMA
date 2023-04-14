@@ -366,7 +366,7 @@ class DenStream:
         
             ##### calculando desempenho do meu método
                 # aqui o calculo de desempenho inclui usuários de o-mc para serem transmitidos por OMA   
-            drglobal_mp,drusuarios_mp = dsp.resultado(usuarios_gc,cluster_id,self.t,self.alpha,self.B,self.N0,self.Pt)
+            drglobal_mp,drusuarios_mp = dsp.resultado(usuarios_gc,cluster_id,self.t,self.alpha,self.B,self.N0,self.Pt,self.t)
 
             ##### calculando desempenho do método tradicional
                 # aqui o calculo de desempenho inclui usuários de o-mc para serem transmitidos por OMA  
@@ -375,7 +375,7 @@ class DenStream:
             ##### calculando desempenho do meu método OMA
             drglobal_oma,drusuarios_oma = oma.simulacao_OMA(usuarios_gc,cluster_id,self.B,self.N0,self.Pt) 
 
-            ########### salvar dados em csv
+            ############################################### salvar dados em csv
                 # concatenar os 3 resultados 
             desempenhos_dos_metodos = [drglobal_mp[0],drglobal_t[0],drglobal_oma[0]]
             tam_ref = 0
@@ -396,7 +396,7 @@ class DenStream:
 
             #desempenho_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df'+ str(self.t) +'_.csv')
 
-            #### gerar csv para plotar o desempenho individual de cada usuário do método proposto
+            ############################################### gerar csv para plotar o desempenho individual de cada usuário do método proposto
             desempenhos_dos_usuarios_ref_2 = np.zeros((12,len(drusuarios_mp[0])))*np.NAN
             for i_grupo, grupo in enumerate(drusuarios_mp[0]):
                 for idx_ele_grupo in range(len(grupo)):
