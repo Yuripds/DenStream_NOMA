@@ -49,7 +49,7 @@ def sum_data_rate(gamaL,alpha,B,N0,Pt,tempo,primeirocluster):
     if primeirocluster:
        obs_cluster0 = np.array([p_list,gamaL])
        obs_cluster0_df = pd.DataFrame(data=obs_cluster0.T,columns=['potencia','ganho'])
-       obs_cluster0_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/observacao_cluster_grafico3/obs_cluster0_df'+ str(tempo) +'_.csv')
+       #obs_cluster0_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/observacao_cluster_grafico3/obs_cluster0_df'+ str(tempo) +'_.csv')
 
     
     r_array = np.ones((12,1))
