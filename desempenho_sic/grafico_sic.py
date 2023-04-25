@@ -5,7 +5,7 @@ import seaborn as sns
 from matplotlib import ticker
 from scipy import special
 
-import modulacao_grafico as mgraf
+import desempenho_sic.modulacao_grafico as mgraf
 
 
 sns.set()
