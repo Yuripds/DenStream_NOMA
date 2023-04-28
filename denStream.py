@@ -34,6 +34,8 @@ class DenStream:
         ###### configuração pre-definida
         self.cluster_id_mt={'0':[],'1':[],'2':[],'3':[],'4':[],'5':[]}
         self.flag_end = True
+
+        self.dif = 0
         
        
 
@@ -363,7 +365,7 @@ class DenStream:
                 usuarios_gc.append(omc.getGainChannel())
                 usuario_id.append(omc.getusers_ids())
             
-        
+            
             ##### calculando desempenho do meu método
                 # aqui o calculo de desempenho inclui usuários de o-mc para serem transmitidos por OMA   
             drglobal_mp,drusuarios_mp = dsp.resultado(usuarios_gc,cluster_id,self.t,self.alpha,self.B,self.N0,self.Pt,self.t)
@@ -408,7 +410,25 @@ class DenStream:
 
             #desempenho_usuarios_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df'+ str(self.t) +'_.csv')
             
-           
+            ###############################################  salvar indices no cluster 0 ####################################################
+            nomes_coluna = []
+            for col in range(len(usuario_id[0])):
+                nomes_coluna.append('UE' + str(col+1))
+
+            transposta = list(map(list, zip(*usuario_id[0])))
+            usuario_id_df = pd.DataFrame(data=transposta,columns=nomes_coluna)
+
+
+            #dif_arquivo= range(1,1000)
+            
+            #usuario_id_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/observacao_cluster_indece_grafico3/usuario_id_df'+ str(dif_arquivo[self.dif]) +'_.csv')
+
+            #self.dif=self.dif+1
+
+
+
+
+
 
         if self.t % self.tp == 0 & self.t !=0:  
             self.manutencao()
