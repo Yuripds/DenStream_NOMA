@@ -26,8 +26,8 @@ modelo = DenStream(lambd=0.5, beta=0.4, mu=3,zeta = 5,p_tol=((10**(10*0.1))*(10*
 
 qtd_usuarios = 12
 flag ="metodo_proposto"
-seed_=12
-d,dGlobal = ggc.desvanecimento_global_usuarios(qtd_usuarios,flag,seed_)
+tamanho_v = 10**4
+d,dGlobal = ggc.desvanecimento_global_usuarios(qtd_usuarios,flag,tamanho_v)
 
 
 h=np.zeros((2,qtd_usuarios))
