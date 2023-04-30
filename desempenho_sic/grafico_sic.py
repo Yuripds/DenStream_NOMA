@@ -42,9 +42,30 @@ for i in range(325):
 
 ##### calcular potencias e ganho e salvar em uma estrutura de dados
 
+ganhos = []
+potencias = []
+var_aux = 0
+for i in range(len(dGlobal[0])):
 
+    indice_aux = []
+    for m in indices_list[var_aux]:
+        indice_aux.append(m-1)
 
+    gcanal = dGlobal[indice_aux]
 
+    g_aux = []
+    for j in gcanal:
+        g_aux.append(abs(j[i]))
+
+    ganhos.append(g_aux)
+    potencias.append(alloc_power(g_aux,0.2))
+    
+    var_aux=var_aux+1
+    if var_aux > len(indices_list)-1:
+        var_aux = 0
+
+        
+print("AQUI")
 
 
 
