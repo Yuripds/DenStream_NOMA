@@ -35,6 +35,7 @@ class DenStream:
         self.cluster_id_mt={'0':[],'1':[],'2':[],'3':[],'4':[],'5':[]}
         self.flag_end = True
 
+        self.cluster_count=0
         self.dif = 0
         
        
@@ -292,8 +293,10 @@ class DenStream:
                     
                     self.p_micro_clusters.append(nearest_o_micro_cluster)
             else:
-                qtd_clusters = len(self.p_micro_clusters) + len(self.o_micro_clusters)
-                micro_cluster = MicroCluster(self.lambd, self.t,c_id =qtd_clusters)
+                #qtd_clusters = len(self.p_micro_clusters) + len(self.o_micro_clusters)
+                
+                micro_cluster = MicroCluster(self.lambd, self.t,c_id =self.cluster_count)
+                self.cluster_count = self.cluster_count+1
                 micro_cluster.insert_sample(sample,estimacaoGanhoCanal, eu_id ,weight)
                 self.o_micro_clusters.append(micro_cluster)
 
