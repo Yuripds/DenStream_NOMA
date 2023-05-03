@@ -134,7 +134,17 @@ def subtracao_listas(sinail_01,sinal_02):
     return sinal_subtraido
 
 
-def sic(sinais):
+def divisao_elemt_list(lista, numero):
+
+    divisao = []
+    for l in lista:
+        divisao.append(l/numero)
+
+    return divisao
+
+
+
+def sic(sinais,ganho,potencia):
      
     sinal_separado = []
     for idx,y in enumerate(sinais):
@@ -143,13 +153,20 @@ def sic(sinais):
         else:
             sinal_processado =y
             for m_idx,m in enumerate(sinal_separado):
-                sinal_aux = subtracao_listas(sinal_processado,m/(ganho[m_idx]*potencia[m_idx]))
-                if len(sinais)>2 & m_idx>2:
-                    sinal_processado = sinal_aux
-        
-                sinal_separado.append(sinal_aux)
+                m_filtrado = filtro(m)
+                sinal_aux = subtracao_listas(sinal_processado,divisao_elemt_list(m_filtrado,(ganho[m_idx]*potencia[m_idx])))
+                
+                sinal_processado = sinal_aux
+                if (m_idx == len(sinal_separado)-1):
+                    sinal_separado.append(sinal_aux)
 
     return sinal_separado
+
+
+
+################ ver como vou passar as informações de ganho e potencia para a função SIC
+
+
 
 
 
@@ -166,5 +183,5 @@ def sic(sinais):
 #    1-  Gerar csv com ganho complexo e coeficiente de potencia dos usuários do cluster 0  ------------------ Feito
 #    2-  Implementar modulação 4-QAM ------------------------------------------------------------------------ Feito
 #    3-  Implentar o sinal recebido para diferentes valores de SINR (0 a 25 dB) ----------------------------- Feito
-#    4-  Calculo da BER (tem que implementar o SIC) --------------------------------------------------------- Fazendo
+#    4-  Calculo da BER (tem que implementar o SIC) --------------------------------------------------------- Feito
 #    5-  2 Gráficos 2D do meu método e do método tradicional.  BER x SINR ----------------------------------- 
