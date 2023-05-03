@@ -65,67 +65,89 @@ for i in range(len(dGlobal[0])):
         var_aux = 0
 
         
-print("AQUI")
-
-
-
 
 ############################################ Implementar sinal recebido #######################################################
 
-def get_index_vc(vect):
-    split_list =[]
-    for i in range(len(vect)):
-        if vect[i]==0:
-            split_list.append(i)
-    split_list.append(len(vect))
-    return split_list
-
-
-def gerando_sinal(dataframe,SNR_dB):
+### gerando simbolos
+def gerar_sinais_function(ganhos,potencias, SNR_dB):
     
-    simbolos_tx = []
-    for i in range(len(dataframe)):
-       sinal_com_ruido = mgraf.plot_M_QAM(4,N=100,SNR_dB=SNR_dB) 
-       simbolos_tx.append(abs(sinal_com_ruido).tolist())
+    
+    conjunto_de_sinais = []
+    conjunto_de_sinais_ruido = []
+    for indice_i,i in enumerate(ganhos):
+        #### gerar simbolos para cada usuario
+        simbolos_aux = []
+        for usuarios in range(len(i)):
+            simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=1000))
 
-    sinal_montado = []
-    for m in range(len(simbolos_tx[0])) :
-        usuarios = []
-        for j in simbolos_tx:
-            usuarios.append(j[m])
-        sinal_montado.append(dataframe.iloc[-1].ganho*sum(np.multiply(usuarios,dataframe.potencia).tolist()))
-
-    return sinal_montado
-
-
-# um simbolo por vez?
-def sinal_tx(dataframe,SNR_dB):
-    indices = get_index_vc(dataframe.index)
-
-    sinal=[]
-    init=0
-    for i in range(len(indices)-1):
-        df_split = dataframe.iloc[indices[init]:indices[init+1]]
-        sinal.append(gerando_sinal(df_split,SNR_dB=SNR_dB))
-        init = init + 1
-
-    return sinal
+        #### realiza a multiplicação da potencia com o simbolo
+        sinal_aux = []
+        for sinal in range(len(i)):
+            sinal_aux.append(simbolos_aux[sinal]*potencias[indice_i][sinal])
+        
+        #### sobrepoe os sinais gerados na etapa anterior
+        sinal_sup = []
+        for coluna in range(len(sinal_aux[0])):
+            mult_aux = []
+            for linha in range(len(sinal_aux)):
+                mult_aux.append(sinal_aux[linha][coluna])
+            sinal_sup.append(sum(mult_aux))
 
 
+        #### gerar sinal final
+        sinal_tx = []
+        for tx in i:
+            sinal_tx_aux = []
+            for elmt in sinal_sup:
+                sinal_tx_aux.append(elmt*tx)
+            sinal_tx.append(sinal_tx_aux)
 
-#### de 0 até 25 db de SNR
-SNR = [0,5,10,15,20,25]
+        sinal_tx_ruido=[]
+        for j in sinal_tx:
+            sinal_tx_ruido.append(mgraf.add_ruido(j, SNR_dB))
 
-##################### mudar a estrutura de dados de tx_list
-tx_list = []
-for i in SNR:
-    tx_list.append(sinal_tx(parametros_df_geral,SNR_dB=i))
+        conjunto_de_sinais.append(sinal_tx)
+        conjunto_de_sinais_ruido.append(sinal_tx_ruido)
+
+    return conjunto_de_sinais,conjunto_de_sinais_ruido
+
 
 ############################################## calculo da BER #################################################################
+conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(ganhos,potencias, SNR_dB=100)
 
-########### implementar o SIC
-def sic(sinal):
-    sinal_separado = 1
+print("AQUI")
+
+##### implementar este filtro
+def filtro(sinal):
+
+    sinal_filtrado =[]
+
+    return sinal_filtrado
+
+def subtracao_listas(sinail_01,sinal_02):
+
+    c=[sinail_01,sinal_02]
+    sinal_subtraido = []
+    for coluna in range(len(c[0])):
+        sinal_subtraido.append(c[0][coluna] - c[1][coluna])
+
+    return sinal_subtraido
+
+
+def sic(sinais):
+     
+    sinal_separado = []
+    for idx,y in enumerate(sinais):
+        if idx == 0:
+            sinal_separado.append(filtro(y))
+        else:
+            sinal_processado =y
+            for m_idx,m in enumerate(sinal_separado):
+                sinal_aux = subtracao_listas(sinal_processado,m/(ganho[m_idx]*potencia[m_idx]))
+                if len(sinais)>2 & m_idx>2:
+                    sinal_processado = sinal_aux
+        
+                sinal_separado.append(sinal_aux)
 
     return sinal_separado
 
