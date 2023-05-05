@@ -170,8 +170,19 @@ def demodulador(sinal):
 
 def SER(sinal_recebido,sinal_enviado):
 
+    bits_errados = []
+    for i in range(len(sinal_recebido)):
+        bits_errados.append(sinal_enviado[i] -sinal_recebido[i])
 
-    return erro_simbolo
+    erro_ = 0
+    for i in bits_errados:
+        if i != 0:
+            erro_ = erro_+1
+    
+    erro_de_simbolo = erro_/len(sinal_recebido)
+    
+    return erro_de_simbolo
+
 
 
 
