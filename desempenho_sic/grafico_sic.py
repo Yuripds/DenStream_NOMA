@@ -146,14 +146,43 @@ def sic(sinais,potencia):
 
     return sinal_separado
 
+def demodulador(sinal):
+
+    parte_real = np.real(sinal)
+    parte_imaginaria= np.imag(sinal)
+
+    sinal_demodulado = []
+    for i in range(len(sinal)):
+        if parte_real[i]<0 & parte_imaginaria[i]< 0 :
+            sinal_demodulado ==  (-1 + 1j *-1)
+        if parte_real[i]>=0 & parte_imaginaria[i]> 0 :
+            sinal_demodulado ==  (1 + 1j *1)
+        if parte_real[i]<0 & parte_imaginaria[i]>= 0 :
+            sinal_demodulado ==  (-1 + 1j *1)
+        if parte_real[i]>= 0 & parte_imaginaria[i]< 0 :
+            sinal_demodulado ==  (1 + 1j *-1)
+
+    return sinal_demodulado
+
+
+
+
+
+def SER(sinal_recebido,sinal_enviado):
+
+
+    return erro_simbolo
+
 
 
 conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(ganhos,potencias, SNR_dB=100)
 
 
-sinais_pos_sic = []
-for i in range(len(conjunto_de_sinais)):  
-    sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],ganhos[i],potencias[i]))
+
+
+#sinais_pos_sic = []
+#for i in range(len(conjunto_de_sinais)):  
+#    sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],ganhos[i],potencias[i]))
 
 
 print("AQUI")

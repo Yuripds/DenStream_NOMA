@@ -17,9 +17,15 @@ def plot_M_QAM(M, N=1000):
     bits = np.random.randint(0, 2, N*k)
     bits_reshape = np.reshape(bits, (len(bits)//k,k))
     symbols = np.zeros(N, dtype=np.complex64)
-    for i in range(0, N, k):
+    for i in range(0, N):
         row_idx = int(''.join(map(str, bits_reshape[i][0:(len(bits_reshape[0])//2)])), 2)
         col_idx = int(''.join(map(str, bits_reshape[i][(len(bits_reshape[0])//2):len(bits_reshape)+1] )), 2)
+
+        if row_idx == 0:
+            row_idx =-1
+        if col_idx == 0:
+            col_idx =-1
+
         symbols[i] = (row_idx + 1j * col_idx) / np.sqrt(Eb)
 
     return symbols
@@ -42,3 +48,6 @@ def add_ruido(symbols, SNR_dB=25):
 
     return received_symbols
 
+# teste
+#for i in range(10):
+#    a=plot_M_QAM(M=4, N=1000)
