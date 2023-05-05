@@ -22,6 +22,7 @@ d,dGlobal = ggc.desvanecimento_global_usuarios(qtd_usuarios,flag,tamanho_v)
 ############################################ calcular potencias  ##############################################################
 
 def alloc_power(gamaL,alpha):
+  Pt = ((10**(4.6))*(10**-3))
   p_list = []
 
   den = 0
@@ -29,7 +30,7 @@ def alloc_power(gamaL,alpha):
     den = den + ((abs(gamaL[-1])/abs(gamaL[i]))**(alpha))
 
   for i in range(len(gamaL)):
-    p = ((abs(gamaL[-1])/abs(gamaL[i]))**(alpha)) / den
+    p = Pt* (((abs(gamaL[-1])/abs(gamaL[i]))**(alpha)) / den)
     p_list.append(p)
 
   return p_list
@@ -69,12 +70,12 @@ for i in range(len(dGlobal[0])):
 ############################################ Implementar sinal recebido #######################################################
 
 ### gerando simbolos
-def gerar_sinais_function(ganhos,potencias, SNR_dB):
-    
+def gerar_sinais_function(potencias, SNR_dB):
     
     conjunto_de_sinais = []
     conjunto_de_sinais_ruido = []
-    for indice_i,i in enumerate(ganhos):
+
+    for indice_i,i in enumerate(potencias):
         #### gerar simbolos para cada usuario
         simbolos_aux = []
         for usuarios in range(len(i)):
@@ -83,7 +84,7 @@ def gerar_sinais_function(ganhos,potencias, SNR_dB):
         #### realiza a multiplicação da potencia com o simbolo
         sinal_aux = []
         for sinal in range(len(i)):
-            sinal_aux.append(simbolos_aux[sinal]*potencias[indice_i][sinal])
+            sinal_aux.append(simbolos_aux[sinal]*np.sqrt(potencias[indice_i][sinal]))
         
         #### sobrepoe os sinais gerados na etapa anterior
         sinal_sup = []
@@ -94,36 +95,19 @@ def gerar_sinais_function(ganhos,potencias, SNR_dB):
             sinal_sup.append(sum(mult_aux))
 
 
-        #### gerar sinal final
-        sinal_tx = []
-        for tx in i:
-            sinal_tx_aux = []
-            for elmt in sinal_sup:
-                sinal_tx_aux.append(elmt*tx)
-            sinal_tx.append(sinal_tx_aux)
-
         sinal_tx_ruido=[]
-        for j in sinal_tx:
+        for j in sinal_sup:
             sinal_tx_ruido.append(mgraf.add_ruido(j, SNR_dB))
 
-        conjunto_de_sinais.append(sinal_tx)
+        conjunto_de_sinais.append(sinal_sup)
         conjunto_de_sinais_ruido.append(sinal_tx_ruido)
 
     return conjunto_de_sinais,conjunto_de_sinais_ruido
 
 
 ############################################## calculo da BER #################################################################
-conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(ganhos,potencias, SNR_dB=100)
 
-print("AQUI")
-
-##### implementar este filtro
-def filtro(sinal):
-
-    sinal_filtrado =[]
-
-    return sinal_filtrado
-
+################################################ aparentemente esta tudo certo e finalizado ##################################
 def subtracao_listas(sinail_01,sinal_02):
 
     c=[sinail_01,sinal_02]
@@ -144,27 +128,35 @@ def divisao_elemt_list(lista, numero):
 
 
 
-def sic(sinais,ganho,potencia):
+def sic(sinais,potencia):
      
     sinal_separado = []
     for idx,y in enumerate(sinais):
         if idx == 0:
-            sinal_separado.append(filtro(y))
-        else:
-            sinal_processado =y
-            for m_idx,m in enumerate(sinal_separado):
-                m_filtrado = filtro(m)
-                sinal_aux = subtracao_listas(sinal_processado,divisao_elemt_list(m_filtrado,(ganho[m_idx]*potencia[m_idx])))
-                
-                sinal_processado = sinal_aux
-                if (m_idx == len(sinal_separado)-1):
-                    sinal_separado.append(sinal_aux)
+            sinal_separado.append(divisao_elemt_list(y,np.sqrt(potencia[idx])))
+
+        if idx == 1:
+            sinal_01 = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-1]))
+            sinal_separado.append(divisao_elemt_list(sinal_01,np.sqrt(potencia[idx])))               
+
+        if idx ==2:
+            sinal_02_aux = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-2]))
+            sinal_02 = subtracao_listas(sinal_02_aux,sinal_separado[1]*np.sqrt(potencia[idx-1]))
+            sinal_separado.append(divisao_elemt_list(sinal_02,np.sqrt(potencia[idx])))         
 
     return sinal_separado
 
 
 
-################ ver como vou passar as informações de ganho e potencia para a função SIC
+conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(ganhos,potencias, SNR_dB=100)
+
+
+sinais_pos_sic = []
+for i in range(len(conjunto_de_sinais)):  
+    sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],ganhos[i],potencias[i]))
+
+
+print("AQUI")
 
 
 
@@ -179,9 +171,14 @@ def sic(sinais,ganho,potencia):
 
 
 
+
+
+
+
+
 ################ Próximos passos 
 #    1-  Gerar csv com ganho complexo e coeficiente de potencia dos usuários do cluster 0  ------------------ Feito
 #    2-  Implementar modulação 4-QAM ------------------------------------------------------------------------ Feito
 #    3-  Implentar o sinal recebido para diferentes valores de SINR (0 a 25 dB) ----------------------------- Feito
 #    4-  Calculo da BER (tem que implementar o SIC) --------------------------------------------------------- Feito
-#    5-  2 Gráficos 2D do meu método e do método tradicional.  BER x SINR ----------------------------------- 
+#    5-  2 Gráficos 2D do meu método e do método tradicional.  BER x SINR ----------------------------------- Fazendo
