@@ -227,15 +227,45 @@ for id,erros_c in enumerate(snr_vect):
     for x in erro_aux:
         erro_aux_split.append(np.split(erro_pot_aux,3))
     ####
-    ########################## tenho que calcular o erro médio 
-    for spt in erro_aux_split:
-        for j in spt:
-            faixa_potencias_aux.append([min(j[int(len(j)/2):len(j)]),max(j[int(len(j)/2):len(j)])])
-            faixa_erro_medio = j[0:int(len(j)/2)]
-            erro_media_aux.append(statistics.mean(faixa_erro_medio))
+   ############################# corrigir isso
 
+    for spt in erro_aux_split:
+        
+        aux_p1 = []
+        for j in spt:
+            aux_p1.append([min(j[int(len(j)/2):len(j)]),max(j[int(len(j)/2):len(j)])])
+        
+        aux_e2 =[]
+        for col in range(len(spt[0])):
+            aux_e1 =[]
+            for linha in range(len(spt)):
+                aux_e1.append(spt[linha][col])
+            aux_e2.append(statistics.mean(aux_e1))
+        erro_media_aux.append(aux_e2)
+        faixa_potencias_aux.append(aux_p1)
+   
     faixa_potencias.append(faixa_potencias_aux)
     erro_media.append(erro_media_aux) 
+
+
+curvas=[]
+for faixa in range(3):
+    curvas_aux=[]
+    for i_snr,valor_snr in enumerate(erro_media):
+        curvas_aux.append(valor_snr[faixa][0])
+    curvas.append(curvas_aux)
+    
+    curvas_aux=[]
+    for i_snr,valor_snr in enumerate(erro_media):
+        curvas_aux.append(valor_snr[faixa][1])
+    curvas.append(curvas_aux)
+
+    curvas_aux=[]
+    for i_snr,valor_snr in enumerate(erro_media):
+        curvas_aux.append(valor_snr[faixa][2])
+    curvas.append(curvas_aux)
+    
+
 
 ################### corrigir esse gráfico em seguida
 
