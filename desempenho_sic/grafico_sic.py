@@ -80,12 +80,17 @@ def gerar_sinais_function(potencias, SNR_dB):
     
     conjunto_de_sinais = []
     conjunto_de_sinais_ruido = []
+    conjunto_de_simbolos =[]
 
     for indice_i,i in enumerate(potencias):
         #### gerar simbolos para cada usuario
         simbolos_aux = []
         for usuarios in range(len(i[0])):
             simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=1000))
+        
+        for simb_l in simbolos_aux:
+            conjunto_de_simbolos.append(simb_l)
+
 
         #### realiza a multiplicação da potencia com o simbolo
         sinal_aux = []
@@ -107,7 +112,7 @@ def gerar_sinais_function(potencias, SNR_dB):
         conjunto_de_sinais.append(sinal_sup)
         conjunto_de_sinais_ruido.append(sinal_tx_ruido)
 
-    return conjunto_de_sinais,conjunto_de_sinais_ruido
+    return conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos
 
 
 ############################################## calculo da BER #################################################################
@@ -162,8 +167,8 @@ def sic(sinal,potencia):
             sinal_separado.append(demodulador(divisao_elemt_list(sinal_01,np.sqrt(potencia[idx]))))               
 
         if idx ==2 and potencia[idx]>0:
-            sinal_02_aux = subtracao_listas(sinal,(np.array(sinal_separado[0]*np.sqrt(potencia[idx-2]))).tolist())
-            sinal_02 = subtracao_listas(sinal_02_aux,(np.array(sinal_separado[1]*np.sqrt(potencia[idx-1]))).tolist())
+            sinal_02_aux = subtracao_listas(sinal,(np.array(sinal_separado[0])*np.sqrt(potencia[idx-2])).tolist())
+            sinal_02 = subtracao_listas(sinal_02_aux,(np.array(sinal_separado[1])*np.sqrt(potencia[idx-1])).tolist())
             sinal_separado.append(demodulador(divisao_elemt_list(sinal_02,np.sqrt(potencia[idx]))))         
 
     return sinal_separado
@@ -191,17 +196,18 @@ snr_vect = [5,10,15]
 erro_p_snr = []
 
 for snr in snr_vect:
-    conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(potencias, SNR_dB=snr)
+    conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos = gerar_sinais_function(potencias, SNR_dB=snr)
 
     sinais_pos_sic = []
     for i in range(len(conjunto_de_sinais)):  
         sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],potencias[i][0]))
 
     vetor_erro = []
-    for i_c_sinais,c_sinais in enumerate(conjunto_de_sinais):
+    ##################################################### verificar a partir daqui
+    for i_c_simbolos,c_simbolos in enumerate(conjunto_de_simbolos):
         erro_aux = np.zeros((1,3))*np.NAN
-        for sinal_id,sinal in enumerate(c_sinais):
-           erro_aux[0][sinal_id] = SER(conjunto_de_sinais_ruido[i_c_sinais][sinal_id],sinal)
+        for sinal_id,sinal in enumerate(c_simbolos):
+           erro_aux[0][sinal_id] = SER(sinais_pos_sic[i_c_simbolos][sinal_id],sinal)
         vetor_erro.append(erro_aux[0].tolist())
 
     erro_p_snr.append(vetor_erro)
