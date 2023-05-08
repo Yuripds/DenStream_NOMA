@@ -188,11 +188,11 @@ def SER(sinal_recebido,sinal_enviado):
 
 ##############################################  chamada das funções #############################################################
 
-snr_vect = [5,10,15,20,25,30]
+snr_vect = [5,10,15]
 erro_p_snr = []
 
 for snr in snr_vect:
-    conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(ganhos,potencias, SNR_dB=snr)
+    conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(potencias, SNR_dB=snr)
 
     sinais_pos_sic = []
     for i in range(len(conjunto_de_sinais)):  
@@ -269,10 +269,10 @@ for faixa in range(3):
 
 ################### corrigir esse gráfico em seguida
 
-eu_label = ['EU_01','EU_02','EU_03']
+eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2']
 
-for curva_id,curva in enumerate(erro_media) :
-    plt.plot(snr_vect, curva, label = eu_label[curva], linestyle="-") 
+for curva_id,curva in enumerate(curvas) :
+    plt.plot(snr_vect, curva, label = eu_label[curva_id], linestyle="-") 
 
 plt.legend() 
 plt.show()
