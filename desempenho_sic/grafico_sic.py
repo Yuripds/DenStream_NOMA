@@ -84,13 +84,14 @@ def gerar_sinais_function(potencias, SNR_dB):
     for indice_i,i in enumerate(potencias):
         #### gerar simbolos para cada usuario
         simbolos_aux = []
-        for usuarios in range(len(i)):
+        for usuarios in range(len(i[0])):
             simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=1000))
 
         #### realiza a multiplicação da potencia com o simbolo
         sinal_aux = []
-        for sinal in range(len(i)):
-            sinal_aux.append(simbolos_aux[sinal]*np.sqrt(potencias[indice_i][sinal]))
+        for sinal in range(len(i[0])):
+            if (np.sqrt(potencias[indice_i][0][sinal])) > 0:
+                sinal_aux.append(simbolos_aux[sinal]*np.sqrt(potencias[indice_i][0][sinal]))
         
         #### sobrepoe os sinais gerados na etapa anterior
         sinal_sup = []
@@ -101,9 +102,7 @@ def gerar_sinais_function(potencias, SNR_dB):
             sinal_sup.append(sum(mult_aux))
 
 
-        sinal_tx_ruido=[]
-        for j in sinal_sup:
-            sinal_tx_ruido.append(mgraf.add_ruido(j, SNR_dB))
+        sinal_tx_ruido= mgraf.add_ruido(sinal_sup, SNR_dB)
 
         conjunto_de_sinais.append(sinal_sup)
         conjunto_de_sinais_ruido.append(sinal_tx_ruido)
@@ -139,32 +138,32 @@ def demodulador(sinal):
 
     sinal_demodulado = []
     for i in range(len(sinal)):
-        if parte_real[i]<0 & parte_imaginaria[i]< 0 :
-            sinal_demodulado ==  (-1 + 1j *-1)
-        if parte_real[i]>=0 & parte_imaginaria[i]> 0 :
-            sinal_demodulado ==  (1 + 1j *1)
-        if parte_real[i]<0 & parte_imaginaria[i]>= 0 :
-            sinal_demodulado ==  (-1 + 1j *1)
-        if parte_real[i]>= 0 & parte_imaginaria[i]< 0 :
-            sinal_demodulado ==  (1 + 1j *-1)
+        if parte_real[i]<0 and parte_imaginaria[i]< 0 :
+            sinal_demodulado.append((-1 + 1j *-1))
+        if parte_real[i]>=0 and parte_imaginaria[i]> 0 :
+            sinal_demodulado.append((1 + 1j *1))
+        if parte_real[i]<0 and parte_imaginaria[i]>= 0 :
+            sinal_demodulado.append((-1 + 1j *1))
+        if parte_real[i]>= 0 and parte_imaginaria[i]< 0 :
+            sinal_demodulado.append((1 + 1j *-1))
 
     return sinal_demodulado
 
 
-def sic(sinais,potencia):
+def sic(sinal,potencia):
      
     sinal_separado = []
-    for idx,y in enumerate(sinais):
+    for idx in range(len(potencia)):
         if idx == 0:
-            sinal_separado.append(demodulador(divisao_elemt_list(y,np.sqrt(potencia[idx]))))
+            sinal_separado.append(demodulador(divisao_elemt_list(sinal,np.sqrt(potencia[idx]))))
 
         if idx == 1:
-            sinal_01 = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-1]))
+            sinal_01 = subtracao_listas(sinal,(np.array(sinal_separado[0])*np.sqrt(potencia[idx-1])).tolist())
             sinal_separado.append(demodulador(divisao_elemt_list(sinal_01,np.sqrt(potencia[idx]))))               
 
-        if idx ==2:
-            sinal_02_aux = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-2]))
-            sinal_02 = subtracao_listas(sinal_02_aux,sinal_separado[1]*np.sqrt(potencia[idx-1]))
+        if idx ==2 and potencia[idx]>0:
+            sinal_02_aux = subtracao_listas(sinal,(np.array(sinal_separado[0]*np.sqrt(potencia[idx-2]))).tolist())
+            sinal_02 = subtracao_listas(sinal_02_aux,(np.array(sinal_separado[1]*np.sqrt(potencia[idx-1]))).tolist())
             sinal_separado.append(demodulador(divisao_elemt_list(sinal_02,np.sqrt(potencia[idx]))))         
 
     return sinal_separado
@@ -196,7 +195,7 @@ for snr in snr_vect:
 
     sinais_pos_sic = []
     for i in range(len(conjunto_de_sinais)):  
-        sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],potencias[i]))
+        sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],potencias[i][0]))
 
     vetor_erro = []
     for i_c_sinais,c_sinais in enumerate(conjunto_de_sinais):
