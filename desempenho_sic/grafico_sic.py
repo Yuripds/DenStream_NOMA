@@ -33,7 +33,13 @@ def alloc_power(gamaL,alpha):
     p = Pt* (((abs(gamaL[-1])/abs(gamaL[i]))**(alpha)) / den)
     p_list.append(p)
 
-  return p_list
+  aux = np.zeros((1,3))*np.NAN
+  for id,valor in enumerate(p_list):
+      aux[0][id] = valor
+
+  p_list_final = aux.tolist()
+
+  return p_list_final
 
 
 indices_list = []
@@ -208,14 +214,19 @@ for snr in snr_vect:
 erro_media = []
 for id,erros_c in enumerate(snr_vect):
     erro_media_aux = []
-    for i in range(len(erros_c[0])):
-        erro_aux = []
-        for j in range(len(erros_c)):
-            erro_aux.append(erros_c[j][i])
-        #### aqui eu devo dividir o vetor erro_aux em 3 de acordo com faixas de potencia desse vetor
-
-        ####
-        erro_media_aux.append(statistics.mean([x for x in erro_aux if pd.isnull(x) == False]))
+    
+    erro_pot_aux = []
+    for j in range(len(erros_c)):
+        erro_pot_aux.append([erros_c[j][0],erros_c[j][1],erros_c[j][2],potencias[j][0],potencias[j][1],potencias[j][2]])
+    
+    erro_pot_aux.sort(key = lambda k: k[3])
+    
+    erro_aux_split = []
+    for x in erro_aux:
+        erro_aux_split.append(np.split(erro_pot_aux,3))
+    ####
+    ########################## tenho que calcular o erro médio 
+    erro_media_aux.append(statistics.mean([x for x in erro_aux if pd.isnull(x) == False]))
 
     erro_media.append(erro_media_aux) 
 
