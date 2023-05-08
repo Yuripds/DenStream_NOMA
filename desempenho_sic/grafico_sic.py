@@ -203,7 +203,7 @@ for snr in snr_vect:
         sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],potencias[i][0]))
 
     vetor_erro = []
-    ##################################################### verificar a partir daqui
+    
     for i_c_simbolos,c_simbolos in enumerate(conjunto_de_simbolos):
         erro_aux = np.zeros((1,3))*np.NAN
         for sinal_id,sinal in enumerate(c_simbolos):
@@ -214,6 +214,8 @@ for snr in snr_vect:
 
 
 ################################################ Gráficos ####################################################################
+
+##################################################### verificar a partir daqui
 ########################### criar varios vetores por faixa de potencia 
 #### calculando a média
 erro_media = []
