@@ -220,13 +220,13 @@ for snr in snr_vect:
 #### calculando a média
 erro_media = []
 faixa_potencias = []
-for id,erros_c in enumerate(snr_vect):
+for id,erros_c in enumerate(erro_p_snr):
     erro_media_aux = []
     faixa_potencias_aux =[]
 
     erro_pot_aux = []
     for j in range(len(erros_c)):
-        erro_pot_aux.append([erros_c[j][0],erros_c[j][1],erros_c[j][2],potencias[j][0],potencias[j][1],potencias[j][2]])
+        erro_pot_aux.append([erro_p_snr[id][j][0],erro_p_snr[id][j][1],erro_p_snr[id][j][2],potencias[j][0][0],potencias[j][0][1],potencias[j][0][2]])
     
     erro_pot_aux.sort(key = lambda k: k[3])
     
