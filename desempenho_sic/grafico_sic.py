@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import pandas as pd
 import seaborn as sns
-
+import statistics
 
 import sys
 sys.path.insert(0, '/home/yuripedro/Documentos/Git hub/DenStream_NOMA' )
@@ -126,26 +126,6 @@ def divisao_elemt_list(lista, numero):
 
     return divisao
 
-
-
-def sic(sinais,potencia):
-     
-    sinal_separado = []
-    for idx,y in enumerate(sinais):
-        if idx == 0:
-            sinal_separado.append(divisao_elemt_list(y,np.sqrt(potencia[idx])))
-
-        if idx == 1:
-            sinal_01 = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-1]))
-            sinal_separado.append(divisao_elemt_list(sinal_01,np.sqrt(potencia[idx])))               
-
-        if idx ==2:
-            sinal_02_aux = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-2]))
-            sinal_02 = subtracao_listas(sinal_02_aux,sinal_separado[1]*np.sqrt(potencia[idx-1]))
-            sinal_separado.append(divisao_elemt_list(sinal_02,np.sqrt(potencia[idx])))         
-
-    return sinal_separado
-
 def demodulador(sinal):
 
     parte_real = np.real(sinal)
@@ -165,7 +145,23 @@ def demodulador(sinal):
     return sinal_demodulado
 
 
+def sic(sinais,potencia):
+     
+    sinal_separado = []
+    for idx,y in enumerate(sinais):
+        if idx == 0:
+            sinal_separado.append(demodulador(divisao_elemt_list(y,np.sqrt(potencia[idx]))))
 
+        if idx == 1:
+            sinal_01 = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-1]))
+            sinal_separado.append(demodulador(divisao_elemt_list(sinal_01,np.sqrt(potencia[idx]))))               
+
+        if idx ==2:
+            sinal_02_aux = subtracao_listas(y,sinal_separado[0]*np.sqrt(potencia[idx-2]))
+            sinal_02 = subtracao_listas(sinal_02_aux,sinal_separado[1]*np.sqrt(potencia[idx-1]))
+            sinal_separado.append(demodulador(divisao_elemt_list(sinal_02,np.sqrt(potencia[idx]))))         
+
+    return sinal_separado
 
 
 def SER(sinal_recebido,sinal_enviado):
@@ -184,28 +180,64 @@ def SER(sinal_recebido,sinal_enviado):
     return erro_de_simbolo
 
 
+##############################################  chamada das funções #############################################################
 
+snr_vect = [5,10,15,20,25,30]
+erro_p_snr = []
 
-conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(ganhos,potencias, SNR_dB=100)
+for snr in snr_vect:
+    conjunto_de_sinais,conjunto_de_sinais_ruido = gerar_sinais_function(ganhos,potencias, SNR_dB=snr)
 
+    sinais_pos_sic = []
+    for i in range(len(conjunto_de_sinais)):  
+        sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],potencias[i]))
 
+    vetor_erro = []
+    for i_c_sinais,c_sinais in enumerate(conjunto_de_sinais):
+        erro_aux = np.zeros((1,3))*np.NAN
+        for sinal_id,sinal in enumerate(c_sinais):
+           erro_aux[0][sinal_id] = SER(conjunto_de_sinais_ruido[i_c_sinais][sinal_id],sinal)
+        vetor_erro.append(erro_aux[0].tolist())
 
-
-#sinais_pos_sic = []
-#for i in range(len(conjunto_de_sinais)):  
-#    sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],ganhos[i],potencias[i]))
-
-
-print("AQUI")
-
-
-
-
-
-
+    erro_p_snr.append(vetor_erro)
 
 
 ################################################ Gráficos ####################################################################
+########################### criar varios vetores por faixa de potencia 
+#### calculando a média
+erro_media = []
+for id,erros_c in enumerate(snr_vect):
+    erro_media_aux = []
+    for i in range(len(erros_c[0])):
+        erro_aux = []
+        for j in range(len(erros_c)):
+            erro_aux.append(erros_c[j][i])
+        #### aqui eu devo dividir o vetor erro_aux em 3 de acordo com faixas de potencia desse vetor
+
+        ####
+        erro_media_aux.append(statistics.mean([x for x in erro_aux if pd.isnull(x) == False]))
+
+    erro_media.append(erro_media_aux) 
+
+
+
+
+################### corrigir esse gráfico em seguida
+
+eu_label = ['EU_01','EU_02','EU_03']
+
+for curva_id,curva in enumerate(erro_media) :
+    plt.plot(snr_vect, curva, label = eu_label[curva], linestyle="-") 
+
+plt.legend() 
+plt.show()
+
+
+
+
+
+
+
 
 
 
