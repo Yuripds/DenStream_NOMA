@@ -212,9 +212,11 @@ for snr in snr_vect:
 ########################### criar varios vetores por faixa de potencia 
 #### calculando a média
 erro_media = []
+faixa_potencias = []
 for id,erros_c in enumerate(snr_vect):
     erro_media_aux = []
-    
+    faixa_potencias_aux =[]
+
     erro_pot_aux = []
     for j in range(len(erros_c)):
         erro_pot_aux.append([erros_c[j][0],erros_c[j][1],erros_c[j][2],potencias[j][0],potencias[j][1],potencias[j][2]])
@@ -226,12 +228,14 @@ for id,erros_c in enumerate(snr_vect):
         erro_aux_split.append(np.split(erro_pot_aux,3))
     ####
     ########################## tenho que calcular o erro médio 
-    erro_media_aux.append(statistics.mean([x for x in erro_aux if pd.isnull(x) == False]))
+    for spt in erro_aux_split:
+        for j in spt:
+            faixa_potencias_aux.append([min(j[int(len(j)/2):len(j)]),max(j[int(len(j)/2):len(j)])])
+            faixa_erro_medio = j[0:int(len(j)/2)]
+            erro_media_aux.append(statistics.mean(faixa_erro_medio))
 
+    faixa_potencias.append(faixa_potencias_aux)
     erro_media.append(erro_media_aux) 
-
-
-
 
 ################### corrigir esse gráfico em seguida
 
