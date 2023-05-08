@@ -86,18 +86,18 @@ def gerar_sinais_function(potencias, SNR_dB):
         #### gerar simbolos para cada usuario
         simbolos_aux = []
         for usuarios in range(len(i[0])):
-            simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=1000))
-        
-        for simb_l in simbolos_aux:
-            conjunto_de_simbolos.append(simb_l)
+            if (i[0][usuarios]) > 0:
+                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=1000))
 
-
+        conjunto_de_simbolos.append(simbolos_aux)
+  
         #### realiza a multiplicação da potencia com o simbolo
         sinal_aux = []
         for sinal in range(len(i[0])):
             if (np.sqrt(potencias[indice_i][0][sinal])) > 0:
                 sinal_aux.append(simbolos_aux[sinal]*np.sqrt(potencias[indice_i][0][sinal]))
-        
+                
+ 
         #### sobrepoe os sinais gerados na etapa anterior
         sinal_sup = []
         for coluna in range(len(sinal_aux[0])):
