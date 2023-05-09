@@ -88,7 +88,7 @@ def gerar_sinais_function(potencias, SNR_dB):
         simbolos_aux = []
         for usuarios in range(len(i[0])):
             if (i[0][usuarios]) > 0:
-                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=50))
+                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=10000))
 
         conjunto_de_simbolos.append(simbolos_aux)
   
@@ -193,7 +193,7 @@ def SER(sinal_recebido,sinal_enviado):
 
 ##############################################  chamada das funções #############################################################
 
-snr_vect = [100,200,300]
+snr_vect = [0,5,10]
 erro_p_snr = []
 
 for snr in snr_vect:
