@@ -64,6 +64,7 @@ for i in range(len(dGlobal[0])):
     for j in gcanal:
         g_aux.append(abs(j[i]))
 
+    g_aux.sort()
     ganhos.append(g_aux)
     potencias.append(alloc_power(g_aux,0.2))
     
@@ -154,7 +155,7 @@ def demodulador(sinal):
 
     return sinal_demodulado
 
-######################################### revisar SIC e talvez mudar o demodulador 
+######################################### talvez mudar o demodulador 
 def sic(sinal,potencia):
      
     sinal_separado = []
