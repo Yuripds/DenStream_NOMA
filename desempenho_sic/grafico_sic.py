@@ -214,8 +214,6 @@ for snr in snr_vect:
 
 
 ################################################ Gráficos ####################################################################
-
-##################################################### verificar a partir daqui
 ########################### criar varios vetores por faixa de potencia 
 #### calculando a média
 erro_media = []
@@ -232,18 +230,17 @@ for id,erros_c in enumerate(erro_p_snr):
     
     erro_aux_split = []
     for x in erro_aux:
-        erro_aux_split.append(np.split(erro_pot_aux,3))
-    ####
-   ############################# corrigir isso
+        erro_aux_split.append(np.split(np.array(erro_pot_aux),4))
+  
 
-    for spt in erro_aux_split:
+    for spt in erro_aux_split[0]:
         
         aux_p1 = []
         for j in spt:
             aux_p1.append([min(j[int(len(j)/2):len(j)]),max(j[int(len(j)/2):len(j)])])
         
         aux_e2 =[]
-        for col in range(len(spt[0])):
+        for col in range(int(len(spt[0])/2)):
             aux_e1 =[]
             for linha in range(len(spt)):
                 aux_e1.append(spt[linha][col])
@@ -254,9 +251,10 @@ for id,erros_c in enumerate(erro_p_snr):
     faixa_potencias.append(faixa_potencias_aux)
     erro_media.append(erro_media_aux) 
 
+######################################################## corrigir a partir daqui ######################################################
 
 curvas=[]
-for faixa in range(3):
+for faixa in range(4):
     curvas_aux=[]
     for i_snr,valor_snr in enumerate(erro_media):
         curvas_aux.append(valor_snr[faixa][0])
@@ -276,7 +274,7 @@ for faixa in range(3):
 
 ################### corrigir esse gráfico em seguida
 
-eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2']
+eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2','EU_01_f3','EU_02_f3','EU_03_f3']
 
 for curva_id,curva in enumerate(curvas) :
     plt.plot(snr_vect, curva, label = eu_label[curva_id], linestyle="-") 
