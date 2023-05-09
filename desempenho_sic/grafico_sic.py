@@ -87,7 +87,7 @@ def gerar_sinais_function(potencias, SNR_dB):
         simbolos_aux = []
         for usuarios in range(len(i[0])):
             if (i[0][usuarios]) > 0:
-                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=1000))
+                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=50))
 
         conjunto_de_simbolos.append(simbolos_aux)
   
@@ -154,7 +154,7 @@ def demodulador(sinal):
 
     return sinal_demodulado
 
-
+######################################### revisar SIC e talvez mudar o demodulador 
 def sic(sinal,potencia):
      
     sinal_separado = []
@@ -192,7 +192,7 @@ def SER(sinal_recebido,sinal_enviado):
 
 ##############################################  chamada das funções #############################################################
 
-snr_vect = [5,10,15]
+snr_vect = [100,200,300]
 erro_p_snr = []
 
 for snr in snr_vect:
@@ -303,4 +303,4 @@ plt.show()
 #    2-  Implementar modulação 4-QAM ------------------------------------------------------------------------ Feito
 #    3-  Implentar o sinal recebido para diferentes valores de SINR (0 a 25 dB) ----------------------------- Feito
 #    4-  Calculo da BER (tem que implementar o SIC) --------------------------------------------------------- Feito
-#    5-  2 Gráficos 2D do meu método e do método tradicional.  BER x SINR ----------------------------------- Fazendo
+#    5-  2 Gráficos 2D do meu método e do método tradicional.  BER x SINR ----------------------------------- Feito
