@@ -66,7 +66,7 @@ for i in range(len(dGlobal[0])):
 
     g_aux.sort()
     ganhos.append(g_aux)
-    potencias.append(alloc_power(g_aux,0.35))
+    potencias.append(alloc_power(g_aux,0.3))
     
     var_aux=var_aux+1
     if var_aux > len(indices_list)-1:
@@ -259,6 +259,7 @@ for id,erros_c in enumerate(erro_p_snr):
             aux_e1 =[]
             for linha in range(len(spt)):
                 aux_e1.append(spt[linha][col])
+                ########################################## tratar para quando aparece NAN
             aux_e2.append(statistics.mean(aux_e1))
         erro_media_aux.append(aux_e2)
         faixa_potencias_aux.append(aux_p1)
