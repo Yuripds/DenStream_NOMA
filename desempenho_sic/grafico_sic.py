@@ -207,7 +207,7 @@ def SER(sinal_recebido,sinal_enviado):
 
 ##############################################  chamada das funções #############################################################
 
-snr_vect = [100,5,10]
+snr_vect = [0,5,10]
 erro_p_snr = []
 
 for snr in snr_vect:
