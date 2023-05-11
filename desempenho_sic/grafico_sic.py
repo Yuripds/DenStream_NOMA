@@ -294,6 +294,10 @@ eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','E
 for curva_id,curva in enumerate(curvas) :
     plt.plot(snr_vect, curva, label = eu_label[curva_id], linestyle="-") 
 
+plt.xticks(snr_vect)
+plt.ylabel('BER',fontsize=30, weight='bold')
+plt.xlabel('SNR',fontsize=30, weight='bold')
+
 plt.legend() 
 plt.show()
 
