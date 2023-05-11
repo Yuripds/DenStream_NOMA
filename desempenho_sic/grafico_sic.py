@@ -139,23 +139,37 @@ def divisao_elemt_list(lista, numero):
 
 def demodulador(sinal):
 
-    parte_real = np.real(sinal)
-    parte_imaginaria= np.imag(sinal)
+    #parte_real = np.real(sinal)
+    #parte_imaginaria= np.imag(sinal)
 
     sinal_demodulado = []
+    
+    gabarito = [1+1j , 1-1j ,-1-1j ,-1+1j  ]
     for i in range(len(sinal)):
-        if parte_real[i]<0 and parte_imaginaria[i]< 0 :
-            sinal_demodulado.append((-1 + 1j *-1))
-        if parte_real[i]>=0 and parte_imaginaria[i]> 0 :
-            sinal_demodulado.append((1 + 1j *1))
-        if parte_real[i]<0 and parte_imaginaria[i]>= 0 :
-            sinal_demodulado.append((-1 + 1j *1))
-        if parte_real[i]>= 0 and parte_imaginaria[i]< 0 :
-            sinal_demodulado.append((1 + 1j *-1))
+        dist = []
+        for j in range(len(gabarito)):
+            dist.append(np.linalg.norm(sinal[i]-gabarito[j]))
+
+        menor_dist_idx = 0
+        for k in range(len(dist)):
+            if dist[k] == min(dist):
+                menor_dist_idx = k
+                break
+        
+        sinal_demodulado.append(gabarito[menor_dist_idx])
+     #   if parte_real[i]<0 and parte_imaginaria[i]< 0 :
+     #       sinal_demodulado.append((0 + 1j *0))
+     #   if parte_real[i]>=0 and parte_imaginaria[i]> 0 :
+     #       sinal_demodulado.append((1 + 1j *1))
+     #   if parte_real[i]<0 and parte_imaginaria[i]>= 0 :
+     #       sinal_demodulado.append((0+ 1j *1))
+     #   if parte_real[i]>= 0 and parte_imaginaria[i]< 0 :
+     #       sinal_demodulado.append((1 + 1j *0))
 
     return sinal_demodulado
 
-######################################### talvez mudar o demodulador 
+
+
 def sic(sinal,potencia):
      
     sinal_separado = []

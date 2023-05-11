@@ -28,6 +28,11 @@ def plot_M_QAM(M, N=1000):
         row_idx = gray_decode(int(''.join(map(str, bits_reshape[i][0:(len(bits_reshape[0])//2)])), 2))
         col_idx = gray_decode(int(''.join(map(str, bits_reshape[i][(len(bits_reshape[0])//2):len(bits_reshape)+1] )), 2))
 
+        if row_idx == 0:
+            row_idx = -1
+        if col_idx == 0:
+            col_idx = -1
+
         symbols[i] = (row_idx + 1j * col_idx) / np.sqrt(Eb)
 
     return symbols
@@ -51,5 +56,5 @@ def add_ruido(symbols, SNR_dB=25):
     return received_symbols
 
 # teste
-a=plot_M_QAM(M=4, N=1000)
-print(a)
+#a=plot_M_QAM(M=4, N=1000)
+#print(a)
