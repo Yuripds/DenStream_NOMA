@@ -66,7 +66,7 @@ for i in range(len(dGlobal[0])):
 
     g_aux.sort()
     ganhos.append(g_aux)
-    potencias.append(alloc_power(g_aux,0.3))
+    potencias.append(alloc_power(g_aux,0.35))
     
     var_aux=var_aux+1
     if var_aux > len(indices_list)-1:
