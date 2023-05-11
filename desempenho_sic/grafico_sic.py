@@ -66,7 +66,7 @@ for i in range(len(dGlobal[0])):
 
     g_aux.sort()
     ganhos.append(g_aux)
-    potencias.append(alloc_power(g_aux,0.2))
+    potencias.append(alloc_power(g_aux,0.3))
     
     var_aux=var_aux+1
     if var_aux > len(indices_list)-1:
@@ -266,7 +266,6 @@ for id,erros_c in enumerate(erro_p_snr):
     faixa_potencias.append(faixa_potencias_aux)
     erro_media.append(erro_media_aux) 
 
-######################################################## corrigir a partir daqui ######################################################
 
 curvas=[]
 for faixa in range(4):
@@ -304,22 +303,3 @@ plt.show()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-################ Próximos passos 
-#    1-  Gerar csv com ganho complexo e coeficiente de potencia dos usuários do cluster 0  ------------------ Feito
-#    2-  Implementar modulação 4-QAM ------------------------------------------------------------------------ Feito
-#    3-  Implentar o sinal recebido para diferentes valores de SINR (0 a 25 dB) ----------------------------- Feito
-#    4-  Calculo da BER (tem que implementar o SIC) --------------------------------------------------------- Feito
-#    5-  2 Gráficos 2D do meu método e do método tradicional.  BER x SINR ----------------------------------- Feito
