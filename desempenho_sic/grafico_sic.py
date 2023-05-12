@@ -259,8 +259,16 @@ for id,erros_c in enumerate(erro_p_snr):
             aux_e1 =[]
             for linha in range(len(spt)):
                 aux_e1.append(spt[linha][col])
-                ########################################## tratar para quando aparece NAN
-            aux_e2.append(statistics.mean(aux_e1))
+            if np.isnan(aux_e1).any():
+                aux_e1_array = np.array(aux_e1)
+                aux_e1_no_nan = aux_e1_array[np.logical_not(np.isnan(aux_e1))]
+                aux_e1_no_nan = aux_e1_no_nan.tolist()
+                if len(aux_e1_no_nan)>0:
+                    aux_e2.append(statistics.mean(aux_e1_no_nan))
+                else:
+                    aux_e2.append(np.NaN)
+            else:
+                aux_e2.append(statistics.mean(aux_e1))
         erro_media_aux.append(aux_e2)
         faixa_potencias_aux.append(aux_p1)
    
@@ -295,8 +303,8 @@ for curva_id,curva in enumerate(curvas) :
     plt.plot(snr_vect, curva, label = eu_label[curva_id], linestyle="-") 
 
 plt.xticks(snr_vect)
-plt.ylabel('BER',fontsize=30, weight='bold')
-plt.xlabel('SNR',fontsize=30, weight='bold')
+plt.ylabel('Symbol Error Rate',fontsize=30, weight='bold')
+plt.xlabel('Es/No, dB',fontsize=30, weight='bold')
 
 plt.legend() 
 plt.show()
