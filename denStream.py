@@ -414,12 +414,12 @@ class DenStream:
             #desempenho_usuarios_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho_individual_DS/desempenho_usuario_df'+ str(self.t) +'_.csv')
             
             ###############################################  salvar indices no cluster 0 ####################################################
-            nomes_coluna = []
-            for col in range(len(usuario_id[0])):
-                nomes_coluna.append('UE' + str(col+1))
+            #nomes_coluna = []
+            #for col in range(len(usuario_id[0])):
+            #    nomes_coluna.append('UE' + str(col+1))
 
-            transposta = list(map(list, zip(*usuario_id[0])))
-            usuario_id_df = pd.DataFrame(data=transposta,columns=nomes_coluna)
+            #transposta = list(map(list, zip(*usuario_id[0])))
+            #usuario_id_df = pd.DataFrame(data=transposta,columns=nomes_coluna)
 
 
             #dif_arquivo= range(1,1000)
