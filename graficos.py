@@ -35,17 +35,23 @@ desempenho_df74_r = desempenho_df74.R_DS.dropna()
 cluster0_df74 = desempenho_df74_users["0"].dropna()
 cluster1_df74 = desempenho_df74_users["1"].dropna()
 cluster2_df74 = desempenho_df74_users["2"].dropna()
+cluster3_df74 = desempenho_df74_users["3"].dropna()
+cluster4_df74 = desempenho_df74_users["4"].dropna()
+cluster5_df74 = desempenho_df74_users["5"].dropna()
 
 desempenho_df148_r = desempenho_df148.R_DS.dropna()
 cluster0_df148 = desempenho_df148_users["0"].dropna()
 cluster1_df148 = desempenho_df148_users["1"].dropna()
 cluster2_df148 = desempenho_df148_users["2"].dropna()
+cluster3_df148 = desempenho_df148_users["3"].dropna()
+cluster4_df148 = desempenho_df148_users["4"].dropna()
 
 desempenho_df223_r = desempenho_df223.R_DS.dropna()
 cluster0_df223 = desempenho_df223_users["0"].dropna()
 cluster1_df223 = desempenho_df223_users["1"].dropna()
 cluster2_df223 = desempenho_df223_users["2"].dropna()
-
+cluster3_df223 = desempenho_df223_users["3"].dropna()
+cluster4_df223 = desempenho_df223_users["4"].dropna()
 
 desempenho_df296_r = desempenho_df296.R_DS.dropna()
 cluster0_df296 = desempenho_df296_users["0"].dropna()
@@ -57,6 +63,8 @@ desempenho_df370_r = desempenho_df370.R_DS.dropna()
 cluster0_df370 = desempenho_df370_users["0"].dropna()
 cluster1_df370 = desempenho_df370_users["1"].dropna()
 cluster2_df370 = desempenho_df370_users["2"].dropna()
+cluster3_df370 = desempenho_df370_users["3"].dropna()
+cluster4_df370 = desempenho_df370_users["4"].dropna()
 
 #####################################################################################################################################################
 
