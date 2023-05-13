@@ -95,7 +95,7 @@ tempo02_df = pd.concat([cluster0_df74.sort_values(),cluster1_df74.sort_values(),
 color = ['#03353E','#0294A5','#A79C93','#C1403D','#04060F','#F22F08']
 
 lab = []
-max =len(cluster0_df74)
+max =len(cluster1_df74)
 for i in range(max):
     lab.append('r'+ str(i))
 
