@@ -70,7 +70,6 @@ desempenho_df58 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA
 desempenho_df59 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df59_.csv').drop(['Unnamed: 0'], axis=1).mean() 
 
 desempenho_df60 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df60_.csv').drop(['Unnamed: 0'], axis=1).mean() 
-desempenho_df62 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df62_.csv').drop(['Unnamed: 0'], axis=1).mean() 
 desempenho_df63 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df63_.csv').drop(['Unnamed: 0'], axis=1).mean() 
 desempenho_df64 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df64_.csv').drop(['Unnamed: 0'], axis=1).mean() 
 desempenho_df65 = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/desempenho/desempenho_df65_.csv').drop(['Unnamed: 0'], axis=1).mean() 
@@ -412,7 +411,7 @@ desempenho_df_geral = pd.concat([desempenho_df1 , desempenho_df2 , desempenho_df
                                 desempenho_df45 ,desempenho_df47 ,desempenho_df48 ,desempenho_df49 ,
                                 desempenho_df50 ,desempenho_df51 ,desempenho_df52 ,desempenho_df53 ,
                                 desempenho_df55 ,desempenho_df56 ,desempenho_df57 ,desempenho_df58 ,
-                                desempenho_df59 ,desempenho_df60 ,desempenho_df62 ,desempenho_df63 ,
+                                desempenho_df59 ,desempenho_df60 ,desempenho_df63 ,
                                 desempenho_df64 ,desempenho_df65 ,desempenho_df66 ,desempenho_df67 ,
                                 desempenho_df68 ,desempenho_df70 ,desempenho_df71 ,desempenho_df72 ,
                                 desempenho_df73 ,desempenho_df74 ,desempenho_df75 ,desempenho_df77 ,
