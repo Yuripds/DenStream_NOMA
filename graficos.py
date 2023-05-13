@@ -89,7 +89,8 @@ plt.show()
 
 #####################################################################################################################################################
 
-tempo02_df = pd.concat([cluster0_df74.sort_values(),cluster1_df74.sort_values(),cluster2_df74.sort_values(),desempenho_df74_r],axis=1)
+tempo02_df = pd.concat([cluster0_df74.sort_values(),cluster1_df74.sort_values(),cluster2_df74.sort_values(),cluster3_df74.sort_values()
+                        ,cluster4_df74.sort_values(),cluster5_df74.sort_values(),desempenho_df74_r],axis=1)
 
 color = ['#03353E','#0294A5','#A79C93','#C1403D','#04060F','#F22F08']
 
@@ -107,7 +108,7 @@ for l in range(max):
     x1 = [x + barWidth for x in x1]
 plt.bar([x + barWidth for x in x1],tempo02_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
 
-plt.xticks([x + barWidth for x in np.arange(len(desempenho_df74_r))],['0','1','2'])
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df74_r))],['0','1','2','3','4','5'])
 
 plt.xlabel('index cluster tx',fontsize=30, weight='bold')
 plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
@@ -122,7 +123,8 @@ plt.show()
 
 
 #####################################################################################################################################################
-tempo03_df = pd.concat([cluster0_df148.sort_values(),cluster1_df148.sort_values(),cluster2_df148.sort_values(),desempenho_df148_r],axis=1)
+tempo03_df = pd.concat([cluster0_df148.sort_values(),cluster1_df148.sort_values(),cluster2_df148.sort_values(),
+                        cluster3_df148.sort_values(),cluster4_df148.sort_values(),desempenho_df148_r],axis=1)
 
 
 lab = []
@@ -139,7 +141,7 @@ for l in range(max):
     x1 = [x + barWidth for x in x1]
 plt.bar([x + barWidth for x in x1],tempo03_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
 
-plt.xticks([x + barWidth for x in np.arange(len(desempenho_df148_r))],['0','1','2'])
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df148_r))],['0','1','2','3','4'])
 
 plt.xlabel('index cluster tx',fontsize=30, weight='bold')
 plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
@@ -154,7 +156,8 @@ plt.show()
 
 
 #####################################################################################################################################################
-tempo04_df = pd.concat([cluster0_df223.sort_values(),cluster1_df223.sort_values(),cluster2_df223.sort_values(),desempenho_df223_r],axis=1)
+tempo04_df = pd.concat([cluster0_df223.sort_values(),cluster1_df223.sort_values(),cluster2_df223.sort_values(),
+                        cluster3_df223.sort_values(),cluster4_df223.sort_values(),desempenho_df223_r],axis=1)
 
 lab = []
 max =len(cluster1_df223)
@@ -170,7 +173,7 @@ for l in range(max):
     x1 = [x + barWidth for x in x1]
 plt.bar([x + barWidth for x in x1],tempo04_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
 
-plt.xticks([x + barWidth for x in np.arange(len(desempenho_df223_r))],['0','1','2'])
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df223_r))],['0','1','2','3','4'])
 
 plt.xlabel('index cluster tx',fontsize=30, weight='bold')
 plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
@@ -217,7 +220,8 @@ plt.show()
 
 #####################################################################################################################################################
 
-tempo06_df = pd.concat([cluster0_df370.sort_values(),cluster1_df370.sort_values(),cluster2_df370.sort_values(),desempenho_df370_r],axis=1)
+tempo06_df = pd.concat([cluster0_df370.sort_values(),cluster1_df370.sort_values(),cluster2_df370.sort_values(),
+                        cluster3_df370.sort_values(),cluster4_df370.sort_values(),desempenho_df370_r],axis=1)
 
 
 lab = []
@@ -234,7 +238,7 @@ for l in range(max):
     x1 = [x + barWidth for x in x1]
 plt.bar([x + barWidth for x in x1],tempo06_df['R_DS'].dropna(), width=barWidth, label = "R" , color = 'k')
 
-plt.xticks([x + barWidth for x in np.arange(len(desempenho_df370_r))],['0','1','2'])
+plt.xticks([x + barWidth for x in np.arange(len(desempenho_df370_r))],['0','1','2','3','4'])
 
 plt.xlabel('index cluster tx',fontsize=30, weight='bold')
 plt.ylabel('Throughput (bps)',fontsize=30, weight='bold')
