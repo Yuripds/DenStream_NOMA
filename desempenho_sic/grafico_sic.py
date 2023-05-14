@@ -294,18 +294,18 @@ for faixa in range(4):
     curvas.append(curvas_aux)
     
 
-
-################### corrigir esse gráfico em seguida
-
 eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2','EU_01_f3','EU_02_f3','EU_03_f3']
 marcadores = ["o","v","P","*","X","D","d","^","<",">","1","4"]
+plt.yscale("log")
 for curva_id,curva in enumerate(curvas) :
-    if len(curva)>0:
-        plt.plot(snr_vect, curva, label = eu_label[curva_id], linestyle="--",marker=marcadores[curva_id]) 
+    if (curva_id not in [2,5,8,11] ):
+        if len(curva)>0:
+            plt.plot(snr_vect, curva, label = eu_label[curva_id], linestyle="--",marker=marcadores[curva_id]) 
+        else:
+            continue
     else:
         continue 
     
-
 plt.xticks(snr_vect)
 plt.ylabel('Symbol Error Rate',fontsize=30, weight='bold')
 plt.xlabel('Es/No, dB',fontsize=30, weight='bold')
