@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 import statistics
+import joblib
+from joblib import Parallel, delayed
 
 import sys
 sys.path.insert(0, '/home/yuripedro/Documentos/Git hub/DenStream_NOMA' )
@@ -207,6 +209,7 @@ def SER(sinal_recebido,sinal_enviado):
 
 ##############################################  chamada das funções #############################################################
 
+
 snr_vect = [0,5,10,15,20,25]
 erro_p_snr = []
 
@@ -228,6 +231,8 @@ for snr in snr_vect:
     erro_p_snr.append(vetor_erro)
 
 
+
+
 ################################################ Gráficos ####################################################################
 ########################### criar varios vetores por faixa de potencia 
 #### calculando a média
@@ -243,12 +248,13 @@ for id,erros_c in enumerate(erro_p_snr):
     
     erro_pot_aux.sort(key = lambda k: k[3])
     
-    erro_aux_split = []
-    for x in erro_aux:
-        erro_aux_split.append(np.split(np.array(erro_pot_aux),4))
+
+    #erro_aux_split = []
+    #for x in erro_aux:
+    erro_aux_split=np.split(np.array(erro_pot_aux),4)
   
 
-    for spt in erro_aux_split[0]:
+    for spt in erro_aux_split:
         
         aux_p1 = []
         for j in spt:
@@ -292,7 +298,8 @@ for faixa in range(4):
     for i_snr,valor_snr in enumerate(erro_media):
         curvas_aux.append(valor_snr[faixa][2])
     curvas.append(curvas_aux)
-    
+
+
 
 eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2','EU_01_f3','EU_02_f3','EU_03_f3']
 marcadores = ["o","v","P","*","X","D","d","^","<",">","1","4"]
