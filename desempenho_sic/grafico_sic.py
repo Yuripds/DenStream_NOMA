@@ -211,6 +211,7 @@ def SER(sinal_recebido,sinal_enviado):
 
 
 snr_vect = [0,5,10,15,20,25]
+#snr_vect = [0,5,10]
 erro_p_snr = []
 
 for snr in snr_vect:
@@ -303,10 +304,12 @@ for faixa in range(4):
 
 eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2','EU_01_f3','EU_02_f3','EU_03_f3']
 marcadores = ["o","v","P","*","X","D","d","^","<",">","1","4"]
-plt.yscale("log")
+
+
 for curva_id,curva in enumerate(curvas) :
     if (curva_id not in [2,5,8,11] ):
         if len(curva)>0:
+            plt.yscale("log",base=10)
             plt.plot(snr_vect, curva, label = eu_label[curva_id], linestyle="--",marker=marcadores[curva_id]) 
         else:
             continue
