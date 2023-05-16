@@ -79,7 +79,7 @@ for i in range(len(dGlobal[0])):
 ############################################ Implementar sinal recebido #######################################################
 
 ### gerando simbolos
-def gerar_sinais_function(potencias, SNR_dB):
+def gerar_sinais_function(potencias,ganhos, SNR_dB):
     
     conjunto_de_sinais = []
     conjunto_de_sinais_ruido = []
@@ -109,11 +109,15 @@ def gerar_sinais_function(potencias, SNR_dB):
                 mult_aux.append(sinal_aux[linha][coluna])
             sinal_sup.append(sum(mult_aux))
 
+        sinal_sup_aux  = []
+        sinal_sup_aux_ruido = []
+        for g in ganhos[indice_i]:
+            sinal_sup_aux.append(np.multiply(sinal_sup, g).tolist())
+            sinal_sup_aux_ruido.append(mgraf.add_ruido(np.multiply(sinal_sup, g).tolist(), SNR_dB))
 
-        sinal_tx_ruido= mgraf.add_ruido(sinal_sup, SNR_dB)
-
-        conjunto_de_sinais.append(sinal_sup)
-        conjunto_de_sinais_ruido.append(sinal_tx_ruido)
+         
+        conjunto_de_sinais.append(sinal_sup_aux)
+        conjunto_de_sinais_ruido.append(sinal_sup_aux_ruido)
 
     return conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos
 
@@ -141,9 +145,6 @@ def divisao_elemt_list(lista, numero):
 
 def demodulador(sinal):
 
-    #parte_real = np.real(sinal)
-    #parte_imaginaria= np.imag(sinal)
-
     sinal_demodulado = []
     
     gabarito = [1+1j , 1-1j ,-1-1j ,-1+1j  ]
@@ -159,35 +160,29 @@ def demodulador(sinal):
                 break
         
         sinal_demodulado.append(gabarito[menor_dist_idx])
-     #   if parte_real[i]<0 and parte_imaginaria[i]< 0 :
-     #       sinal_demodulado.append((0 + 1j *0))
-     #   if parte_real[i]>=0 and parte_imaginaria[i]> 0 :
-     #       sinal_demodulado.append((1 + 1j *1))
-     #   if parte_real[i]<0 and parte_imaginaria[i]>= 0 :
-     #       sinal_demodulado.append((0+ 1j *1))
-     #   if parte_real[i]>= 0 and parte_imaginaria[i]< 0 :
-     #       sinal_demodulado.append((1 + 1j *0))
 
     return sinal_demodulado
 
 
 
-def sic(sinal,potencia):
-     
+def sic(sinal,ganho,potencia):
+    
     sinal_separado = []
     for idx in range(len(potencia)):
         if idx == 0:
-            sinal_separado.append(demodulador(divisao_elemt_list(sinal,np.sqrt(potencia[idx]))))
+            sinal_separado.append(demodulador(divisao_elemt_list(sinal[idx],np.sqrt(potencia[idx])*ganho[idx] )))
 
         if idx == 1:
-            sinal_01 = subtracao_listas(sinal,(np.array(sinal_separado[0])*np.sqrt(potencia[idx-1])).tolist())
+            sp = demodulador(divisao_elemt_list(sinal[idx],np.sqrt(potencia[idx-1])*ganho[idx] ))
+            sinal_01 = subtracao_listas(sinal[idx],(np.array(sp)*np.sqrt(potencia[idx-1])).tolist())
             sinal_separado.append(demodulador(divisao_elemt_list(sinal_01,np.sqrt(potencia[idx]))))               
 
         if idx ==2 and potencia[idx]>0:
-            sinal_02_aux = subtracao_listas(sinal,(np.array(sinal_separado[0])*np.sqrt(potencia[idx-2])).tolist())
-            sinal_02 = subtracao_listas(sinal_02_aux,(np.array(sinal_separado[1])*np.sqrt(potencia[idx-1])).tolist())
-            sinal_separado.append(demodulador(divisao_elemt_list(sinal_02,np.sqrt(potencia[idx]))))         
-
+            sp_1 = demodulador(divisao_elemt_list(sinal[idx],np.sqrt(potencia[idx-2])*ganho[idx]))
+            sp_2 =demodulador(divisao_elemt_list(subtracao_listas(sinal[idx],(np.array(sp_1)*np.sqrt(potencia[idx-2])).tolist()),np.sqrt(potencia[idx-1])) )        
+            sp_3 = subtracao_listas(subtracao_listas(sinal[idx],(np.array(sp_1)*np.sqrt(potencia[idx-1])).tolist()) , (np.array(sp_2)*np.sqrt(potencia[idx-2])).tolist())
+            sinal_separado.append(demodulador(divisao_elemt_list(sp_3,np.sqrt(potencia[idx]))))
+        
     return sinal_separado
 
 
@@ -215,11 +210,11 @@ snr_vect = [0,5,10,15,20,25]
 erro_p_snr = []
 
 for snr in snr_vect:
-    conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos = gerar_sinais_function(potencias, SNR_dB=snr)
+    conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos = gerar_sinais_function(potencias,ganhos, SNR_dB=snr)
 
     sinais_pos_sic = []
     for i in range(len(conjunto_de_sinais)):  
-        sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],potencias[i][0]))
+        sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],ganhos[i],potencias[i][0]))
 
     vetor_erro = []
     
@@ -249,9 +244,6 @@ for id,erros_c in enumerate(erro_p_snr):
     
     erro_pot_aux.sort(key = lambda k: k[3])
     
-
-    #erro_aux_split = []
-    #for x in erro_aux:
     erro_aux_split=np.split(np.array(erro_pot_aux),4)
   
 
