@@ -207,8 +207,8 @@ def SER(sinal_recebido,sinal_enviado):
 ##############################################  chamada das funções #############################################################
 
 
-#snr_vect = [0,5,10,15,20,25]
-snr_vect = [0,5]
+snr_vect = [0,5,10,15,20,25]
+#snr_vect = [0,5]
 
 #erro_p_snr = []
 #for snr in snr_vect:
@@ -299,9 +299,12 @@ for faixa in range(4):
         curvas_aux.append(valor_snr[faixa][2])
     curvas.append(curvas_aux)
 
-
-
 eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2','EU_01_f3','EU_02_f3','EU_03_f3']
+curvas_array = np.array(curvas).T
+curvas_df = pd.DataFrame(data=curvas_array,columns=eu_label)
+curvas_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/curvas_df.csv')
+
+
 marcadores = ["o","v","P","*","X","D","d","^","<",">","1","4"]
 
 
