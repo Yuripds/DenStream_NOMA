@@ -5,6 +5,8 @@ import seaborn as sns
 import statistics
 import joblib
 from joblib import Parallel, delayed
+import multiprocessing
+
 
 import sys
 sys.path.insert(0, '/home/yuripedro/Documentos/Git hub/DenStream_NOMA' )
@@ -90,7 +92,7 @@ def gerar_sinais_function(potencias,ganhos, SNR_dB):
         simbolos_aux = []
         for usuarios in range(len(i[0])):
             if (i[0][usuarios]) > 0:
-                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=1000))
+                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=10**3))
 
         conjunto_de_simbolos.append(simbolos_aux)
   
@@ -205,11 +207,12 @@ def SER(sinal_recebido,sinal_enviado):
 ##############################################  chamada das funções #############################################################
 
 
-snr_vect = [0,5,10,15,20,25]
-#snr_vect = [0,5,10]
-erro_p_snr = []
+#snr_vect = [0,5,10,15,20,25]
+snr_vect = [0,5]
 
-for snr in snr_vect:
+#erro_p_snr = []
+#for snr in snr_vect:
+def error_calc(snr):
     conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos = gerar_sinais_function(potencias,ganhos, SNR_dB=snr)
 
     sinais_pos_sic = []
@@ -217,17 +220,21 @@ for snr in snr_vect:
         sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],ganhos[i],potencias[i][0]))
 
     vetor_erro = []
-    
+
     for i_c_simbolos,c_simbolos in enumerate(conjunto_de_simbolos):
         erro_aux = np.zeros((1,3))*np.NAN
         for sinal_id,sinal in enumerate(c_simbolos):
-           erro_aux[0][sinal_id] = SER(sinais_pos_sic[i_c_simbolos][sinal_id],sinal)
+            erro_aux[0][sinal_id] = SER(sinais_pos_sic[i_c_simbolos][sinal_id],sinal)
         vetor_erro.append(erro_aux[0].tolist())
 
-    erro_p_snr.append(vetor_erro)
+    #erro_p_snr.append(vetor_erro)
+    
+    return vetor_erro
 
 
-
+pool_obj = multiprocessing.Pool()
+with pool_obj:
+    erro_p_snr=pool_obj.map(error_calc,snr_vect)
 
 ################################################ Gráficos ####################################################################
 ########################### criar varios vetores por faixa de potencia 
