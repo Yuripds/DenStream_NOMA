@@ -46,10 +46,7 @@ def alloc_power(gamaL,alpha):
   return p_list_final
 
 
-indices_list = []
-for i in range(325):
-    indices_df = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/observacao_cluster_indece_grafico3/usuario_id_df'+str(i+1)+'_.csv').drop(['Unnamed: 0'], axis=1)
-    indices_list.append(indices_df.iloc[0].tolist())
+indices_list = [0,1]
 
 ##### calcular potencias e ganho e salvar em uma estrutura de dados
 
@@ -58,11 +55,7 @@ potencias = []
 var_aux = 0
 for i in range(len(dGlobal[0])):
 
-    indice_aux = []
-    for m in indices_list[var_aux]:
-        indice_aux.append(m-1)
-
-    gcanal = dGlobal[indice_aux]
+    gcanal = dGlobal[indices_list]
 
     g_aux = []
     for j in gcanal:
