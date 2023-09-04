@@ -7,7 +7,7 @@ import joblib
 from multiprocessing import Pool
 
 import sys
-sys.path.insert(0, '/home/yuripedro/Documentos/Git hub/DenStream_NOMA' )
+sys.path.insert(0, '/home/yuri/Documentos/github/DenStream_NOMA' )
 import geradorGanhoCanal as ggc
 
 
@@ -46,7 +46,7 @@ def alloc_power(gamaL,alpha):
 
 indices_list = []
 for i in range(325):
-    indices_df = pd.read_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/observacao_cluster_indece_grafico3/usuario_id_df'+str(i+1)+'_.csv').drop(['Unnamed: 0'], axis=1)
+    indices_df = pd.read_csv('/home/yuri/Documentos/github/DenStream_NOMA/observacao_cluster_indece_grafico3/usuario_id_df'+str(i+1)+'_.csv').drop(['Unnamed: 0'], axis=1)
     indices_list.append(indices_df.iloc[0].tolist())
 
 ##### calcular potencias e ganho e salvar em uma estrutura de dados
@@ -303,7 +303,7 @@ if __name__ == "__main__":
     eu_label = ['EU_01_f0','EU_02_f0','EU_03_f0','EU_01_f1','EU_02_f1','EU_03_f1','EU_01_f2','EU_02_f2','EU_03_f2','EU_01_f3','EU_02_f3','EU_03_f3']
     curvas_array = np.array(curvas).T
     curvas_df = pd.DataFrame(data=curvas_array,columns=eu_label)
-    curvas_df.to_csv('/home/yuripedro/Documentos/Git hub/DenStream_NOMA/curvas_df.csv')
+    curvas_df.to_csv('/home/yuri/Documentos/github/DenStream_NOMA/curvas_df.csv')
 
 
     marcadores = ["o","v","P","*","X","D","d","^","<",">","1","4"]
