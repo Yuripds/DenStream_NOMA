@@ -5,6 +5,9 @@ import seaborn as sns
 import statistics
 import joblib
 from multiprocessing import Pool
+import numba as nb
+from numba import jit
+
 
 import sys
 sys.path.insert(0, '/home/yuri/Documentos/github/DenStream_NOMA' )
@@ -79,6 +82,7 @@ for i in range(len(dGlobal[0])):
 ############################################ Implementar sinal recebido #######################################################
 
 ### gerando simbolos
+
 def gerar_sinais_function(potencias,ganhos, SNR_dB):
     
     conjunto_de_sinais = []
