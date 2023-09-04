@@ -53,7 +53,8 @@ indices_list = [0,1]
 ganhos = []
 potencias = []
 var_aux = 0
-for i in range(len(dGlobal[0])):
+#for i in range(len(dGlobal[0])):
+for i in range(10**3):
 
     gcanal = dGlobal[indices_list]
 
@@ -69,7 +70,7 @@ for i in range(len(dGlobal[0])):
     if var_aux > len(indices_list)-1:
         var_aux = 0
 
-        
+print("AQUI")    
 
 ############################################ Implementar sinal recebido #######################################################
 
@@ -85,7 +86,7 @@ def gerar_sinais_function(potencias,ganhos, SNR_dB):
         simbolos_aux = []
         for usuarios in range(len(i[0])):
             if (i[0][usuarios]) > 0:
-                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=10**5))
+                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=10**3))
 
         conjunto_de_simbolos.append(simbolos_aux)
   
@@ -200,8 +201,8 @@ def SER(sinal_recebido,sinal_enviado):
 ##############################################  chamada das funções #############################################################
 
 
-snr_vect = [0,5,10,15,20,25]
-#snr_vect = [0,5]
+#snr_vect = [0,5,10,15,20,25]
+snr_vect = [0,5]
 
 #erro_p_snr = []
 #for snr in snr_vect:

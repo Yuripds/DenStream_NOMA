@@ -6,7 +6,7 @@ import statistics
 import joblib
 from joblib import Parallel, delayed
 import multiprocessing
-
+from multiprocessing import Process,Pool
 
 import sys
 sys.path.insert(0, '/home/yuripedro/Documentos/Git hub/DenStream_NOMA' )
@@ -81,28 +81,30 @@ for i in range(len(dGlobal[0])):
 ############################################ Implementar sinal recebido #######################################################
 
 ### gerando simbolos
-def gerar_sinais_function(potencias,ganhos, SNR_dB):
+def gerar_sinais_function(indice_i):
     
     conjunto_de_sinais = []
     conjunto_de_sinais_ruido = []
     conjunto_de_simbolos =[]
 
-    for indice_i,i in enumerate(potencias):
+    snr_vect = [0,5]
+
+    for SNR_dB in snr_vect:
         #### gerar simbolos para cada usuario
         simbolos_aux = []
-        for usuarios in range(len(i[0])):
-            if (i[0][usuarios]) > 0:
-                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=10**5))
+        for usuarios in range(len(ganhos[indice_i])):
+            if (ganhos[indice_i][usuarios]) > 0:
+                simbolos_aux.append(mgraf.plot_M_QAM(M=4, N=10**3))
 
         conjunto_de_simbolos.append(simbolos_aux)
-  
+
         #### realiza a multiplicação da potencia com o simbolo
         sinal_aux = []
-        for sinal in range(len(i[0])):
+        for sinal in range(len(ganhos[indice_i])):
             if (np.sqrt(potencias[indice_i][0][sinal])) > 0:
                 sinal_aux.append(simbolos_aux[sinal]*np.sqrt(potencias[indice_i][0][sinal]))
                 
- 
+
         #### sobrepoe os sinais gerados na etapa anterior
         sinal_sup = []
         for coluna in range(len(sinal_aux[0])):
@@ -117,7 +119,7 @@ def gerar_sinais_function(potencias,ganhos, SNR_dB):
             sinal_sup_aux.append(np.multiply(sinal_sup, g).tolist())
             sinal_sup_aux_ruido.append(mgraf.add_ruido(np.multiply(sinal_sup, g).tolist(), SNR_dB))
 
-         
+            
         conjunto_de_sinais.append(sinal_sup_aux)
         conjunto_de_sinais_ruido.append(sinal_sup_aux_ruido)
 
@@ -207,14 +209,26 @@ def SER(sinal_recebido,sinal_enviado):
 ##############################################  chamada das funções #############################################################
 
 
-snr_vect = [0,5,10,15,20,25]
-#snr_vect = [0,5]
+#snr_vect = [0,5,10,15,20,25]
+
 
 #erro_p_snr = []
 #for snr in snr_vect:
-def error_calc(snr):
-    conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos = gerar_sinais_function(potencias,ganhos, SNR_dB=snr)
+def error_calc():
 
+    tam_aux = []
+    for i in  range(len(ganhos)):
+        tam_aux.append(i)
+
+    #pool_obj = multiprocessing.Pool()
+    #with pool_obj:
+    #    conjunto_de_sinais_var,conjunto_de_sinais_ruido_var,conjunto_de_simbolos_var = pool_obj.map(gerar_sinais_function,tam_aux, chunksize=100)
+
+    p = Pool(processes=len(tam_aux))
+    conjunto_de_sinais,conjunto_de_sinais_ruido,conjunto_de_simbolos = p.map(gerar_sinais_function, [i for i in range(len(tam_aux))])
+    p.close()
+   
+    ############################## revisar aqui e a função gerar sinais ####################################33
     sinais_pos_sic = []
     for i in range(len(conjunto_de_sinais)):  
         sinais_pos_sic.append(sic(conjunto_de_sinais_ruido[i],ganhos[i],potencias[i][0]))
@@ -227,14 +241,13 @@ def error_calc(snr):
             erro_aux[0][sinal_id] = SER(sinais_pos_sic[i_c_simbolos][sinal_id],sinal)
         vetor_erro.append(erro_aux[0].tolist())
 
-    #erro_p_snr.append(vetor_erro)
     
     return vetor_erro
 
 
-pool_obj = multiprocessing.Pool()
-with pool_obj:
-    erro_p_snr=pool_obj.map(error_calc,snr_vect)
+
+
+erro_p_snr = error_calc()
 
 ################################################ Gráficos ####################################################################
 ########################### criar varios vetores por faixa de potencia 
